@@ -700,91 +700,46 @@ body {
     text-shadow: 0 1px 3px rgba(255,255,255,0.5); /* 增加文字辨識度 */
 }
 
-/* --- 強制修正：手機版商品文字改為上中下排列 --- */
+/* --- 手機版：頂部分類按鈕「強制一行四個」 --- */
 
 @media (max-width: 480px) {
-    /* 1. 強制容器垂直排列 */
-    .product-content {
+    /* 1. 確保容器不換行 */
+    .category-container, .filter-buttons {
         display: flex !important;
-        flex-direction: column !important; /* 確保上中下 */
-        align-items: flex-start !important; /* 文字靠左對齊 */
-        padding: 6px 10px !important;
-        text-align: left !important;
+        flex-wrap: nowrap !important; /* 強制不換行 */
+        justify-content: space-around !important; /* 平均分配空間 */
+        gap: 4px !important; /* 縮小按鈕間的縫隙 */
+        padding: 10px 5px !important;
+        width: 100% !important;
+        overflow-x: hidden; /* 防止內容溢出 */
     }
 
-    /* 2. 縮小手機版品項名稱 */
-    .product-name {
-        font-size: 14px !important; /* 適合手機的字體大小 */
-        line-height: 1.2 !important;
-        margin-top: 0 !important;
-        margin-bottom: 4px !important; /* 品項名跟描述的間距 */
-        height: auto !important; /* 移除任何固定高度 */
-        min-height: 0 !important;
-        display: block !important; /* 確保它是區塊元素 */
-    }
-
-    /* 3. 縮小手機版描述 (👍那行) */
-    .product-desc {
-        font-size: 11px !important;
-        margin: 0 0 6px 0 !important;
-        line-height: 1.2 !important;
-        display: block !important;
-    }
-
-    /* 4. 縮小標籤 */
-    .product-tag, .product-tags .tag {
-        font-size: 10px !important;
-        padding: 1px 5px !important;
-        margin-bottom: 4px !important;
-        display: inline-block !important;
+    /* 2. 調整按鈕寬度與字體 */
+    .category-btn, .filter-btn {
+        flex: 1 !important;    /* 讓四個按鈕平分寬度 */
+        min-width: 0 !important; /* 防止被文字撐開 */
+        padding: 6px 2px !important; /* 縮小左右內距 */
+        font-size: 11px !important;  /* 大幅縮小字體以容納四個字 */
+        white-space: nowrap !important; /* 文字不換行 */
+        text-align: center !important;
+        border-radius: 15px !important; /* 讓按鈕圓角一點比較好看 */
     }
 }
 
-/* --- 手機版：頂部分類與倒數計時優化 --- */
-
+/* --- 倒數計時區塊：維持垂直排列 (上中下) --- */
 @media (max-width: 480px) {
-    /* 1. 頂部分類按鈕：改為上下排列（每行一個或自動填滿）並縮小字體 */
-    .category-container, .filter-buttons {
-        display: flex !important;
-        flex-direction: column !important; /* 強制上下排 */
-        align-items: center !important;
-        gap: 8px !important;
-        padding: 10px !important;
-    }
-
-    .category-btn, .filter-btn {
-        width: 90% !important; /* 讓按鈕寬度一致 */
-        font-size: 13px !important; /* 縮小字體 */
-        padding: 6px 0 !important;
-        margin: 0 !important;
-        text-align: center !important;
-    }
-
-    /* 2. 倒數計時區塊：改為上下排列並壓縮空間 */
     .countdown-banner, .timer-wrapper {
         display: flex !important;
-        flex-direction: column !important; /* 強制上下排 */
+        flex-direction: column !important;
         align-items: center !important;
-        text-align: center !important;
-        padding: 10px !important;
-        height: auto !important; /* 移除固定高度 */
+        padding: 8px !important;
+        height: auto !important;
     }
-
-    /* 縮小倒數計時內的文字 */
-    .timer-text, .countdown-label {
+    
+    /* 縮小倒數計時內的標題字體 */
+    .countdown-banner .text-group {
         font-size: 13px !important;
-        margin-bottom: 4px !important;
-    }
-
-    .timer-numbers {
-        font-size: 16px !important;
-        font-weight: bold !important;
-    }
-
-    /* 移除倒數計時區塊多餘的外距 */
-    .promo-banner {
-        margin: 10px auto !important;
-        width: 95% !important;
+        margin-bottom: 5px !important;
     }
 }
 
