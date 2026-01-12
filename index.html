@@ -1,0 +1,1466 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>2A夫妻嚴選團購好物｜實測過才開團 </title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+            background: #faf8f5;
+            color: #333;
+        }
+
+        /* Header */
+        .header {
+            background: #fdfdfc;
+            padding: 12px 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        /* left area */
+        .left-area { display:flex; align-items:center; gap:12px; min-width:0; }
+
+        /* menu icon (左上黃色 highlight 位置) */
+        .menu-icon { font-size: 28px; cursor: pointer; color: #666; padding: 6px; border-radius: 6px; background: transparent; }
+        .menu-icon:hover { background: rgba(0,0,0,0.02); }
+
+        .logo { display: flex; align-items: center; gap: 10px; justify-content:center; flex:1; min-width:0; }
+        .logo-icon { width: 50px; height: 50px; }
+        .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        .logo-text h1 { font-size: 20px; color: #5a4a3a; font-weight: 700; }
+        .logo-text p { font-size: 12px; color: #999; }
+
+        /* right area: actions (search icon + share icon) */
+        .header-actions { display:flex; align-items:center; gap:8px; justify-content:flex-end; }
+
+        /* icon buttons */
+        .icon-btn {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:40px;
+            height:40px;
+            border-radius:10px;
+            background:transparent;
+            border:1px solid transparent;
+            cursor:pointer;
+            color:#8b7355;
+            transition: background 0.15s, color 0.15s;
+        }
+        .icon-btn:hover { background: rgba(0,0,0,0.03); }
+
+        .share-icon {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            width:42px;
+            height:42px;
+            border-radius:14px;
+            background:white;
+            color:#d4b896;
+            font-size:14px;
+            text-decoration:none;
+            border:1px solid #d4b896;
+            padding:6px;
+        }
+        .share-icon:hover { background:#d4b896; color:white; }
+
+        /* header search dropdown */
+        .header-search-dropdown {
+            position: absolute;
+            right: 20px; /* offset from right edge of viewport */
+            top: 62px; /* below header */
+            z-index: 1200;
+            width: 360px;
+            max-width: calc(100% - 40px);
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            padding: 10px;
+            display: none;
+        }
+        .header-search-dropdown.open { display: block; }
+
+        .search-box {
+            width: 100%; padding: 10px 14px; border: 1px solid #ddd;
+            border-radius: 8px; font-size: 15px; background: white;
+        }
+
+        /* Filter Tabs */
+        .filter-tabs { max-width: 1400px; margin: 20px auto; padding: 0 20px; display:flex; gap:10px; flex-wrap:wrap; position: sticky; top: 76px; z-index: 900; background: #faf8f5; padding-top: 10px; padding-bottom: 10px;}
+        .filter-tab {
+            padding: 10px 25px; border-radius: 25px; border: none; cursor: pointer;
+            font-size: 15px; transition: all 0.3s; font-weight: 500;
+        }
+        .filter-tab.active { background: #f5e6d3; color: #8b7355; }
+        .filter-tab:not(.active) { background: #f0f0f0; color: #999; }
+        .filter-tab:hover { background: #f5e6d3; color: #8b7355; }
+
+        /* Results Count */
+        .results-info { max-width: 1400px; margin: 20px auto; padding: 0 20px; color: #999; font-size: 14px; }
+
+        /* Section Headers */
+        .section-header { max-width: 1400px; margin: 40px auto 20px; padding: 0 20px; text-align: center; }
+        .section-title {
+            display: inline-flex; align-items: center; gap: 10px;
+            font-size: 28px; font-weight: 700; color: #5a4a3a;
+        }
+
+        /* Countdown Banner */
+        .countdown-banner { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
+        .countdown-content {
+            background: #fff4e6; border: 2px solid #f5d5a0; border-radius: 12px;
+            padding: 15px 20px; display:flex; align-items:center; justify-content:space-between;
+        }
+        .countdown-left { display:flex; align-items:center; gap:10px; font-size:16px; color:#8b7355; }
+        .countdown-right {
+            color: #8b7355; font-size: 16px; font-weight:700; display:flex; align-items:center; gap:10px;
+        }
+        .banner-name { color: #8b7355; font-weight:700; }
+        .banner-timer {
+            background: transparent; border: none; padding: 0 6px; border-radius: 6px; 
+            color: #5a4a3a; font-weight: 800; font-family: monospace; box-shadow:none;
+            display:inline-block; line-height:1;
+        }
+
+        /* Products Grid */
+        .products-container { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px; }
+        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+
+        /* Product Card */
+        .product-card { background: white; border: 3px solid #f5d5a0; border-radius: 20px; overflow: hidden; transition: all 0.3s; }
+        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+        .product-image { width:100%; height:250px; linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; }
+        .product-image img { width:100%; height:100%; object-fit: contain; }
+        .product-content { padding: 20px; }
+        .product-name { font-size:18px; font-weight:700; color:#5a4a3a; margin-bottom:15px; min-height:50px; }
+        .product-desc { font-size:14px; color:#999; margin-bottom:15px; line-height:1.5; }
+
+        .product-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; }
+        .product-tag { display:flex; align-items:center; gap:5px; padding:5px 12px; border-radius:15px; font-size:13px; border:1px solid #e0e0e0; background:white; }
+
+        /* product-meta area */
+        .product-meta {
+            display:flex; align-items:center; gap:8px; margin-bottom:15px;
+            padding:10px; background:#f6f4f1; border-radius:8px; font-size:14px; color:#666;
+            position: relative;
+        }
+
+        /* 隱藏 groupbuy-time 原始文字（我們用 .days-left 顯示） */
+        .product-meta .groupbuy-time { display: none; }
+
+        /* days-left small box styling (uses same meta area background so looks integrated) */
+        .days-left {
+            color: #8b7355; font-weight: 700; margin-left: 0;
+            background: transparent; padding: 4px 8px; border-radius: 6px; font-family: inherit; display:inline-block;
+        }
+
+        .product-meta.ended { opacity: 0.6; }
+
+        .product-buttons { display:flex; flex-direction:column; gap:10px; }
+
+        .btn { padding:12px 20px; border:none; border-radius:8px; cursor:pointer; font-size:15px; font-weight:600; text-align:center; transition:all 0.3s; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .btn-calendar { background:white; color:#8b7355; border:2px solid #e0e0e0; }
+        .btn-calendar:hover { background:#f5f5f5; }
+        .btn-video { background:white; color:#8b7355; border:2px solid #e0e0e0; }
+        .btn-video:hover { background:#f5f5f5; }
+        .btn-primary { background:#d5bdaf; color:white; }
+        .btn-primary:hover { background:#e3d5ca; }
+		.btn.btn-service {background: #aec3b0;color: #ffffff;}
+		.btn.btn-service:hover {background: #ccd5ae;}
+
+        /* Calendar Section (new) */
+        .calendar-section { max-width: 1200px; margin: 40px auto; padding: 20px; }
+        .calendar-wrapper {
+            background: #f7fbfb;
+            border-radius: 14px;
+            padding: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+        .calendar-controls { display:flex; justify-content:center; gap:12px; margin-bottom:18px; }
+        .calendar-controls .month-btn {
+            padding:8px 18px; border-radius:12px; border: none; cursor:pointer; font-size:15px;
+            background:#e9f3f2; color:#4d6866;
+        }
+        .calendar-controls .month-btn.active { background:#7fb09f; color:#fff; }
+
+        .calendar-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap:12px; }
+        .calendar-weekday { text-align:center; color:#6d7b7a; font-weight:700; padding:8px 0; }
+        .calendar-day {
+            min-height:64px;
+            background:#fff;
+            border-radius:10px;
+            padding:8px;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
+            display:flex; flex-direction:column; justify-content:space-between;
+        }
+        .calendar-day.empty { background: transparent; box-shadow:none; }
+        .calendar-day .day-number { text-align:right; color:#3e3e3e; font-weight:700; }
+        .badge-count {
+            display:inline-block;
+            background:#cfeff0;
+            color:#11706c;
+            font-weight:700;
+            padding:2px 6px;
+            border-radius:10px;
+            font-size:12px;
+            margin-top:6px;
+            align-self:flex-start;
+        }
+        .calendar-day.today { background:#fff8d6; }
+        .calendar-day.soon { background:#fff6f4; }
+        .calendar-legend { margin-top:18px; color:#666; display:flex; gap:18px; align-items:center; flex-wrap:wrap; font-size:13px; }
+        .legend-item { display:flex; gap:8px; align-items:center; }
+        .legend-swatch { width:18px; height:18px; border-radius:4px; }
+        .swatch-today { background:#ffd54a; }
+        .swatch-soon { background:#fbeaea; }
+        .swatch-has { background:#cfeff0; }
+
+        .month-summary {
+            margin-top:18px; padding:14px; background:#e9f9f9; border-radius:10px; color:#235451;
+        }
+
+        /* Past days styling: 已過的日期反灰 */
+        .calendar-day.past {
+          background: #f2f4f4;
+          color: #9aa0a0;
+          opacity: 0.85;
+          pointer-events: none;
+        }
+        .calendar-day.past .day-number { color: #9aa0a0; }
+        .calendar-day.past .badge-count {
+          background: #e6efef;
+          color: #6f9a99;
+          opacity: 0.9;
+        }
+
+        /* FILTER PANEL (側欄) - LEFT SIDE */
+        .filter-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 2000;
+            display: none; align-items: stretch; justify-content: flex-start; /* 左側出現 */
+        }
+        .filter-overlay.open { display: flex; }
+        .filter-panel {
+            width: 360px; max-width: 92%; background: #fff; padding: 22px; overflow-y: auto;
+            box-shadow: 8px 0 24px rgba(0,0,0,0.15); border-right: 1px solid #eee; /* 右邊邊線 (面向頁面) */
+        }
+        .filter-panel h3 { font-size: 20px; margin-bottom: 12px; color: #333; }
+        .filter-close { position: absolute; right: 18px; top: 18px; font-size: 20px; cursor: pointer; color: #888; }
+        .filter-section { margin-bottom: 18px; }
+        .filter-section .section-title { font-weight:700; margin-bottom: 8px; color: #5a4a3a; display:flex; align-items:center; gap:8px; }
+        .filter-list { display:flex; flex-direction:column; gap:8px; }
+        .filter-item {
+            padding: 10px 12px; border-radius: 10px; background: #faf7f3; color: #3e2f22; cursor: pointer; border: 1px solid transparent;
+        }
+        .filter-item.count { display:flex; justify-content:space-between; align-items:center; }
+        .filter-item.selected { background: #c9a876; color: white; border-color: rgba(0,0,0,0.05); }
+        .filter-item .tag-name { font-weight:600; }
+        .filter-item .tag-count { color: rgba(0,0,0,0.5); font-weight:600; }
+
+        .filter-actions { display:flex; gap:8px; margin-top: 12px; }
+        .btn-filter-clear { flex:1; padding:10px; border-radius:8px; border:1px solid #e0e0e0; background:white; cursor:pointer; }
+        .btn-filter-apply { flex:1; padding:10px; border-radius:8px; background:#c9a876; color:white; border:none; cursor:pointer; }
+
+       /* Footer */
+.footer {
+    background: #ffffff;
+    padding: 60px 20px 40px;
+    margin-top: 80px;
+    border-top: 1px solid #eee;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #5a4a3a;
+    margin-bottom: 12px;
+}
+
+.footer-subtitle {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 30px;
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.footer-socials a {
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: 2px solid transparent;
+}
+
+/* individual platforms */
+.footer-socials .line {
+    background: #06c755;
+    color: #fff;
+}
+.footer-socials .line:hover {
+    background: #05b44c;
+}
+
+.footer-socials .fb {
+    background: #1877f2;
+    color: #fff;
+}
+.footer-socials .fb:hover {
+    background: #166fe0;
+}
+
+.footer-socials .ig {
+    background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
+    color: #fff;
+}
+
+.footer-socials .yt {
+    background: #ff0000;
+    color: #fff;
+}
+.footer-socials .yt:hover {
+    background: #e60000;
+}
+
+.footer-logo {
+    margin-bottom: 16px;
+}
+
+.footer-text {
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr); /* 強制手機版雙欄 */
+        gap: 10px; /* 縮小間距節省空間 */
+        padding: 10px;
+    }
+}
+.filter-content {
+    padding-bottom: 80px; /* 預留底部空間給固定按鈕 */
+}
+
+    /* header adjustments */
+    .header-search-dropdown { right: 10px; left: 10px; top: 64px; width: auto; }
+    .header-content { padding: 6px 8px; }
+    .logo-text h1 { font-size: 18px; }
+    .share-icon { width:38px; height:38px; }
+}
+/* 解決 sticky header 遮住錨點的問題 */
+#limitedSection,
+#regularSection,
+#discountSection,
+#scheduleSection {
+    scroll-margin-top: 150px; /* 約等於 header 高度 + 緩衝 */
+}
+
+.coupon-box {
+    background: #f6f4f1;
+    border: 2px dashed #d5bdaf;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 12px;
+}
+
+.coupon-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.coupon-code {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #5a4a3a;
+}
+
+
+
+.copy-btn {
+    background: #d5bdaf;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    background: #e3d5ca;
+}
+
+.coupon-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #8b7355;
+    margin-bottom: 4px;
+}
+
+/* 已結束商品的樣式：反灰且半透明 */
+.product-card.ended {
+    opacity: 0.6;
+    filter: grayscale(0.8);
+}
+
+/* 如果你想「完全隱藏」已結束商品，可以使用這個 class */
+.product-card.hidden-ended {
+    display: none !important;
+}
+
+@media (max-width: 480px) {
+    /* 1. 頂部空間優化：讓 Banner 與 Header 更精簡 */
+    .top-banner { font-size: 13px; padding: 6px; }
+    .header { padding: 8px 12px; }
+    .logo-img { height: 32px; }
+
+    /* 2. 商品列表：強制雙欄排版，這是電商最精緻的顯示方式 */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 10px !important;
+        padding: 10px !important;
+    }
+
+    /* 3. 商品名稱精緻化：縮小字體並限制「最多顯示兩行」 */
+    /* 這樣可以確保不論商品名稱多長，所有卡片高度都會整齊劃一 */
+    .product-name {
+        font-size: 14px !important;
+        line-height: 1.4;
+        height: 40px !important; 
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2; /* 超過兩行自動顯示 ... */
+        -webkit-box-orient: vertical;
+        margin-bottom: 8px;
+    }
+
+    /* 4. 價格區塊微調 */
+    .price-final {
+        font-size: 16px !important;
+        font-weight: 700;
+    }
+    .price-original {
+        font-size: 11px !important;
+    }
+
+    /* 5. 標籤與按鈕優化：讓資訊不擁擠 */
+    .days-left {
+        font-size: 11px !important;
+        padding: 2px 6px !important;
+    }
+
+    .product-actions {
+        gap: 6px !important;
+    }
+
+    .btn-primary, .btn-secondary {
+        padding: 8px 4px !important;
+        font-size: 12px !important;
+        letter-spacing: -0.5px;
+    }
+}
+
+/* 針對所有設有 ID 的區塊，滑動時自動預留上方空間 */
+section[id], div[id] {
+    /* 根據你 Header 的高度調整，你的 Header 加上 Banner 大約是 100px - 120px */
+    scroll-margin-top: 140px; 
+}
+
+/* --- 進階手機版質感優化 (精緻感提升) --- */
+
+/* 1. 圖片比例固定與載入底色：防止頁面跳動並增加高級感 */
+.product-image {
+    aspect-ratio: 1 / 1 !important;
+    object-fit: cover !important;
+    width: 100% !important;
+    background-color: #f5f5f5; /* 圖片加載前的底色 */
+    display: block;
+}
+
+/* 2. 側欄磨砂玻璃效果 (iOS 質感) */
+.filter-overlay {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important; /* 相容 Safari */
+    background: rgba(0, 0, 0, 0.45) !important;
+}
+
+/* 3. 全域觸控回饋：按下按鈕或分類時會輕微縮小，增加互動感 */
+.btn-primary:active, 
+.btn-secondary:active, 
+.filter-item:active,
+.menu-icon:active {
+    transform: scale(0.95) !important;
+    filter: brightness(0.9);
+    transition: transform 0.1s ease;
+}
+
+/* 4. 手機版搜尋框優化：圓角化與防止 iOS 自動放大 */
+#searchInput {
+    font-size: 16px !important; /* iOS 16px 以上才不會自動縮放頁面 */
+    border-radius: 20px !important;
+    padding: 8px 15px !important;
+    border: 1px solid #eee !important;
+    -webkit-appearance: none; /* 移除 iOS 內建陰影 */
+}
+
+/* 5. 針對 480px 以下手機的卡片細節強化 */
+@media (max-width: 480px) {
+    /* 卡片圓角與立體陰影 */
+    .product-card {
+        border-radius: 12px !important;
+        border: none !important;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
+        background: #fff !important;
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+    }
+
+    /* 調整商品清單間距，讓陰影有空間呼吸 */
+    .product-grid {
+        gap: 12px !important;
+        padding: 12px !important;
+    }
+
+    /* 底部按鈕稍微加高，方便手指點擊 (符合 44px 觸控準則) */
+    .btn-primary, .btn-secondary {
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 分類清單兩欄式微調：圓角與背景色 */
+    .filter-item {
+        border-radius: 10px !important;
+        margin-bottom: 4px;
+        background: #f9f9f9;
+        border: 1px solid #f0f0f0 !important;
+    }
+}
+
+/* 6. 平滑捲動優化 (針對所有裝置) */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content" style="position:relative;">
+            <div class="left-area">
+                <!-- menu icon (點擊打開篩選側欄) -->
+                <div class="menu-icon" id="openFilterBtn" title="篩選" aria-label="開啟篩選">≡</div>
+                <div class="logo" aria-hidden="false">
+                    <div class="logo-icon"><img src="logo.png" alt="2A夫妻 Logo"></div>
+                    <div class="logo-text">
+                        <h1>2A夫妻嚴選團購好物</h1>
+                        <p>實測過才開團</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- right actions: search icon + share icon -->
+            <div class="header-actions" aria-hidden="false">
+                <!-- Search toggle button (放大鏡) -->
+                <button class="icon-btn" id="searchToggle" aria-label="搜尋品牌名稱">
+                    <!-- inline SVG magnifier -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        <circle cx="11" cy="11" r="6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </button>
+
+                <!-- Share icon (保留原連結功能) -->
+                <a class="share-icon" id="shareLink" href="https://line.me/ti/g2/hT4k_ydWEIvpbumc11WufWtxg9KUtGC7wJHNGQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
+                   target="_blank" rel="noopener noreferrer" aria-label="分享到 LINE 群組">
+                    <!-- link icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
+                        <path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 6l-8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M16 6v6h-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- header search dropdown (hidden by default) -->
+            <div class="header-search-dropdown" id="headerSearchDropdown" role="region" aria-label="搜尋品牌">
+                <!-- Reuse same id "searchInput" so existing filtering code continues to work -->
+                <input type="text" class="search-box" placeholder="搜尋品牌名稱..." id="searchInput" aria-label="搜尋品牌名稱">
+            </div>
+        </div>
+    </header>
+
+    <!-- NOTE: 原 content 的搜尋欄移除（改用 header 下拉），若你想保留可刪除此註解 -->
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+<button class="filter-tab active"
+        onclick="goToSection('limitedSection', 'all')">
+    限時團購
+</button>
+
+<button class="filter-tab"
+        onclick="goToSection('regularSection')">
+    常態團購
+</button>
+
+<button class="filter-tab"
+        onclick="goToSection('discountSection', 'discount')">
+    日本旅遊優惠券
+</button>
+
+<button class="filter-tab"
+        onclick="goToSection('discountSection', 'discount')">
+    旅遊折扣碼
+</button>
+
+
+    </div>
+
+    <!-- Results Info -->
+<div class="results-info" style="margin-bottom: 10px;">
+    <button id="toggleEndedBtn" class="filter-tab" data-state="hiding" style="background: #eee; color: #666; border: 1px solid #ddd;">
+        顯示已結束 (0)
+    </button>
+</div>
+
+    <!-- Limited Time Section -->
+    <div id="limitedSection">
+        <div class="section-header">
+            <h2 class="section-title">⏳ 限時團購</h2>
+        </div>
+
+        <div class="countdown-banner">
+            <div class="countdown-content">
+                <div class="countdown-left">
+                    <span>⏰</span>
+                    <span>今日截止倒數</span>
+                </div>
+                <!-- 這裡會自動填入最快到期商品名稱與倒數（倒數使用橫幅背景，不是白色） -->
+                <div class="countdown-right" id="countdownBanner" aria-live="polite">
+                    <span class="banner-name" id="bannerName">目前無即將截止項目</span>
+                    <span class="banner-timer" id="bannerTimer" style="display:none;">00:00:00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="products-container">
+            <div class="products-grid" id="limitedProducts">
+			<!-- Product 02 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image">
+                        <img src="南田牧野家.jpg" alt="THOMSON 石墨烯壁掛暖風機">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">南田牧野家-抹茶甜點專賣店</h3>
+                        <p class="product-desc">👍新品禮盒9折</p>
+                        <div class="product-tags">
+                            <span class="product-tag">🥯 食品</span>
+                            
+                        </div>
+                        <div class="product-meta" data-start="2026-01-12" data-end="2026-01-26">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">團購時間：1/12-1/26</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <!-- 加入行事曆 按鈕會被移除 by JS on load -->
+                            <a class="btn btn-video" href="https://www.instagram.com/p/DTaJIKKCVNx/" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+                            <a class="btn btn-primary" href="https://reurl.cc/Ebe3On" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/R/ti/p/%40ynv9262y" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+			
+			<!-- Product 01 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image">
+                        <img src="暖風機.jpg" alt="THOMSON 石墨烯壁掛暖風機">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">THOMSON 石墨烯壁掛暖風機</h3>
+                        <p class="product-desc">👍原開團價2990$現在只要2880$現省100$</p>
+                        <div class="product-tags">
+                            <span class="product-tag">🏠 居家</span>
+                            
+                        </div>
+                        <div class="product-meta" data-start="2026-01-11" data-end="2026-01-28">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">團購時間：1/11-2/28</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <!-- 加入行事曆 按鈕會被移除 by JS on load -->
+                            <a class="btn btn-video" href="" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+                            <a class="btn btn-primary" href="https://citiesocial.co/78ioa" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://lin.ee/7eAhBDG" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product 1 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image">
+                        <img src="donidoris.jpg" alt="朵妮朵絲">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">朵妮朵絲 - 天然植萃精油</h3>
+                        <p class="product-desc">👍台灣輔助醫學會推薦｜天然植萃精油</p>
+                        <div class="product-tags">
+                            <span class="product-tag">🏠 居家</span>
+                            
+                        </div>
+                        <div class="product-meta" data-start="2026-01-10" data-end="2026-01-20">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">團購時間：1/10-1/20</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <!-- 加入行事曆 按鈕會被移除 by JS on load -->
+                            <a class="btn btn-video" href="https://www.instagram.com/p/DTVGBhGiSa1/" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+                            <a class="btn btn-primary" href="https://pureness.easygroupshop.com/sale-2acouple/onepage" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://page.line.me/dodeurs" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image">
+                        <img src="mili-mitag.jpg" alt="MiLi MiTag">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">MiLi MiTag 智慧防丟器</h3>
+                        <p class="product-desc">拍照不用再麻煩別人</p>
+                        <div class="product-tags">
+                            
+							<span class="product-tag">✈️ 旅遊</span>
+                        </div>
+                        <!-- 更新：結束日期改為 2026-01-28 -->
+                        <div class="product-meta" data-end="2026-01-28">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">～01/28</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+
+                            <a class="btn btn-primary" href="https://reurl.cc/vKXLqA" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://reurl.cc/vKXLqA" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image">
+                        <img src="aukey-tracker.jpg" alt="AUKEY追蹤定位器">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">AUKEY 專用輕薄追蹤定位器</h3>
+                        <p class="product-desc">一代超強收納袋</p>
+                        <div class="product-tags">
+                            <span class="product-tag">✈️ 旅遊</span>
+                            
+                        </div>
+                        <!-- 更新：結束日期改為 2026-01-28 -->
+                        <div class="product-meta" data-end="2026-01-28">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">～01/28</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+                            <a class="btn btn-primary" href="https://reurl.cc/0anWjM" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://reurl.cc/0anWjM" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image">
+                        <img src="japan-giftbox.jpg" alt="日本新年精選禮盒">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">🇯🇵2026日本新年精選禮盒團</h3>
+                        <p class="product-desc">秀秀最愛的太陽眼鏡</p>
+                        <div class="product-tags">
+                            <span class="product-tag">🥯 食品</span>
+                            
+                        </div>
+                        <!-- 更新：結束日期改為 2026-01-24 -->
+                        <div class="product-meta" data-end="2026-01-24">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">～01/24</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+                            <a class="btn btn-primary" href="https://gbf.tw/skbkj" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image"><img src="hair-dryer.jpg" alt="負離子高速吹風機"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">負離子高速吹風機</h3>
+                        <p class="product-desc">短髮2分鐘、男生30秒全乾</p>
+                        <div class="product-tags">
+                            <span class="product-tag">📱 3C 家電</span>
+                            
+                        </div>
+                        <div class="product-meta" data-end="2026-01-21">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">~1/21</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <a class="btn btn-video" href="https://reurl.cc/jmpp6D" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+                            <a class="btn btn-primary" href="https://gbf.tw/tvyga" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 6 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image"><img src="folding-dryer.jpg" alt="折疊高速負離子吹風機"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">折疊高速負離子吹風機</h3>
+                        <p class="product-desc">可帶出國，100~240國際電壓</p>
+                        <div class="product-tags">
+                            <span class="product-tag">📱 3C 家電</span>
+							<span class="product-tag">✈️ 旅遊</span>
+                            
+                        </div>
+                        <div class="product-meta" data-end="2026-01-21">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">~1/21</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            
+                            <a class="btn btn-primary" href="https://gbf.tw/tvyga" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Product 7 -->
+                <div class="product-card" data-type="limited">
+                    <div class="product-image"><img src="magnetic-stand.jpg" alt="全能超薄磁吸支架"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">全能超薄磁吸支架</h3>
+                        <p class="product-desc">「1支抵3支！」</p>
+                        <div class="product-tags">
+                            <span class="product-tag">📱 3C 家電</span>
+                            
+                        </div>
+                        <div class="product-meta" data-end="2026-01-14">
+                            <span>⏰</span>
+                            <span class="groupbuy-time">～1/14</span>
+                            <span class="days-left" aria-live="polite"></span>
+                        </div>
+                        <div class="product-buttons">
+                            <a class="btn btn-video" href="https://reurl.cc/EbDDYm" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+                            
+                            <a class="btn btn-primary" href="https://gbf.tw/x5y18" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Regular Products Section (unchanged) -->
+    <div id="regularSection">
+        <div class="section-header"><h2 class="section-title">☀️ 常態團購</h2></div>
+        <div class="products-container">
+            <div class="products-grid" id="regularProducts">
+                <div class="product-card" data-type="regular">
+                    <div class="product-image"><img src="aspor-selfie.jpg" alt="ASPOR迷你自拍棒"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">ASPOR迷你自拍棒</h3>
+                        <p class="product-desc">11.7cm、193g，比手機輕小巧</p>
+                        <div class="product-tags"><span class="product-tag">📱 3C 家電</span><span class="product-tag">✈️ 旅遊</span></div>
+                        <div class="product-buttons">
+                            <a class="btn btn-video" href="https://reurl.cc/R9DDmr" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
+
+                            <a class="btn btn-primary" href="https://gbf.tw/pwi3b" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-type="regular">
+                    <div class="product-image"><img src="yamada-heater.jpg" alt="YAMADA電暖器"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">YAMADA山田家電 銀粒子抑菌智慧温控陶瓷電暖器</h3>
+                        <p class="product-desc">可使用遙控器操控</p>
+                        <div class="product-tags"><span class="product-tag">📱 3C 家電</span></div>
+                        <div class="product-buttons">
+                          
+
+                            <a class="btn btn-primary" href="https://p3.groupbuyforms.tw/oexnf" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="product-card" data-type="regular">
+                    <div class="product-image"><img src="inko-cushion.jpg" alt="韓國INKO暖感坐墊"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">韓國INKO超薄USB便攜式暖感坐墊/保暖墊</h3>
+                        <p class="product-desc">插行動電源就可以使用</p>
+                        <div class="product-tags"><span class="product-tag">🏠 居家</span><span class="product-tag">✈️ 旅遊</span></div>
+                        <div class="product-buttons">
+                        
+
+                            <a class="btn btn-primary" href="https://p3.groupbuyforms.tw/oexnf" target="_blank">🛍️立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                        </div>
+                    </div>
+                </div>
+				
+                <div class="product-card" data-type="regular">
+                    <div class="product-image"><img src="萬用裝備袋.jpg" alt="萬用裝備袋-可託運"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">🦐蝦皮好物推薦: 萬用裝備袋-可託運</h3>
+                        <p class="product-desc">Amber嚴選可託運買太多急救袋</p>
+                        <div class="product-tags"><span class="product-tag">🦐 蝦皮好物</span><span class="product-tag">✈️ 旅遊</span></div>
+                        <div class="product-buttons">
+                        
+
+                            <a class="btn btn-primary" href="https://s.shopee.tw/4LCvyBBQBN" target="_blank">🛍️立即購買 →</a>
+							
+                        </div>
+                    </div>
+                </div>				
+				
+				
+				
+				
+            </div>
+        </div>
+    </div>
+
+    <!-- Discount Section -->
+    <div id="discountSection">
+        <div class="section-header" id="discount-section"><h2 class="section-title">🎟️ 旅遊折扣碼</h2></div>
+        <div class="products-container">
+            <div class="products-grid" id="discountProducts">
+                <div class="product-card" data-type="discount">
+                    <div class="product-image">
+                        <img src="discount-coupon.jpg" alt="日本藥妝、電器、百貨優惠券">
+                    </div>
+                    <div class="product-content">
+                        <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
+                        <p class="product-desc">專屬折扣券，適用日本藥妝、電器與百貨，立即��用優惠。</p>
+                        <div class="product-tags">
+                            <span class="product-tag">💳 優惠券</span>
+							<span class="product-tag">✈️ 旅遊</span>
+                        </div>
+
+                        <div class="product-buttons">
+                            <a class="btn btn-primary" href="https://reurl.cc/GNalm3" target="_blank" rel="noopener noreferrer">🎫立即領取 →</a>
+							
+                        </div>
+                    </div>
+					
+					
+                </div>
+				
+				<!-- KKday -->
+<div class="product-card" data-type="discount">
+    <div class="product-image">
+        <img src="kkday.jpg" alt="KKday 折扣">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">KKday 旅遊體驗折扣</h3>
+        <p class="product-desc">
+    單筆滿 $2,500 享 92 折
+</p>
+ <div class="product-tags">
+            <span class="product-tag">✈️ 旅遊</span>
+            <span class="product-tag">💳 折扣碼</span>
+        </div>
+<div class="product-buttons">
+<div class="coupon-box">
+    <div class="coupon-label">🎁 2A夫妻專屬折扣碼</div>
+
+    <div class="coupon-row">
+        <span class="coupon-code" id="kkdayCode">KK2ACOUPLE</span>
+        <button class="copy-btn" onclick="copyCoupon('kkdayCode', this)">一鍵複製</button>
+    </div>
+</div>
+
+       
+
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://reurl.cc/VmerpN" target="_blank">✈️前往 KKday →</a>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Klook -->
+<div class="product-card" data-type="discount">
+    <div class="product-image">
+        <img src="klook.jpg" alt="Klook 折扣">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">Klook 旅遊行程折扣</h3>
+        <p class="product-desc">
+    單筆滿 $1,500 享 95 折
+</p>
+        <div class="product-tags">
+            <span class="product-tag">✈️ 旅遊</span>
+            <span class="product-tag">💳 折扣碼</span>
+        </div>
+<div class="product-buttons">
+<div class="coupon-box">
+    <div class="coupon-label">🎁 2A夫妻專屬折扣碼</div>
+
+    <div class="coupon-row">
+        <span class="coupon-code" id="klookCode">2ACOUPLE</span>
+        <button class="copy-btn" onclick="copyCoupon('klookCode', this)">一鍵複製</button>
+    </div>
+</div>
+
+
+
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://2acouple.pse.is/7n7mjf" target="_blank">✈️前往 Klook →</a>
+        </div>
+    </div>
+</div>
+</div>
+<!-- Agoda -->
+<div class="product-card" data-type="discount">
+    <div class="product-image">
+        <img src="agoda.jpg" alt="Agoda 訂房">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">Agoda 全球訂房優惠</h3>
+        <p class="product-desc">
+            全球飯店即時優惠<br>
+            不定期折扣自動套用
+        </p>
+        <div class="product-tags">
+            <span class="product-tag">🏨 訂房</span>
+            <span class="product-tag">💳 優惠連結</span>
+			<span class="product-tag">✈️ 旅遊</span>
+        </div>
+
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://agoda.tp.st/VwJBDinr" target="_blank">✈️前往 Agoda →</a>
+        </div>
+    </div>
+</div>
+
+<!-- Holafly eSIM -->
+<div class="product-card" data-type="discount">
+    <div class="product-image">
+        <img src="holafly.jpg" alt="Holafly eSIM">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">Holafly 吃到飽 eSIM</h3>
+        <p class="product-desc">
+            折扣碼【2ACOUPLE】<br>
+            吃到飽 eSIM 享 95 折
+        </p>
+        <div class="product-tags">
+            <span class="product-tag">📶 eSIM</span>
+            <span class="product-tag">✈️ 旅遊</span>
+        </div>
+
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://holafly.sjv.io/aORJqY" target="_blank">✈️前往 Holafly →</a>
+        </div>
+    </div>
+</div>
+
+<!-- NordVPN -->
+<div class="product-card" data-type="discount">
+    <div class="product-image">
+        <img src="nordvpn.jpg" alt="NordVPN">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">NordVPN 網路安全方案</h3>
+        <p class="product-desc">
+            折扣碼【2acouple】<br>
+            85 折＋2 年方案再送 4 個月
+        </p>
+        <div class="product-tags">
+            <span class="product-tag">🔐 VPN</span>
+            <span class="product-tag">💳 折扣碼</span>
+			<span class="product-tag">✈️ 旅遊</span>
+        </div>
+
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://nordvpn.com/2acouple" target="_blank">✈️前往 NordVPN →</a>
+        </div>
+    </div>
+</div>
+
+<!-- 易遊網 -->
+<div class="product-card" data-type="discount">
+    <div class="product-image">
+        <img src="eztravel.jpg" alt="易遊網">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">易遊網 旅遊優惠</h3>
+        <p class="product-desc">
+            機票、訂房、團體行程<br>
+            不定期專屬優惠
+        </p>
+        <div class="product-tags">
+            <span class="product-tag">✈️ 旅遊</span>
+            <span class="product-tag">💳 優惠連結</span>
+        </div>
+
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://eztravel.tw/7sjpex" target="_blank">✈️前往 易遊網 →</a>
+        </div>
+    </div>
+</div>
+
+<!-- LINE旅遊 -->
+<div class="product-card" data-type="discount">
+    <div class="product-image">
+        <img src="linetravel.jpg" alt="LINE旅遊">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">LINE 旅遊優惠</h3>
+        <p class="product-desc">
+            機票、飯店、行程比價<br>
+            LINE 回饋不定期
+        </p>
+        <div class="product-tags">
+            <span class="product-tag">✈️ 旅遊</span>
+            <span class="product-tag">💳 回饋</span>
+        </div>
+
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://reurl.cc/pKXzn4" target="_blank">✈️前往 LINE旅遊 →</a>
+        </div>
+    </div>
+</div>
+
+        </div>
+    </div>
+</div>
+
+				
+            </div>
+        </div>
+    </div>
+	
+	
+
+    <!-- Schedule / Calendar Section -->
+   
+
+    <!-- Filter overlay / panel (LEFT) -->
+    <div class="filter-overlay" id="filterOverlay" aria-hidden="true">
+        <div class="filter-panel" role="dialog" aria-modal="true" aria-labelledby="filterTitle">
+            <div style="position:relative;">
+                <h3 id="filterTitle">篩選</h3>
+                <div class="filter-close" id="closeFilterBtn" title="關閉">✕</div>
+            </div>
+
+            <div class="filter-section" id="categorySection">
+                <div class="section-title">🏷️ 分類</div>
+                <div class="filter-list" id="categoryList">
+                    <!-- 由 JS 動態填入 -->
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button class="btn-filter-clear" id="filterClearBtn">清除</button>
+                <button class="btn-filter-apply" id="filterApplyBtn">套用</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+(function () {
+    'use strict';
+
+    let showOnlyEnded = false;
+
+    // --- 1. 日期工具 ---
+    function normalizeToISO(dateStr) {
+        if (!dateStr) return null;
+        dateStr = dateStr.trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+        var m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
+        if (m) {
+            var mon = String(m[1]).padStart(2, '0');
+            var day = String(m[2]).padStart(2, '0');
+            var year = m[3] ? m[3] : (new Date()).getFullYear();
+            return year + '-' + mon + '-' + day;
+        }
+        return null;
+    }
+
+    function daysLeftTo(endISO) {
+        try {
+            var end = new Date(endISO + 'T23:59:59');
+            var now = new Date();
+            var diff = end - now;
+            var days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return { days: days, diffMs: diff };
+        } catch (e) { return null; }
+    }
+
+    // --- 2. 更新狀態 ---
+    function updateElement(el) {
+        var endAttr = el.getAttribute('data-end');
+        var endISO = normalizeToISO(endAttr);
+        var outSpan = el.querySelector('.days-left');
+        var card = el.closest('.product-card');
+        if (!endISO || !outSpan) return;
+        var result = daysLeftTo(endISO);
+        if (!result) return;
+
+        if (result.diffMs < 0) {
+            outSpan.textContent = '已結束';
+            if (card) card.classList.add('ended');
+        } else {
+            if (card) card.classList.remove('ended');
+            outSpan.textContent = (result.days <= 1) ? '今日截止' : '剩 ' + result.days + ' 天';
+        }
+    }
+
+    function updateBanner() {
+        var bannerName = document.getElementById('bannerName');
+        var bannerTimer = document.getElementById('bannerTimer');
+        var metas = document.querySelectorAll('.product-meta');
+        var now = new Date();
+        var nearest = null;
+
+        metas.forEach(function (meta) {
+            var endISO = normalizeToISO(meta.getAttribute('data-end'));
+            if (!endISO) return;
+            var diff = new Date(endISO + 'T23:59:59') - now;
+            if (diff > 0 && (!nearest || diff < nearest.diff)) {
+                var card = meta.closest('.product-card');
+                nearest = { name: card.querySelector('.product-name').textContent, diff: diff };
+            }
+        });
+
+        if (bannerName && bannerTimer) {
+            if (!nearest) {
+                bannerName.textContent = '目前無即將截止項目';
+                bannerTimer.style.display = 'none';
+            } else {
+                bannerName.textContent = nearest.name;
+                bannerTimer.style.display = 'inline-block';
+                var s = Math.floor(nearest.diff / 1000);
+                var d = Math.floor(s / 86400);
+                var r = s % 86400;
+                var h = String(Math.floor(r / 3600)).padStart(2, '0');
+                var m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
+                var sec = String(r % 60).padStart(2, '0');
+                bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + h + ':' + m + ':' + sec;
+            }
+        }
+    }
+
+    // --- 3. 側欄分類產生 ---
+    function renderCategoryList() {
+        var categoryList = document.getElementById('categoryList');
+        if (!categoryList) return;
+        var allTags = new Set();
+        document.querySelectorAll('.product-tag').forEach(tag => allTags.add(tag.textContent.trim()));
+        
+        categoryList.innerHTML = '<div class="filter-item selected" data-tag="全部">全部</div>';
+        Array.from(allTags).sort().forEach(tag => {
+            var div = document.createElement('div');
+            div.className = 'filter-item';
+            div.setAttribute('data-tag', tag);
+            div.textContent = tag;
+            categoryList.appendChild(div);
+        });
+
+        // 點擊分類項目
+        categoryList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-item')) {
+                categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
+                e.target.classList.add('selected');
+                filterCards(); // 即時預覽
+            }
+        });
+    }
+
+    // --- 4. 篩選邏輯 ---
+    function filterCards() {
+        var keyword = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
+        var selected = document.querySelector('#categoryList .filter-item.selected');
+        var catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
+
+        document.querySelectorAll('.product-card').forEach(function (card) {
+            var name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+            var tags = (card.dataset.tags || '').split('|');
+            var isEnded = card.classList.contains('ended');
+            
+            var matchCat = !catTag || tags.some(t => t.includes(catTag));
+            var matchSearch = !keyword || name.includes(keyword);
+            
+            var shouldShow = showOnlyEnded ? (matchCat && matchSearch && isEnded) : (matchCat && matchSearch && !isEnded);
+            card.style.display = shouldShow ? '' : 'none';
+        });
+
+        var toggleBtn = document.getElementById('toggleEndedBtn');
+        if (toggleBtn) {
+            var count = document.querySelectorAll('.product-card.ended').length;
+            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
+        }
+    }
+
+    // --- 5. 初始化與按鈕綁定 ---
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.product-card').forEach(function(card) {
+            var tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim());
+            card.dataset.tags = tags.join('|');
+            card.querySelectorAll('.product-meta').forEach(updateElement);
+        });
+
+        renderCategoryList();
+
+        // 側欄開關
+        const overlay = document.getElementById('filterOverlay');
+        document.getElementById('openFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
+        document.getElementById('closeFilterBtn')?.addEventListener('click', () => overlay.classList.remove('open'));
+
+        // 「清除」按鈕：對應 ID filterClearBtn
+        document.getElementById('filterClearBtn')?.addEventListener('click', function() {
+            if (document.getElementById('searchInput')) document.getElementById('searchInput').value = '';
+            var items = document.querySelectorAll('#categoryList .filter-item');
+            items.forEach(i => i.classList.remove('selected'));
+            if (items[0]) items[0].classList.add('selected');
+            filterCards();
+        });
+
+        // 「套用」按鈕：對應 ID filterApplyBtn
+        document.getElementById('filterApplyBtn')?.addEventListener('click', function() {
+            filterCards();
+            overlay.classList.remove('open');
+        });
+
+        // 搜尋與結束切換
+        document.getElementById('searchInput')?.addEventListener('input', filterCards);
+        document.getElementById('toggleEndedBtn')?.addEventListener('click', function() {
+            showOnlyEnded = !showOnlyEnded;
+            filterCards();
+        });
+
+        filterCards();
+        updateBanner();
+        setInterval(updateBanner, 1000);
+    });
+})();
+
+// 全域函式
+function goToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function copyCoupon(id, btn) {
+    const code = document.getElementById(id)?.textContent.trim();
+    if (!code) return;
+    navigator.clipboard.writeText(code).then(() => {
+        const t = btn.textContent; btn.textContent = "已複製 ✓";
+        setTimeout(() => btn.textContent = t, 2000);
+    });
+}
+    </script>
+	<footer class="footer">
+    <div class="footer-content">
+
+        <div class="footer-title">加入我們的社群</div>
+        <div class="footer-subtitle">
+            第一手團購通知、限時好康、不漏接
+        </div>
+
+        <div class="footer-socials">
+            <a class="line"
+               href="https://line.me/ti/g2/hT4k_ydWEIvpbumc11WufWtxg9KUtGC7wJHNGQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
+               target="_blank" rel="noopener noreferrer">
+                💬 LINE 團購群
+            </a>
+
+            <a class="fb"
+               href="https://www.facebook.com/2acouple"
+               target="_blank" rel="noopener noreferrer">
+                👍 Facebook
+            </a>
+
+            <a class="ig"
+               href="https://www.instagram.com/2a_couple"
+               target="_blank" rel="noopener noreferrer">
+                📸 Instagram
+            </a>
+
+            <a class="yt"
+               href="https://www.youtube.com/@2a_couple"
+               target="_blank" rel="noopener noreferrer">
+                ▶ YouTube
+            </a>
+        </div>
+
+        <div class="footer-text">
+            2A 買不踩雷｜夫妻實測 × 團購精選
+        </div>
+
+    </div>
+</footer>
+
+</body>
+
+</html>
