@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>2A夫妻嚴選團購好物｜實測過才開團 </title>
+    <title>2A夫妻｜嚴選團購好物｜實測過才分享 </title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -585,6 +585,100 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.header-search-dropdown {
+    z-index: 1500 !important; /* 確保比所有東西都高 */
+}
+
+.filter-tabs {
+    z-index: 900; /* 低於 header */
+}
+
+/* --- 終極版：徹底移除標題下方與內部的頑固空白 --- */
+
+/* 1. 移除標題的固定高度與外距 */
+.product-name {
+    height: auto !important;      /* 關鍵：移除原本 40px 的固定高度限制 */
+    min-height: 0 !important;     /* 關鍵：移除原本 50px 的最小高度限制 */
+    margin-top: 0 !important;
+    margin-bottom: 2px !important; /* 標題與描述之間只留 2px */
+    padding: 0 !important;
+    line-height: 1.2 !important;   /* 壓縮文字行高 */
+}
+
+/* 2. 移除描述 (讚大拇指那行) 的外距 */
+.product-desc {
+    margin: 0 !important;
+    padding: 0 !important;
+    line-height: 1.2 !important;
+}
+
+/* 3. 壓縮外層容器的內距 (這是圖片與標題之間的距離) */
+.product-content {
+    padding: 10px 15px 15px 15px !important; /* 第一個數字 10px 是圖片跟標題的距離，可再調小 */
+}
+
+/* 4. 針對手機版 (雙欄) 的極致壓縮 */
+@media (max-width: 480px) {
+    .product-content {
+        padding: 8px 10px !important; /* 手機版內距縮更小 */
+    }
+    .product-name {
+        font-size: 14px !important;
+        margin-bottom: 0px !important; /* 讓描述緊貼標題 */
+    }
+    .product-tags {
+        margin-top: 4px !important;    /* 標籤跟描述的距離 */
+        margin-bottom: 6px !important; /* 標籤跟按鈕的距離 */
+    }
+}
+/* --- 精準微調：讓標題、描述、標籤恢復一點間距 --- */
+
+/* 1. 調整標題下方距離 (標題與描述之間) */
+.product-name {
+    margin-bottom: 8px !important; /* 原本是 0 或 2px，增加到 8px */
+}
+
+/* 2. 調整描述下方距離 (描述與標籤之間) */
+.product-desc {
+    margin-bottom: 10px !important; /* 增加描述與下方標籤區的間距 */
+}
+
+/* 3. 調整標籤區塊下方距離 (標籤與倒數計時之間) */
+.product-tags {
+    margin-bottom: 12px !important; /* 讓標籤不要緊貼著倒數計時框 */
+}
+
+/* 針對手機版的微調 (防止在小螢幕太散) */
+@media (max-width: 480px) {
+    .product-name {
+        margin-bottom: 5px !important; 
+    }
+    .product-desc {
+        margin-bottom: 6px !important;
+    }
+    .product-tags {
+        margin-bottom: 8px !important;
+    }
+}
+/* --- 針對不同裝置控制選單按鈕 --- */
+
+/* 1. 確保電腦版是顯示的 */
+.menu-icon {
+    display: flex !important; 
+}
+
+/* 2. 當螢幕寬度小於 480px (手機) 時才觸發 */
+@media (max-width: 480px) {
+    .menu-icon {
+        display: none !important; /* 只有手機版會隱藏 */
+    }
+    
+    /* 讓 Logo 在按鈕隱藏後稍微靠左一點，不會空出一塊 */
+    .left-area {
+        gap: 0 !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -597,8 +691,8 @@ body {
                 <div class="logo" aria-hidden="false">
                     <div class="logo-icon"><img src="logo.png" alt="2A夫妻 Logo"></div>
                     <div class="logo-text">
-                        <h1>2A夫妻嚴選團購好物</h1>
-                        <p>實測過才開團</p>
+                        <h1>2A夫妻｜嚴選團購好物</h1>
+                        <p>實測過才分享</p>
                     </div>
                 </div>
             </div>
@@ -615,15 +709,7 @@ body {
                 </button>
 
                 <!-- Share icon (保留原連結功能) -->
-                <a class="share-icon" id="shareLink" href="https://line.me/ti/g2/hT4k_ydWEIvpbumc11WufWtxg9KUtGC7wJHNGQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
-                   target="_blank" rel="noopener noreferrer" aria-label="分享到 LINE 群組">
-                    <!-- link icon -->
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true" focusable="false">
-                        <path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 6l-8 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M16 6v6h-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </a>
+
             </div>
 
             <!-- header search dropdown (hidden by default) -->
@@ -709,8 +795,8 @@ body {
                         <div class="product-buttons">
                             <!-- 加入行事曆 按鈕會被移除 by JS on load -->
                             <a class="btn btn-video" href="https://www.instagram.com/p/DTaJIKKCVNx/" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
-                            <a class="btn btn-primary" href="https://reurl.cc/Ebe3On" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/R/ti/p/%40ynv9262y" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://reurl.cc/Ebe3On" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/R/ti/p/%40ynv9262y" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -735,8 +821,8 @@ body {
                         <div class="product-buttons">
                             <!-- 加入行事曆 按鈕會被移除 by JS on load -->
                             <a class="btn btn-video" href="" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
-                            <a class="btn btn-primary" href="https://citiesocial.co/78ioa" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://lin.ee/7eAhBDG" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://citiesocial.co/78ioa" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://lin.ee/7eAhBDG" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -760,8 +846,8 @@ body {
                         <div class="product-buttons">
                             <!-- 加入行事曆 按鈕會被移除 by JS on load -->
                             <a class="btn btn-video" href="https://www.instagram.com/p/DTVGBhGiSa1/" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
-                            <a class="btn btn-primary" href="https://pureness.easygroupshop.com/sale-2acouple/onepage" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://page.line.me/dodeurs" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://pureness.easygroupshop.com/sale-2acouple/onepage" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://page.line.me/dodeurs" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -773,7 +859,8 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">MiLi MiTag 智慧防丟器</h3>
-                        <p class="product-desc">拍照不用再麻煩別人</p>
+                        <p class="product-desc">✅蘋果和安卓都能用，3秒就連線<br>
+						✅續航200-300天，電池可更換</p>
                         <div class="product-tags">
                             
 							<span class="product-tag">✈️ 旅遊</span>
@@ -787,8 +874,8 @@ body {
                         <div class="product-buttons">
                             <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
 
-                            <a class="btn btn-primary" href="https://reurl.cc/vKXLqA" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://reurl.cc/vKXLqA" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://reurl.cc/vKXLqA" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://reurl.cc/vKXLqA" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -800,7 +887,8 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">AUKEY 專用輕薄追蹤定位器</h3>
-                        <p class="product-desc">一代超強收納袋</p>
+                        <p class="product-desc">✅適用於蘋果系統，1秒就能連線<br>
+						✅無線充電，續航180天</p>
                         <div class="product-tags">
                             <span class="product-tag">✈️ 旅遊</span>
                             
@@ -813,8 +901,8 @@ body {
                         </div>
                         <div class="product-buttons">
                             <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
-                            <a class="btn btn-primary" href="https://reurl.cc/0anWjM" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://reurl.cc/0anWjM" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://reurl.cc/0anWjM" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://reurl.cc/0anWjM" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -826,7 +914,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">🇯🇵2026日本新年精選禮盒團</h3>
-                        <p class="product-desc">秀秀最愛的太陽眼鏡</p>
+                        <p class="product-desc">🎁滿$3,800贈日本精選禮盒1盒，可累贈</p>
                         <div class="product-tags">
                             <span class="product-tag">🥯 食品</span>
                             
@@ -839,8 +927,8 @@ body {
                         </div>
                         <div class="product-buttons">
                             <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
-                            <a class="btn btn-primary" href="https://gbf.tw/skbkj" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://gbf.tw/skbkj" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -850,10 +938,11 @@ body {
                     <div class="product-image"><img src="hair-dryer.jpg" alt="負離子高速吹風機"></div>
                     <div class="product-content">
                         <h3 class="product-name">負離子高速吹風機</h3>
-                        <p class="product-desc">短髮2分鐘、男生30秒全乾</p>
+                        <p class="product-desc">🚚1台就免運<br>
+						✅短髮2分鐘、男生30秒全乾</p>
                         <div class="product-tags">
-                            <span class="product-tag">📱 3C 家電</span>
-                            
+                            <span class="product-tag">📺 家電</span>
+                            <span class="product-tag">🏠 居家</span>
                         </div>
                         <div class="product-meta" data-end="2026-01-21">
                             <span>⏰</span>
@@ -862,8 +951,8 @@ body {
                         </div>
                         <div class="product-buttons">
                             <a class="btn btn-video" href="https://reurl.cc/jmpp6D" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
-                            <a class="btn btn-primary" href="https://gbf.tw/tvyga" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://gbf.tw/tvyga" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -873,9 +962,11 @@ body {
                     <div class="product-image"><img src="folding-dryer.jpg" alt="折疊高速負離子吹風機"></div>
                     <div class="product-content">
                         <h3 class="product-name">折疊高速負離子吹風機</h3>
-                        <p class="product-desc">可帶出國，100~240國際電壓</p>
+                        <p class="product-desc">✅90度好摺疊收納<br>
+						✅可帶出國，100~240國際電壓</p>
                         <div class="product-tags">
-                            <span class="product-tag">📱 3C 家電</span>
+                            <span class="product-tag">📺 家電</span>
+							<span class="product-tag">🏠 居家</span>
 							<span class="product-tag">✈️ 旅遊</span>
                             
                         </div>
@@ -886,8 +977,8 @@ body {
                         </div>
                         <div class="product-buttons">
                             
-                            <a class="btn btn-primary" href="https://gbf.tw/tvyga" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://gbf.tw/tvyga" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -897,10 +988,12 @@ body {
                     <div class="product-image"><img src="magnetic-stand.jpg" alt="全能超薄磁吸支架"></div>
                     <div class="product-content">
                         <h3 class="product-name">全能超薄磁吸支架</h3>
-                        <p class="product-desc">「1支抵3支！」</p>
+                        <p class="product-desc">✅8段高度自由調整<br>
+						✅手機、平板、電腦通用</p>
                         <div class="product-tags">
-                            <span class="product-tag">📱 3C 家電</span>
-                            
+                            <span class="product-tag">📱 3C</span>
+							<span class="product-tag">🏠 居家</span>
+                            <span class="product-tag">✈️ 旅遊</span>
                         </div>
                         <div class="product-meta" data-end="2026-01-14">
                             <span>⏰</span>
@@ -910,8 +1003,8 @@ body {
                         <div class="product-buttons">
                             <a class="btn btn-video" href="https://reurl.cc/EbDDYm" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
                             
-                            <a class="btn btn-primary" href="https://gbf.tw/x5y18" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://gbf.tw/x5y18" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -922,20 +1015,44 @@ body {
 
     <!-- Regular Products Section (unchanged) -->
     <div id="regularSection">
-        <div class="section-header"><h2 class="section-title">☀️ 常態團購</h2></div>
+        <div class="section-header"><h2 class="section-title">📍 常態團購</h2></div>
         <div class="products-container">
             <div class="products-grid" id="regularProducts">
+			
+			                <div class="product-card" data-type="regular">
+                    <div class="product-image"><img src="萬用裝備袋.jpg" alt="萬用裝備袋-可託運"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">🦐蝦皮好物推薦: 萬用裝備袋-可託運</h3>
+                        <p class="product-desc">Amber嚴選：可託運買太多的急救袋</p>
+                        <div class="product-tags">
+						<span class="product-tag">🦐 蝦皮好物</span>
+						<span class="product-tag">✈️ 旅遊</span>
+						</div>
+                        <div class="product-buttons">
+                        
+
+                            <a class="btn btn-primary" href="https://s.shopee.tw/4LCvyBBQBN" target="_blank">🛍️ 立即購買 →</a>
+							
+                        </div>
+                    </div>
+                </div>	
+			
+			
                 <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="aspor-selfie.jpg" alt="ASPOR迷你自拍棒"></div>
                     <div class="product-content">
                         <h3 class="product-name">ASPOR迷你自拍棒</h3>
-                        <p class="product-desc">11.7cm、193g，比手機輕小巧</p>
-                        <div class="product-tags"><span class="product-tag">📱 3C 家電</span><span class="product-tag">✈️ 旅遊</span></div>
+                        <p class="product-desc">✅11.7cm，比手機輕小巧<br>
+						✅iPhone、Android都能用</p>
+                        <div class="product-tags">
+						<span class="product-tag">📱 3C</span>
+						<span class="product-tag">✈️ 旅遊</span>
+						</div>
                         <div class="product-buttons">
                             <a class="btn btn-video" href="https://reurl.cc/R9DDmr" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
 
-                            <a class="btn btn-primary" href="https://gbf.tw/pwi3b" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://gbf.tw/pwi3b" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -944,13 +1061,17 @@ body {
                     <div class="product-image"><img src="yamada-heater.jpg" alt="YAMADA電暖器"></div>
                     <div class="product-content">
                         <h3 class="product-name">YAMADA山田家電 銀粒子抑菌智慧温控陶瓷電暖器</h3>
-                        <p class="product-desc">可使用遙控器操控</p>
-                        <div class="product-tags"><span class="product-tag">📱 3C 家電</span></div>
+                        <p class="product-desc">✅Ag+銀粒子扇葉有效抑菌99.9%<br>
+						✅10坪內都適用</p>
+                        <div class="product-tags">
+						<span class="product-tag">📺 家電</span>
+						<span class="product-tag">🏠 居家</span>
+						</div>
                         <div class="product-buttons">
                           
 
-                            <a class="btn btn-primary" href="https://p3.groupbuyforms.tw/oexnf" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://p3.groupbuyforms.tw/oexnf" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -959,34 +1080,23 @@ body {
                     <div class="product-image"><img src="inko-cushion.jpg" alt="韓國INKO暖感坐墊"></div>
                     <div class="product-content">
                         <h3 class="product-name">韓國INKO超薄USB便攜式暖感坐墊/保暖墊</h3>
-                        <p class="product-desc">插行動電源就可以使用</p>
-                        <div class="product-tags"><span class="product-tag">🏠 居家</span><span class="product-tag">✈️ 旅遊</span></div>
+                        <p class="product-desc">✅插行動電源就可以使用<br>
+						✅0電磁波</p>
+                        <div class="product-tags">
+						<span class="product-tag">📺 家電</span>
+						<span class="product-tag">🏠 居家</span>
+						<span class="product-tag">✈️ 旅遊</span>
+						</div>
                         <div class="product-buttons">
                         
 
-                            <a class="btn btn-primary" href="https://p3.groupbuyforms.tw/oexnf" target="_blank">🛍️立即購買 →</a>
-							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️聯絡客服 →</a>
+                            <a class="btn btn-primary" href="https://p3.groupbuyforms.tw/oexnf" target="_blank">🛍️ 立即購買 →</a>
+							<a class="btn btn-service" href="https://line.me/ti/p/~@ownlife" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
-				
-                <div class="product-card" data-type="regular">
-                    <div class="product-image"><img src="萬用裝備袋.jpg" alt="萬用裝備袋-可託運"></div>
-                    <div class="product-content">
-                        <h3 class="product-name">🦐蝦皮好物推薦: 萬用裝備袋-可託運</h3>
-                        <p class="product-desc">Amber嚴選可託運買太多急救袋</p>
-                        <div class="product-tags"><span class="product-tag">🦐 蝦皮好物</span><span class="product-tag">✈️ 旅遊</span></div>
-                        <div class="product-buttons">
-                        
-
-                            <a class="btn btn-primary" href="https://s.shopee.tw/4LCvyBBQBN" target="_blank">🛍️立即購買 →</a>
+						
 							
-                        </div>
-                    </div>
-                </div>				
-				
-				
-				
 				
             </div>
         </div>
@@ -994,7 +1104,7 @@ body {
 
     <!-- Discount Section -->
     <div id="discountSection">
-        <div class="section-header" id="discount-section"><h2 class="section-title">🎟️ 旅遊折扣碼</h2></div>
+        <div class="section-header" id="discount-section"><h2 class="section-title">🌍 旅遊折扣碼</h2></div>
         <div class="products-container">
             <div class="products-grid" id="discountProducts">
                 <div class="product-card" data-type="discount">
@@ -1003,7 +1113,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
-                        <p class="product-desc">專屬折扣券，適用日本藥妝、電器與百貨，立即��用優惠。</p>
+                        <p class="product-desc">🇯🇵日本旅遊必備的「唐吉訶德」、「Bic Camera」、「藥妝」、「百貨」優惠券在這裡！</p>
                         <div class="product-tags">
                             <span class="product-tag">💳 優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
@@ -1113,8 +1223,8 @@ body {
     <div class="product-content">
         <h3 class="product-name">Holafly 吃到飽 eSIM</h3>
         <p class="product-desc">
-            折扣碼【2ACOUPLE】<br>
-            吃到飽 eSIM 享 95 折
+            前往網址購買<br>
+            立即享95折
         </p>
         <div class="product-tags">
             <span class="product-tag">📶 eSIM</span>
@@ -1342,30 +1452,72 @@ body {
     }
 
     // --- 4. 篩選邏輯 ---
-    function filterCards() {
-        var keyword = (document.getElementById('searchInput')?.value || '').trim().toLowerCase();
-        var selected = document.querySelector('#categoryList .filter-item.selected');
-        var catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
+   // --- 修復後的搜尋邏輯 ---
+function filterCards() {
+    // 1. 抓取搜尋框文字 (不論它是否在下拉選單內)
+    const searchInput = document.getElementById('searchInput');
+    const keyword = (searchInput?.value || '').trim().toLowerCase();
+    
+    // 2. 抓取目前選中的分類
+    const selected = document.querySelector('#categoryList .filter-item.selected');
+    const catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
 
-        document.querySelectorAll('.product-card').forEach(function (card) {
-            var name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
-            var tags = (card.dataset.tags || '').split('|');
-            var isEnded = card.classList.contains('ended');
+    // 3. 執行過濾
+    document.querySelectorAll('.product-card').forEach(function (card) {
+        const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+        const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase(); // 增加描述搜尋
+        const tags = (card.dataset.tags || '').split('|');
+        const isEnded = card.classList.contains('ended');
+        
+        const matchCat = !catTag || tags.some(t => t.includes(catTag));
+        // 搜尋名稱或描述
+        const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
+        
+        // 判斷是否應該顯示 (考慮「顯示已結束」的狀態)
+        const shouldShow = showOnlyEnded ? 
+            (matchCat && matchSearch && isEnded) : 
+            (matchCat && matchSearch && !isEnded);
             
-            var matchCat = !catTag || tags.some(t => t.includes(catTag));
-            var matchSearch = !keyword || name.includes(keyword);
-            
-            var shouldShow = showOnlyEnded ? (matchCat && matchSearch && isEnded) : (matchCat && matchSearch && !isEnded);
-            card.style.display = shouldShow ? '' : 'none';
-        });
+        card.style.display = shouldShow ? '' : 'none';
+    });
 
-        var toggleBtn = document.getElementById('toggleEndedBtn');
-        if (toggleBtn) {
-            var count = document.querySelectorAll('.product-card.ended').length;
-            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
-        }
+    // 更新「顯示已結束」按鈕的數字
+    const toggleBtn = document.getElementById('toggleEndedBtn');
+    if (toggleBtn) {
+        const count = document.querySelectorAll('.product-card.ended').length;
+        toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
+    }
+}
+
+// --- 在 DOMContentLoaded 裡加入關鍵監聽 ---
+document.addEventListener('DOMContentLoaded', function () {
+    // ... 原有的初始化代碼 ...
+
+    // 核心修復：確保搜尋框有被綁定事件
+    const searchBox = document.getElementById('searchInput');
+    if (searchBox) {
+        // 'input' 事件會在你每打一個字時就觸發搜尋
+        searchBox.addEventListener('input', filterCards);
     }
 
+    // 處理搜尋下拉選單的開關 (因為你原本沒寫開關邏輯)
+    const searchToggle = document.getElementById('searchToggle');
+    const searchDropdown = document.getElementById('headerSearchDropdown');
+    
+    searchToggle?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        searchDropdown.classList.toggle('open');
+        if (searchDropdown.classList.contains('open')) {
+            searchBox.focus(); // 打開時自動聚焦，方便直接打字
+        }
+    });
+
+    // 點擊頁面其他地方關閉搜尋選單
+    document.addEventListener('click', function() {
+        searchDropdown.classList.remove('open');
+    });
+    searchDropdown?.addEventListener('click', (e) => e.stopPropagation());
+});
     // --- 5. 初始化與按鈕綁定 ---
     document.addEventListener('DOMContentLoaded', function () {
         document.querySelectorAll('.product-card').forEach(function(card) {
@@ -1423,7 +1575,7 @@ function copyCoupon(id, btn) {
 	<footer class="footer">
     <div class="footer-content">
 
-        <div class="footer-title">加入我們的社群</div>
+        <div class="footer-title">加入2A夫妻社群</div>
         <div class="footer-subtitle">
             第一手團購通知、限時好康、不漏接
         </div>
@@ -1455,7 +1607,7 @@ function copyCoupon(id, btn) {
         </div>
 
         <div class="footer-text">
-            2A 買不踩雷｜夫妻實測 × 團購精選
+            2A夫妻實測｜精選好物、團購好康
         </div>
 
     </div>
