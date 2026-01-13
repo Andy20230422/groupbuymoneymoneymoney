@@ -1600,6 +1600,40 @@ body {
         display: block;
     }
 }
+/* ===== MOBILE FILTER: FINAL OVERRIDE ===== */
+@media (max-width: 1024px) {
+    .filter-overlay {
+        position: fixed !important;
+        inset: 0 !important;
+        display: none !important;
+        background: rgba(0,0,0,0.45) !important;
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 3000 !important;
+        justify-content: flex-end !important;
+        transform: none !important;
+    }
+
+    .filter-overlay.open {
+        display: flex !important;
+    }
+
+    .filter-panel {
+        width: 85% !important;
+        height: 100% !important;
+        margin-left: auto !important;
+        background: #fff !important;
+        position: relative !important;
+        transform: translateX(100%);
+        transition: transform .3s ease;
+    }
+
+    .filter-overlay.open .filter-panel {
+        transform: translateX(0);
+    }
+}
+
+
 
     </style>
 </head>
@@ -2539,84 +2573,112 @@ function copyCoupon(id, btn) {
 </footer>
 
 <script>
-// 確保頁面完全載入後才執行
-document.addEventListener('DOMContentLoaded', function() {
-    
-    // 1. 取得所有必要的元素
-    const mobileBtn = document.querySelector('.tag-filter-btn'); // 您的手機版漏斗按鈕
-    const overlay = document.querySelector('.filter-overlay');   // 分類遮罩層
-    const closeBtn = document.querySelector('.filter-close');     // 關閉按鈕 (X)
-    const applyBtn = document.querySelector('.btn-filter-apply'); // 套用按鈕
-
-    // 2. 定義開啟選單的函數
-    function openFilter() {
-        if (overlay) {
-            overlay.style.display = 'flex'; // 先顯示容器
-            // 稍微延遲一下再加 class，確保動畫能跑出來
-            setTimeout(() => {
-                overlay.classList.add('open');
-            }, 10);
-            document.body.style.overflow = 'hidden'; // 防止底層頁面滾動
-        }
-    }
-
-    // 3. 定義關閉選單的函數
-    function closeFilter() {
-        if (overlay) {
-            overlay.classList.remove('open');
-            document.body.style.overflow = ''; // 恢復捲軸
-            // 等動畫結束後再隱藏 (約 300ms)
-            setTimeout(() => {
-                if (!overlay.classList.contains('open')) {
-                    overlay.style.display = 'none';
-                }
-            }, 300);
-        }
-    }
-
-    // 4. 綁定點擊事件
-    if (mobileBtn) {
-        mobileBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            openFilter();
-        });
-    }
-
-    if (closeBtn) {
-        closeBtn.addEventListener('click', closeFilter);
-    }
-
-    if (applyBtn) {
-        applyBtn.addEventListener('click', function() {
-            if (typeof applyFilters === "function") {
-                applyFilters(); // 執行您原有的篩選邏輯
-            }
-            closeFilter();
-        });
-    }
-
-    // 5. 點擊黑色半透明區域也能關閉
+// 1. 定義切換篩選面板的函數 (供 HTML 中的 onclick="toggleFilter()" 使用)
+function toggleFilter() {
+    const overlay = document.querySelector('.filter-overlay');
     if (overlay) {
-        overlay.addEventListener('click', function(e) {
-            if (e.target === overlay) {
-                closeFilter();
+        overlay.classList.toggle('open'); // 你的 CSS 使用 .open 來控制顯示
+    }
+}
+
+// 2. 監聽整個頁面的點擊事件 (自動套用篩選)
+document.addEventListener('click', function(e) {
+    const item = e.target.closest('.filter-item');
+    if (item) {
+        setTimeout(() => {
+            if (typeof applyFilters === "function") {
+                applyFilters();
+            }
+        }, 50);
+    }
+});
+
+// 3. 頁面載入後的其他修正
+document.addEventListener('DOMContentLoaded', function() {
+    // 強制把 X 按鈕搬到面板內部最上方
+    const closeBtn = document.querySelector('.filter-close');
+    const panel = document.querySelector('.filter-panel');
+    if (closeBtn && panel) {
+        panel.prepend(closeBtn);
+    }
+    
+    // 額外確保手機版按鈕點擊有效 (即便 onclick 失效也能補償)
+    const tagBtn = document.querySelector('.tag-filter-btn');
+    if (tagBtn) {
+        tagBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleFilter();
+        });
+    }
+});
+// --- 修正後的程式碼 ---
+
+// 1. 定義切換函數（對應 HTML 中的 onclick="toggleFilter()"）
+function toggleFilter() {
+    const overlay = document.querySelector('.filter-overlay');
+    if (overlay) {
+        overlay.classList.toggle('open');
+        console.log("切換選單狀態");
+    }
+}
+
+// 2. 確保頁面載入後，按鈕與關閉功能正常
+document.addEventListener('DOMContentLoaded', function() {
+    // 修正：原本你的程式碼在找 .mobile-filter-trigger，但 HTML 裡是 .tag-filter-btn
+    const mobileBtn = document.querySelector('.tag-filter-btn');
+    const filterOverlay = document.querySelector('.filter-overlay');
+    const closeBtn = document.querySelector('.filter-close');
+
+    // 強制綁定點擊事件 (雙重保險)
+    if (mobileBtn && filterOverlay) {
+        mobileBtn.onclick = function(e) {
+            e.preventDefault();
+            filterOverlay.classList.add('open');
+        };
+    }
+
+    // 點擊 X 關閉
+    if (closeBtn && filterOverlay) {
+        closeBtn.onclick = function() {
+            filterOverlay.classList.remove('open');
+        };
+    }
+    
+    // 點擊遮罩空白處也關閉 (增加體驗)
+    if (filterOverlay) {
+        filterOverlay.addEventListener('click', function(e) {
+            if (e.target === filterOverlay) {
+                filterOverlay.classList.remove('open');
             }
         });
     }
+});
 
-    // 保留您原有的：點擊標籤後自動套用篩選
-    document.addEventListener('click', function(e) {
-        const item = e.target.closest('.filter-item');
-        if (item) {
-            setTimeout(() => {
-                if (typeof applyFilters === "function") {
-                    applyFilters();
-                }
-            }, 50);
-        }
+document.addEventListener('DOMContentLoaded', function () {
+    const overlay = document.getElementById('filterOverlay');
+
+    // 左上 ≡
+    document.getElementById('openFilterBtn')?.addEventListener('click', () => {
+        overlay.classList.add('open');
+    });
+
+    // 右上「分類」
+    document.getElementById('openTagFilterBtn')?.addEventListener('click', () => {
+        overlay.classList.add('open');
+    });
+
+    // 關閉 X
+    document.getElementById('closeFilterBtn')?.addEventListener('click', () => {
+        overlay.classList.remove('open');
+    });
+
+    // 點黑色遮罩關閉
+    overlay?.addEventListener('click', e => {
+        if (e.target === overlay) overlay.classList.remove('open');
     });
 });
+
+
 </script>
 
 </body>
