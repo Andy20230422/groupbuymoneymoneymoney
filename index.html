@@ -1117,40 +1117,52 @@ body {
     }
 }
 
-/* 只對手機與平板生效，不影響電腦版 */
+/* --------------------------------------------------
+   手機版分類面板按鈕「徹底修正」：確保固定在最底部
+   -------------------------------------------------- */
 @media (max-width: 1024px) {
-    /* 1. 確保分類面板容器有足夠的底部間距，避免內容被按鈕遮擋 */
+    /* 1. 分類面板本體：高度撐開，並留出底部空間給按鈕 */
     .filter-panel {
         position: relative !important;
-        padding-bottom: 100px !important; /* 為底部按鈕預留空間 */
-        max-height: 85vh !important;     /* 限制高度避免超出螢幕 */
-        overflow-y: auto !important;    /* 內容過多時可捲動 */
         display: flex !important;
         flex-direction: column !important;
+        height: 100vh !important;       /* 讓面板高度撐滿整個畫面 */
+        max-height: 85vh !important;    /* 限制最高不超過 85%，留一點空隙給遮罩 */
+        padding-bottom: 90px !important; /* 關鍵：預留空間給下方的按鈕 */
+        overflow-y: auto !important;    /* 讓分類內容可以捲動 */
+        border-radius: 20px 20px 0 0 !important; /* 圓角感 */
     }
 
-    /* 2. 將按鈕固定在手機版面板的最下方 */
+    /* 2. 遮罩層：確保內容靠下對齊 */
+    .filter-overlay {
+        align-items: flex-end !important; /* 強制面板在手機版從下方彈出 */
+    }
+
+    /* 3. 按鈕區塊：改為 absolute 並固定在 filter-panel 的最底端 */
     .filter-actions {
-        position: fixed !important;      /* 改為固定定位 */
+        position: absolute !important;   /* 改為絕對定位 */
+        bottom: 0 !important;           /* 貼緊面板底部 */
         left: 0 !important;
         right: 0 !important;
-        bottom: 0 !important;
         width: 100% !important;
-        background: #ffffff !important;  /* 務必給背景色，否則會透明看到後方文字 */
-        padding: 15px 20px !important;
-        margin-top: 0 !important;
+        margin: 0 !important;           /* 移除多餘的外距 */
+        padding: 15px 20px !important;   /* 增加內距，好點擊 */
+        background: #ffffff !important;  /* 務必給純白背景，才不會透出文字 */
         border-top: 1px solid #eee !important;
-        box-shadow: 0 -4px 10px rgba(0,0,0,0.05) !important;
-        z-index: 10 !important;
         display: flex !important;
-        gap: 10px !important;
+        gap: 12px !important;
+        z-index: 999 !important;        /* 確保層級最高 */
     }
 
-    /* 3. 調整按鈕寬度，讓它們平分空間 */
+    /* 4. 按鈕樣式：平分寬度 */
     .btn-filter-clear, 
     .btn-filter-apply {
         flex: 1 !important;
-        margin: 0 !important;
+        height: 48px !important;        /* 加高按鈕，符合手機點擊習慣 */
+        font-weight: bold !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
     }
 }
     </style>
