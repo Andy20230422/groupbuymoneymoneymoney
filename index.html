@@ -2539,6 +2539,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+// --- 修正後的程式碼 ---
+
+// 1. 定義切換函數（對應 HTML 中的 onclick="toggleFilter()"）
+function toggleFilter() {
+    const overlay = document.querySelector('.filter-overlay');
+    if (overlay) {
+        overlay.classList.toggle('open');
+        console.log("切換選單狀態");
+    }
+}
+
+// 2. 確保頁面載入後，按鈕與關閉功能正常
+document.addEventListener('DOMContentLoaded', function() {
+    // 修正：原本你的程式碼在找 .mobile-filter-trigger，但 HTML 裡是 .tag-filter-btn
+    const mobileBtn = document.querySelector('.tag-filter-btn');
+    const filterOverlay = document.querySelector('.filter-overlay');
+    const closeBtn = document.querySelector('.filter-close');
+
+    // 強制綁定點擊事件 (雙重保險)
+    if (mobileBtn && filterOverlay) {
+        mobileBtn.onclick = function(e) {
+            e.preventDefault();
+            filterOverlay.classList.add('open');
+        };
+    }
+
+    // 點擊 X 關閉
+    if (closeBtn && filterOverlay) {
+        closeBtn.onclick = function() {
+            filterOverlay.classList.remove('open');
+        };
+    }
+    
+    // 點擊遮罩空白處也關閉 (增加體驗)
+    if (filterOverlay) {
+        filterOverlay.addEventListener('click', function(e) {
+            if (e.target === filterOverlay) {
+                filterOverlay.classList.remove('open');
+            }
+        });
+    }
+});
+
 </script>
 
 </body>
