@@ -746,6 +746,31 @@ body {
     font-weight: 600;
   }
 }
+@media (max-width: 480px) {
+  .products-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px;
+  }
+}
+@media (max-width: 480px) {
+  .product-name {
+    font-size: 14px;
+    line-height: 1.3;
+  }
+
+  .product-image {
+    aspect-ratio: 1 / 1;   /* 圖片正方形，整齊 */
+  }
+
+  .product-content {
+    padding: 10px;
+  }
+
+  .btn {
+    font-size: 12px;
+    padding: 8px 6px;
+  }
+}
 
 
     </style>
