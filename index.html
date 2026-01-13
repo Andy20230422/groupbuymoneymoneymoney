@@ -1,28 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="zh-TW">
 <head>
 <link rel="icon" href="logo.png" type="image/png">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>2A夫妻｜嚴選團購好物 </title>
+    <title>2A夫妻｜嚴選團購好物</title>
     <style>
-	/* 強制修正手機分類選單被切掉與模糊的問題 */
-#categorySection, 
-#categoryList, 
-.filter-list, 
-.filter-section {
-    -webkit-mask-image: none !important; /* 移除 Safari 的遮罩 */
-    mask-image: none !important;         /* 移除其他瀏覽器的遮罩 */
-    overflow: visible !important;        /* 確保內容不會被裁切 */
-}
-
-/* 確保在手機上選單是清楚的 */
-#categoryList {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 10px;
-}
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
@@ -50,11 +34,16 @@
             gap: 12px;
         }
 
-        /* left area */
         .left-area { display:flex; align-items:center; gap:12px; min-width:0; }
 
-        /* menu icon (左上黃色 highlight 位置) */
-        .menu-icon { font-size: 28px; cursor: pointer; color: #666; padding: 6px; border-radius: 6px; background: transparent; }
+        .menu-icon { 
+            font-size: 28px; 
+            cursor: pointer; 
+            color: #666; 
+            padding: 6px; 
+            border-radius: 6px; 
+            background: transparent; 
+        }
         .menu-icon:hover { background: rgba(0,0,0,0.02); }
 
         .logo { display: flex; align-items: center; gap: 10px; justify-content:center; flex:1; min-width:0; }
@@ -64,10 +53,8 @@
         .logo-text h1 { font-size: 20px; color: #5a4a3a; font-weight: 700; }
         .logo-text p { font-size: 12px; color: #999; }
 
-        /* right area: actions (search icon + share icon) */
         .header-actions { display:flex; align-items:center; gap:8px; justify-content:flex-end; }
 
-        /* icon buttons */
         .icon-btn {
             display:inline-flex;
             align-items:center;
@@ -83,27 +70,10 @@
         }
         .icon-btn:hover { background: rgba(0,0,0,0.03); }
 
-        .share-icon {
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            width:42px;
-            height:42px;
-            border-radius:14px;
-            background:white;
-            color:#d4b896;
-            font-size:14px;
-            text-decoration:none;
-            border:1px solid #d4b896;
-            padding:6px;
-        }
-        .share-icon:hover { background:#d4b896; color:white; }
-
-        /* header search dropdown */
         .header-search-dropdown {
             position: absolute;
-            right: 20px; /* offset from right edge of viewport */
-            top: 62px; /* below header */
+            right: 20px;
+            top: 62px;
             z-index: 1200;
             width: 360px;
             max-width: calc(100% - 40px);
@@ -116,1844 +86,791 @@
         .header-search-dropdown.open { display: block; }
 
         .search-box {
-            width: 100%; padding: 10px 14px; border: 1px solid #ddd;
-            border-radius: 8px; font-size: 15px; background: white;
+            width: 100%; 
+            padding: 10px 14px; 
+            border: 1px solid #ddd;
+            border-radius: 8px; 
+            font-size: 15px; 
+            background: white;
         }
 
         /* Filter Tabs */
-        .filter-tabs { max-width: 1400px; margin: 20px auto; padding: 0 20px; display:flex; gap:10px; flex-wrap:wrap; position: sticky; top: 76px; z-index: 900; background: #faf8f5; padding-top: 10px; padding-bottom: 10px;}
+        .filter-tabs { 
+            max-width: 1400px; 
+            margin: 20px auto; 
+            padding: 0 20px; 
+            display:flex; 
+            gap:10px; 
+            flex-wrap:wrap; 
+            position: sticky; 
+            top: 76px; 
+            z-index: 900; 
+            background: #faf8f5; 
+            padding-top: 10px; 
+            padding-bottom: 10px;
+        }
+        
         .filter-tab {
-            padding: 10px 25px; border-radius: 25px; border: none; cursor: pointer;
-            font-size: 15px; transition: all 0.3s; font-weight: 500;
+            padding: 10px 25px; 
+            border-radius: 25px; 
+            border: none; 
+            cursor: pointer;
+            font-size: 15px; 
+            transition: all 0.3s; 
+            font-weight: 500;
         }
         .filter-tab.active { background: #f5e6d3; color: #8b7355; }
         .filter-tab:not(.active) { background: #f0f0f0; color: #999; }
         .filter-tab:hover { background: #f5e6d3; color: #8b7355; }
 
-        /* Results Count */
-        .results-info { max-width: 1400px; margin: 20px auto; padding: 0 20px; color: #999; font-size: 14px; }
+        .results-info { 
+            max-width: 1400px; 
+            margin: 20px auto; 
+            padding: 0 20px; 
+            color: #999; 
+            font-size: 14px; 
+        }
 
-        /* Section Headers */
-        .section-header { max-width: 1400px; margin: 40px auto 20px; padding: 0 20px; text-align: center; }
+        .section-header { 
+            max-width: 1400px; 
+            margin: 40px auto 20px; 
+            padding: 0 20px; 
+            text-align: center; 
+        }
+        
         .section-title {
-            display: inline-flex; align-items: center; gap: 10px;
-            font-size: 28px; font-weight: 700; color: #5a4a3a;
+            display: inline-flex; 
+            align-items: center; 
+            gap: 10px;
+            font-size: 28px; 
+            font-weight: 700; 
+            color: #5a4a3a;
         }
 
         /* Countdown Banner */
         .countdown-banner { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
         .countdown-content {
-            background: #fff4e6; border: 2px solid #f5d5a0; border-radius: 12px;
-            padding: 15px 20px; display:flex; align-items:center; justify-content:space-between;
+            background: #fff4e6; 
+            border: 2px solid #f5d5a0; 
+            border-radius: 12px;
+            padding: 15px 20px; 
+            display:flex; 
+            align-items:center; 
+            justify-content:space-between;
         }
-        .countdown-left { display:flex; align-items:center; gap:10px; font-size:16px; color:#8b7355; }
+        .countdown-left { 
+            display:flex; 
+            align-items:center; 
+            gap:10px; 
+            font-size:16px; 
+            color:#8b7355; 
+        }
         .countdown-right {
-            color: #8b7355; font-size: 16px; font-weight:700; display:flex; align-items:center; gap:10px;
+            color: #8b7355; 
+            font-size: 16px; 
+            font-weight:700; 
+            display:flex; 
+            align-items:center; 
+            gap:10px;
         }
         .banner-name { color: #8b7355; font-weight:700; }
         .banner-timer {
-            background: transparent; border: none; padding: 0 6px; border-radius: 6px; 
-            color: #5a4a3a; font-weight: 800; font-family: monospace; box-shadow:none;
-            display:inline-block; line-height:1;
+            background: transparent; 
+            border: none; 
+            padding: 0 6px; 
+            border-radius: 6px; 
+            color: #5a4a3a; 
+            font-weight: 800; 
+            font-family: monospace; 
+            box-shadow:none;
+            display:inline-block; 
+            line-height:1;
         }
 
         /* Products Grid */
         .products-container { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .products-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
+            gap: 20px; 
+        }
 
         /* Product Card */
-        .product-card { background: white; border: 3px solid #f5d5a0; border-radius: 20px; overflow: hidden; transition: all 0.3s; }
-        .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .product-card { 
+            background: white; 
+            border: 3px solid #f5d5a0; 
+            border-radius: 20px; 
+            overflow: hidden; 
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        .product-card:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
+        }
 
-.product-image {
-    aspect-ratio: 1 / 1;
-    width: 100%;
-    background: #f5f5f5;
-    overflow: hidden;
-}
+        .product-image {
+            aspect-ratio: 1 / 1;
+            width: 100%;
+            background: #f5f5f5;
+            overflow: hidden;
+        }
 
-.product-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
 
+        .product-card:hover .product-image img {
+            transform: scale(1.05);
+        }
 
-/* hover 微放大（質感加分，可留可不留） */
-.product-card:hover .product-image img {
-    transform: scale(1.05);
-}
+        .product-content { 
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .product-name { 
+            font-size:18px; 
+            font-weight:700; 
+            color:#5a4a3a; 
+            margin-bottom:8px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.4;
+            min-height: calc(1.4em * 2);
+        }
+        
+        .product-desc { 
+            font-size:14px; 
+            color:#999; 
+            margin-bottom:10px; 
+            line-height:1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            min-height: calc(1.4em * 2);
+        }
 
-        .product-content { padding: 20px; }
-        .product-name { font-size:18px; font-weight:700; color:#5a4a3a; margin-bottom:15px; min-height:50px; }
-        .product-desc { font-size:14px; color:#999; margin-bottom:15px; line-height:1.5; }
+        .product-tags { 
+            display:flex; 
+            flex-wrap:wrap; 
+            gap:8px; 
+            margin-bottom:12px; 
+        }
+        
+        .product-tag { 
+            display:flex; 
+            align-items:center; 
+            gap:5px; 
+            padding:5px 12px; 
+            border-radius:15px; 
+            font-size:13px; 
+            border:1px solid #e0e0e0; 
+            background:white; 
+        }
 
-        .product-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:15px; }
-        .product-tag { display:flex; align-items:center; gap:5px; padding:5px 12px; border-radius:15px; font-size:13px; border:1px solid #e0e0e0; background:white; }
-
-        /* product-meta area */
         .product-meta {
-            display:flex; align-items:center; gap:8px; margin-bottom:15px;
-            padding:10px; background:#f6f4f1; border-radius:8px; font-size:14px; color:#666;
+            display:flex; 
+            align-items:center; 
+            gap:8px; 
+            margin-bottom:15px;
+            padding:10px; 
+            background:#f6f4f1; 
+            border-radius:8px; 
+            font-size:14px; 
+            color:#666;
             position: relative;
         }
 
-        /* 隱藏 groupbuy-time 原始文字（我們用 .days-left 顯示） */
         .product-meta .groupbuy-time { display: none; }
 
-        /* days-left small box styling (uses same meta area background so looks integrated) */
         .days-left {
-            color: #8b7355; font-weight: 700; margin-left: 0;
-            background: transparent; padding: 4px 8px; border-radius: 6px; font-family: inherit; display:inline-block;
+            color: #8b7355; 
+            font-weight: 700; 
+            margin-left: 0;
+            background: transparent; 
+            padding: 4px 8px; 
+            border-radius: 6px; 
+            font-family: inherit; 
+            display:inline-block;
         }
 
         .product-meta.ended { opacity: 0.6; }
 
-        .product-buttons { display:flex; flex-direction:column; gap:10px; }
+        .product-buttons { 
+            display:flex; 
+            flex-direction:column; 
+            gap:10px;
+            margin-top: auto;
+        }
 
-        .btn { padding:12px 20px; border:none; border-radius:8px; cursor:pointer; font-size:15px; font-weight:600; text-align:center; transition:all 0.3s; text-decoration:none; display:flex; align-items:center; justify-content:center; gap:8px; }
+        .btn { 
+            padding:12px 20px; 
+            border:none; 
+            border-radius:8px; 
+            cursor:pointer; 
+            font-size:15px; 
+            font-weight:600; 
+            text-align:center; 
+            transition:all 0.3s; 
+            text-decoration:none; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center; 
+            gap:8px; 
+        }
+        
         .btn-calendar { background:white; color:#8b7355; border:2px solid #e0e0e0; }
         .btn-calendar:hover { background:#f5f5f5; }
         .btn-video { background:white; color:#8b7355; border:2px solid #e0e0e0; }
         .btn-video:hover { background:#f5f5f5; }
         .btn-primary { background:#d5bdaf; color:white; }
         .btn-primary:hover { background:#e3d5ca; }
-		.btn.btn-service {background: #aec3b0;color: #ffffff;}
-		.btn.btn-service:hover {background: #ccd5ae;}
+        .btn.btn-service {background: #aec3b0;color: #ffffff;}
+        .btn.btn-service:hover {background: #ccd5ae;}
 
-        /* Calendar Section (new) */
-        .calendar-section { max-width: 1200px; margin: 40px auto; padding: 20px; }
-        .calendar-wrapper {
-            background: #f7fbfb;
-            border-radius: 14px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-            border: 1px solid rgba(0,0,0,0.03);
-        }
-        .calendar-controls { display:flex; justify-content:center; gap:12px; margin-bottom:18px; }
-        .calendar-controls .month-btn {
-            padding:8px 18px; border-radius:12px; border: none; cursor:pointer; font-size:15px;
-            background:#e9f3f2; color:#4d6866;
-        }
-        .calendar-controls .month-btn.active { background:#7fb09f; color:#fff; }
-
-        .calendar-grid { display:grid; grid-template-columns: repeat(7, 1fr); gap:12px; }
-        .calendar-weekday { text-align:center; color:#6d7b7a; font-weight:700; padding:8px 0; }
-        .calendar-day {
-            min-height:64px;
-            background:#fff;
-            border-radius:10px;
-            padding:8px;
-            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.03);
-            display:flex; flex-direction:column; justify-content:space-between;
-        }
-        .calendar-day.empty { background: transparent; box-shadow:none; }
-        .calendar-day .day-number { text-align:right; color:#3e3e3e; font-weight:700; }
-        .badge-count {
-            display:inline-block;
-            background:#cfeff0;
-            color:#11706c;
-            font-weight:700;
-            padding:2px 6px;
-            border-radius:10px;
-            font-size:12px;
-            margin-top:6px;
-            align-self:flex-start;
-        }
-        .calendar-day.today { background:#fff8d6; }
-        .calendar-day.soon { background:#fff6f4; }
-        .calendar-legend { margin-top:18px; color:#666; display:flex; gap:18px; align-items:center; flex-wrap:wrap; font-size:13px; }
-        .legend-item { display:flex; gap:8px; align-items:center; }
-        .legend-swatch { width:18px; height:18px; border-radius:4px; }
-        .swatch-today { background:#ffd54a; }
-        .swatch-soon { background:#fbeaea; }
-        .swatch-has { background:#cfeff0; }
-
-        .month-summary {
-            margin-top:18px; padding:14px; background:#e9f9f9; border-radius:10px; color:#235451;
+        .coupon-box {
+            background: #f6f4f1;
+            border: 2px dashed #d5bdaf;
+            border-radius: 10px;
+            padding: 10px 14px;
+            margin-top: 12px;
         }
 
-        /* Past days styling: 已過的日期反灰 */
-        .calendar-day.past {
-          background: #f2f4f4;
-          color: #9aa0a0;
-          opacity: 0.85;
-          pointer-events: none;
-        }
-        .calendar-day.past .day-number { color: #9aa0a0; }
-        .calendar-day.past .badge-count {
-          background: #e6efef;
-          color: #6f9a99;
-          opacity: 0.9;
+        .coupon-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
         }
 
-        /* FILTER PANEL (側欄) - LEFT SIDE */
+        .coupon-code {
+            font-size: 18px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            color: #5a4a3a;
+        }
+
+        .copy-btn {
+            background: #d5bdaf;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .copy-btn:hover {
+            background: #e3d5ca;
+        }
+
+        .coupon-label {
+            font-size: 12px;
+            font-weight: 700;
+            color: #8b7355;
+            margin-bottom: 4px;
+        }
+
+        .product-card.ended {
+            opacity: 0.6;
+            filter: grayscale(0.8);
+        }
+
+        .product-card.hidden-ended {
+            display: none !important;
+        }
+
+        /* FILTER PANEL */
         .filter-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 2000;
-            display: none; align-items: stretch; justify-content: flex-start; /* 左側出現 */
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.35); 
+            z-index: 2000;
+            display: none; 
+            align-items: stretch; 
+            justify-content: flex-start;
         }
         .filter-overlay.open { display: flex; }
+        
         .filter-panel {
-            width: 360px; max-width: 92%; background: #fff; padding: 22px; overflow-y: auto;
-            box-shadow: 8px 0 24px rgba(0,0,0,0.15); border-right: 1px solid #eee; /* 右邊邊線 (面向頁面) */
+            width: 360px; 
+            max-width: 92%; 
+            background: #fff; 
+            padding: 22px; 
+            overflow-y: auto;
+            box-shadow: 8px 0 24px rgba(0,0,0,0.15); 
+            border-right: 1px solid #eee;
         }
-        .filter-panel h3 { font-size: 20px; margin-bottom: 12px; color: #333; }
-        .filter-close { position: absolute; right: 18px; top: 18px; font-size: 20px; cursor: pointer; color: #888; }
+        
+        .filter-panel h3 { 
+            font-size: 20px; 
+            margin-bottom: 12px; 
+            color: #333; 
+        }
+        
+        .filter-close { 
+            position: absolute; 
+            right: 18px; 
+            top: 18px; 
+            font-size: 20px; 
+            cursor: pointer; 
+            color: #888; 
+        }
+        
         .filter-section { margin-bottom: 18px; }
-        .filter-section .section-title { font-weight:700; margin-bottom: 8px; color: #5a4a3a; display:flex; align-items:center; gap:8px; }
-        .filter-list { display:flex; flex-direction:column; gap:8px; }
-        .filter-item {
-            padding: 10px 12px; border-radius: 10px; background: #faf7f3; color: #3e2f22; cursor: pointer; border: 1px solid transparent;
+        
+        .filter-section .section-title { 
+            font-weight:700; 
+            margin-bottom: 8px; 
+            color: #5a4a3a; 
+            display:flex; 
+            align-items:center; 
+            gap:8px; 
         }
-        .filter-item.count { display:flex; justify-content:space-between; align-items:center; }
-        .filter-item.selected { background: #c9a876; color: white; border-color: rgba(0,0,0,0.05); }
+        
+        .filter-list { 
+            display:flex; 
+            flex-direction:column; 
+            gap:8px; 
+        }
+        
+        .filter-item {
+            padding: 10px 12px; 
+            border-radius: 10px; 
+            background: #faf7f3; 
+            color: #3e2f22; 
+            cursor: pointer; 
+            border: 1px solid transparent;
+        }
+        
+        .filter-item.count { 
+            display:flex; 
+            justify-content:space-between; 
+            align-items:center; 
+        }
+        
+        .filter-item.selected { 
+            background: #c9a876; 
+            color: white; 
+            border-color: rgba(0,0,0,0.05); 
+        }
+        
         .filter-item .tag-name { font-weight:600; }
         .filter-item .tag-count { color: rgba(0,0,0,0.5); font-weight:600; }
 
-        .filter-actions { display:flex; gap:8px; margin-top: 12px; }
-        .btn-filter-clear { flex:1; padding:10px; border-radius:8px; border:1px solid #e0e0e0; background:white; cursor:pointer; }
-        .btn-filter-apply { flex:1; padding:10px; border-radius:8px; background:#c9a876; color:white; border:none; cursor:pointer; }
+        .filter-actions { 
+            display:flex; 
+            gap:8px; 
+            margin-top: 12px; 
+        }
+        
+        .btn-filter-clear { 
+            flex:1; 
+            padding:10px; 
+            border-radius:8px; 
+            border:1px solid #e0e0e0; 
+            background:white; 
+            cursor:pointer; 
+        }
+        
+        .btn-filter-apply { 
+            flex:1; 
+            padding:10px; 
+            border-radius:8px; 
+            background:#c9a876; 
+            color:white; 
+            border:none; 
+            cursor:pointer; 
+        }
 
        /* Footer */
-.footer {
-    background: #ffffff;
-    padding: 60px 20px 40px;
-    margin-top: 80px;
-    border-top: 1px solid #eee;
-}
-
-.footer-content {
-    max-width: 1200px;
-    margin: 0 auto;
-    text-align: center;
-}
-
-.footer-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: #5a4a3a;
-    margin-bottom: 12px;
-}
-
-.footer-subtitle {
-    font-size: 14px;
-    color: #999;
-    margin-bottom: 30px;
-}
-
-.footer-socials {
-    display: flex;
-    justify-content: center;
-    gap: 14px;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-}
-
-.footer-socials a {
-    padding: 12px 28px;
-    border-radius: 999px;
-    font-size: 15px;
-    font-weight: 600;
-    text-decoration: none;
-    transition: all 0.25s ease;
-    border: 2px solid transparent;
-}
-
-/* individual platforms */
-.footer-socials .line {
-    background: #06c755;
-    color: #fff;
-}
-.footer-socials .line:hover {
-    background: #05b44c;
-}
-
-.footer-socials .fb {
-    background: #1877f2;
-    color: #fff;
-}
-.footer-socials .fb:hover {
-    background: #166fe0;
-}
-
-.footer-socials .ig {
-    background: linear-gradient(45deg,
-        #feda75,
-        #fa7e1e,
-        #d62976,
-        #962fbf,
-        #4f5bd5
-    );
-    background-size: 120% 120%;
-    background-position: center;
-
-    color: white;
-    padding: 12px 24px;
-    border-radius: 999px;
-    text-decoration: none;
-}
-
-.footer-socials .yt {
-    background: #ff0000;
-    color: #fff;
-}
-.footer-socials .yt:hover {
-    background: #e60000;
-}
-
-.footer-logo {
-    margin-bottom: 16px;
-}
-
-.footer-text {
-    font-size: 14px;
-    color: #aaa;
-    line-height: 1.8;
-}
-
-@media (max-width: 600px) {
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr); /* 強制手機版雙欄 */
-        gap: 10px; /* 縮小間距節省空間 */
-        padding: 10px;
-    }
-}
-.filter-content {
-    padding-bottom: 80px; /* 預留底部空間給固定按鈕 */
-}
-
-    /* header adjustments */
-    .header-search-dropdown { right: 10px; left: 10px; top: 64px; width: auto; }
-    .header-content { padding: 6px 8px; }
-    .logo-text h1 { font-size: 18px; }
-    .share-icon { width:38px; height:38px; }
-}
-/* 解決 sticky header 遮住錨點的問題 */
-#limitedSection,
-#regularSection,
-#discountSection,
-#scheduleSection {
-    scroll-margin-top: 150px; /* 約等於 header 高度 + 緩衝 */
-}
-
-.coupon-box {
-    background: #f6f4f1;
-    border: 2px dashed #d5bdaf;
-    border-radius: 10px;
-    padding: 10px 14px;
-    margin-top: 12px;
-}
-
-.coupon-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 10px;
-}
-
-.coupon-code {
-    font-size: 18px;
-    font-weight: 800;
-    letter-spacing: 1px;
-    color: #5a4a3a;
-}
-
-
-
-.copy-btn {
-    background: #d5bdaf;
-    color: #fff;
-    border: none;
-    border-radius: 8px;
-    padding: 8px 14px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.copy-btn:hover {
-    background: #e3d5ca;
-}
-
-.coupon-label {
-    font-size: 12px;
-    font-weight: 700;
-    color: #8b7355;
-    margin-bottom: 4px;
-}
-
-/* 已結束商品的樣式：反灰且半透明 */
-.product-card.ended {
-    opacity: 0.6;
-    filter: grayscale(0.8);
-}
-
-/* 如果你想「完全隱藏」已結束商品，可以使用這個 class */
-.product-card.hidden-ended {
-    display: none !important;
-}
-
-@media (max-width: 480px) {
-    /* 1. 頂部空間優化：讓 Banner 與 Header 更精簡 */
-    .top-banner { font-size: 13px; padding: 6px; }
-    .header { padding: 8px 12px; }
-    .logo-img { height: 32px; }
-
-    /* 2. 商品列表：強制雙欄排版，這是電商最精緻的顯示方式 */
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 10px !important;
-        padding: 10px !important;
-    }
-
-    /* 3. 商品名稱精緻化：縮小字體並限制「最多顯示兩行」 */
-    /* 這樣可以確保不論商品名稱多長，所有卡片高度都會整齊劃一 */
-    .product-name {
-        font-size: 14px !important;
-        line-height: 1.4;
-        height: 40px !important; 
-        overflow: hidden;
-        display: -webkit-box;
-        -webkit-line-clamp: 2; /* 超過兩行自動顯示 ... */
-        -webkit-box-orient: vertical;
-        margin-bottom: 8px;
-    }
-
-    /* 4. 價格區塊微調 */
-    .price-final {
-        font-size: 16px !important;
-        font-weight: 700;
-    }
-    .price-original {
-        font-size: 11px !important;
-    }
-
-    /* 5. 標籤與按鈕優化：讓資訊不擁擠 */
-    .days-left {
-        font-size: 11px !important;
-        padding: 2px 6px !important;
-    }
-
-    .product-actions {
-        gap: 6px !important;
-    }
-
-    .btn-primary, .btn-secondary {
-        padding: 8px 4px !important;
-        font-size: 12px !important;
-        letter-spacing: -0.5px;
-    }
-}
-
-/* 針對所有設有 ID 的區塊，滑動時自動預留上方空間 */
-section[id], div[id] {
-    /* 根據你 Header 的高度調整，你的 Header 加上 Banner 大約是 100px - 120px */
-    scroll-margin-top: 140px; 
-}
-
-/* --- 進階手機版質感優化 (精緻感提升) --- */
-
-/* 1. 圖片比例固定與載入底色：防止頁面跳動並增加高級感 */
-.product-image {
-    aspect-ratio: 1 / 1 !important;
-    object-fit: cover !important;
-    width: 100% !important;
-    background-color: #f5f5f5; /* 圖片加載前的底色 */
-    display: block;
-}
-
-/* 2. 側欄磨砂玻璃效果 (iOS 質感) */
-.filter-overlay {
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important; /* 相容 Safari */
-    background: rgba(0, 0, 0, 0.45) !important;
-}
-
-/* 3. 全域觸控回饋：按下按鈕或分類時會輕微縮小，增加互動感 */
-.btn-primary:active, 
-.btn-secondary:active, 
-.filter-item:active,
-.menu-icon:active {
-    transform: scale(0.95) !important;
-    filter: brightness(0.9);
-    transition: transform 0.1s ease;
-}
-
-/* 4. 手機版搜尋框優化：圓角化與防止 iOS 自動放大 */
-#searchInput {
-    font-size: 16px !important; /* iOS 16px 以上才不會自動縮放頁面 */
-    border-radius: 20px !important;
-    padding: 8px 15px !important;
-    border: 1px solid #eee !important;
-    -webkit-appearance: none; /* 移除 iOS 內建陰影 */
-}
-
-/* 5. 針對 480px 以下手機的卡片細節強化 */
-@media (max-width: 480px) {
-    /* 卡片圓角與立體陰影 */
-    .product-card {
-        border-radius: 12px !important;
-        border: none !important;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06) !important;
-        background: #fff !important;
-        overflow: hidden;
-        transition: box-shadow 0.3s ease;
-    }
-
-    /* 調整商品清單間距，讓陰影有空間呼吸 */
-    .product-grid {
-        gap: 12px !important;
-        padding: 12px !important;
-    }
-
-    /* 底部按鈕稍微加高，方便手指點擊 (符合 44px 觸控準則) */
-    .btn-primary, .btn-secondary {
-        min-height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* 分類清單兩欄式微調：圓角與背景色 */
-    .filter-item {
-        border-radius: 10px !important;
-        margin-bottom: 4px;
-        background: #f9f9f9;
-        border: 1px solid #f0f0f0 !important;
-    }
-}
-
-/* 6. 平滑捲動優化 (針對所有裝置) */
-html {
-    scroll-behavior: smooth;
-}
-
-body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
-.header-search-dropdown {
-    z-index: 1500 !important; /* 確保比所有東西都高 */
-}
-
-.filter-tabs {
-    z-index: 900; /* 低於 header */
-}
-
-/* --- 終極版：徹底移除標題下方與內部的頑固空白 --- */
-
-/* 1. 移除標題的固定高度與外距 */
-.product-name {
-    height: auto !important;      /* 關鍵：移除原本 40px 的固定高度限制 */
-    min-height: 0 !important;     /* 關鍵：移除原本 50px 的最小高度限制 */
-    margin-top: 0 !important;
-    margin-bottom: 2px !important; /* 標題與描述之間只留 2px */
-    padding: 0 !important;
-    line-height: 1.2 !important;   /* 壓縮文字行高 */
-}
-
-/* 2. 移除描述 (讚大拇指那行) 的外距 */
-.product-desc {
-    margin: 0 !important;
-    padding: 0 !important;
-    line-height: 1.2 !important;
-}
-
-/* 3. 壓縮外層容器的內距 (這是圖片與標題之間的距離) */
-.product-content {
-    padding: 10px 15px 15px 15px !important; /* 第一個數字 10px 是圖片跟標題的距離，可再調小 */
-}
-
-/* 4. 針對手機版 (雙欄) 的極致壓縮 */
-@media (max-width: 480px) {
-    .product-content {
-        padding: 8px 10px !important; /* 手機版內距縮更小 */
-    }
-    .product-name {
-        font-size: 14px !important;
-        margin-bottom: 0px !important; /* 讓描述緊貼標題 */
-    }
-    .product-tags {
-        margin-top: 4px !important;    /* 標籤跟描述的距離 */
-        margin-bottom: 6px !important; /* 標籤跟按鈕的距離 */
-    }
-}
-/* --- 精準微調：讓標題、描述、標籤恢復一點間距 --- */
-
-/* 1. 調整標題下方距離 (標題與描述之間) */
-.product-name {
-    margin-bottom: 8px !important; /* 原本是 0 或 2px，增加到 8px */
-}
-
-/* 2. 調整描述下方距離 (描述與標籤之間) */
-.product-desc {
-    margin-bottom: 10px !important; /* 增加描述與下方標籤區的間距 */
-}
-
-/* 3. 調整標籤區塊下方距離 (標籤與倒數計時之間) */
-.product-tags {
-    margin-bottom: 12px !important; /* 讓標籤不要緊貼著倒數計時框 */
-}
-
-/* 針對手機版的微調 (防止在小螢幕太散) */
-@media (max-width: 480px) {
-    .product-name {
-        margin-bottom: 5px !important; 
-    }
-    .product-desc {
-        margin-bottom: 6px !important;
-    }
-    .product-tags {
-        margin-bottom: 8px !important;
-    }
-}
-/* --- 針對不同裝置控制選單按鈕 --- */
-
-/* 1. 確保電腦版是顯示的 */
-.menu-icon {
-    display: flex !important; 
-}
-
-/* 2. 當螢幕寬度小於 480px (手機) 時才觸發 */
-@media (max-width: 480px) {
-    .menu-icon {
-        display: none !important; /* 只有手機版會隱藏 */
-    }
-    
-    /* 讓 Logo 在按鈕隱藏後稍微靠左一點，不會空出一塊 */
-    .left-area {
-        gap: 0 !important;
-    }
-}
-
-/* --- 將 Footer 背景換成照片 --- */
-.footer {
-    /* 1. 加入背景圖 */
-    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
-                      url('團購下方底圖.jpg') !important;
-    
-    background-size: cover !important;     /* 讓照片填滿整個底 */
-    background-position: center !important; /* 照片置中 */
-    background-repeat: no-repeat !important;
-    
-    /* 2. 增加一些內距，讓照片露出來多一點，更有質感 */
-    padding: 60px 20px !important; 
-}
-
-/* 3. 如果背景太暗，可以讓文字變白色 (選擇性使用) */
-.footer-title, .footer-subtitle, .footer-copyright {
-    color: #333 !important; /* 目前有白色遮罩，所以維持深色字 */
-    text-shadow: 0 1px 3px rgba(255,255,255,0.5); /* 增加文字辨識度 */
-}
-
-@media (max-width: 1024px) {
-  .filter-tabs {
-    flex-wrap: nowrap;      /* 強制只一排 */
-    gap: 6px;               /* 縮小間距 */
-  }
-
-  .filter-tab {
-    font-size: 12px;        /* 縮小字體（關鍵） */
-    padding: 6px 8px;       /* 縮小內距 */
-    white-space: nowrap;    /* 文字不換行 */
-    flex: 1;                /* 四顆平均寬度 */
-    text-align: center;
-  }
-}
-
-@media (max-width: 1024px) {
-  .countdown-content {
-    flex-direction: column;     
-    align-items: center;        /* ← 整個區塊置中 */
-    text-align: center;         /* ← 文字置中 */
-    gap: 6px;
-  }
-
-  .countdown-left {
-    justify-content: center;    /* ⏰ + 文字 置中 */
-    font-size: 13px;
-    font-weight: 600;
-  }
-
-  .countdown-right {
-    display: flex;
-    flex-direction: column;
-    align-items: center;        /* 商品名、倒數置中 */
-    gap: 4px;
-  }
-
-  .banner-name {
-    font-size: 14px;
-    font-weight: 700;
-  }
-
-  .banner-timer {
-    font-size: 13px;
-    font-weight: 600;
-  }
-}
-@media (max-width: 480px) {
-  .products-grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 12px;
-  }
-}
-@media (max-width: 480px) {
-  .product-name {
-    font-size: 14px;
-    line-height: 1.3;
-  }
-
-  .product-image {
-    aspect-ratio: 1 / 1;   /* 圖片正方形，整齊 */
-  }
-
-  .product-content {
-    padding: 10px;
-  }
-
-  .btn {
-    font-size: 12px;
-    padding: 8px 6px;
-  }
-}
-
-/* ===== Mobile / Tablet Tag Filter Button ===== */
-
-/* 預設所有裝置都隱藏 */
-.tag-filter-btn {
-    display: none !important;
-}
-
-/* 只在手機 / 平板顯示 */
-@media (max-width: 1024px) {
-    .tag-filter-btn {
-        display: inline-flex !important;
-        align-items: center;
-        justify-content: center;
-    }
-}
-
-/* ===============================
-   Mobile / Tablet Filter Layout
-   =============================== */
-
-@media (max-width: 1024px) {
-
-    /* 取消左側滑出 */
-    .filter-overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: auto;
-
-        height: auto;
-        max-height: 50vh;
-
-        transform: translateY(-100%);
-        transition: transform 0.3s ease;
-    }
-
-    /* 開啟狀態：從上往下 */
-    .filter-overlay.open {
-        transform: translateY(0);
-    }
-}
-
-@media (max-width: 1024px) {
-
-    /* Tag 容器橫向排列 */
-    .category-list {
-        display: flex;
-        flex-direction: row;
-        gap: 8px;
-
-        overflow-x: auto;
-        overflow-y: hidden;
-
-        padding: 12px 12px 16px;
-        white-space: nowrap;
-
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* 隱藏 scrollbar（可選） */
-    .category-list::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* 每個 tag 按鈕 */
-    .category-btn {
-        flex-shrink: 0;
-        padding: 6px 14px;
-        border-radius: 999px;
-        font-size: 14px;
-    }
-}
-
-/* === 商品卡片：整排齊高關鍵 === */
-.product-card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
-
-.product-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;   /* 撐滿剩餘高度 */
-}
-.product-name {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;   /* 最多兩行 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-
-    line-height: 1.4;
-    min-height: calc(1.4em * 2); /* 強制佔兩行高度 */
-}
-.product-desc {
-    display: -webkit-box;
-    -webkit-line-clamp: 2;   /* 描述最多兩行 */
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-
-    line-height: 1.4;
-    min-height: calc(1.4em * 2);
-}
-.product-buttons {
-    margin-top: auto;   /* 關鍵：把按鈕推到最底 */
-}
-
-@media (max-width: 1024px) {
-
-    /* 整個遮罩：半透明＋模糊 */
-    .filter-overlay {
-        background: rgba(0, 0, 0, 0.45) !important;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-
-        align-items: flex-start !important;
-        padding-top: 80px;
-    }
-
-    /* 分類面板本體（卡片感） */
-    .filter-panel {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto;
-        max-height: 70vh;
-
-        border-radius: 24px 24px 0 0;
-        padding: 20px 16px 90px;
-
-        box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.2);
-        animation: slideUp 0.35s ease;
-    }
-
-    /* 上方拖曳條（視覺加分） */
-    .filter-panel::before {
-        content: '';
-        display: block;
-        width: 40px;
-        height: 5px;
-        background: #ddd;
-        border-radius: 999px;
-        margin: 0 auto 14px;
-    }
-
-    /* 標題置中 */
-    .filter-panel h3 {
-        text-align: center;
-        font-size: 18px;
-        margin-bottom: 16px;
-    }
-
-    /* 關閉按鈕 */
-    .filter-close {
-        top: 16px;
-        right: 16px;
-        font-size: 22px;
-    }
-
-    /* 分類區塊 */
-    .filter-section {
-        margin-bottom: 20px;
-    }
-
-    /* Tag 列表：橫向滑動 */
-    .filter-list {
-        display: flex;
-        flex-wrap: nowrap;
-        gap: 10px;
-
-        overflow-x: auto;
-        padding-bottom: 6px;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .filter-list::-webkit-scrollbar {
-        display: none;
-    }
-
-    /* Tag 按鈕（重點） */
-    .filter-item {
-        flex-shrink: 0;
-        padding: 8px 16px;
-        border-radius: 999px;
-
-        font-size: 14px;
-        font-weight: 600;
-
-        background: #f5f5f5;
-        border: 1px solid #eee;
-        color: #555;
-
-        transition: all 0.25s ease;
-    }
-
-    .filter-item.selected {
-        background: #c9a876;
-        color: #fff;
-        border-color: transparent;
-    }
-
-    /* 底部固定操作區 */
-    .filter-actions {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-
-        padding: 12px 16px;
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(6px);
-
-        display: flex;
-        gap: 12px;
-
-        border-top: 1px solid #eee;
-    }
-
-    .btn-filter-clear,
-    .btn-filter-apply {
-        flex: 1;
-        padding: 12px 0;
-        border-radius: 12px;
-        font-size: 15px;
-        font-weight: 700;
-    }
-
-    .btn-filter-apply {
-        background: #c9a876;
-        color: #fff;
-    }
-
-    .btn-filter-clear {
-        background: #f5f5f5;
-        color: #666;
-    }
-
-    /* 上滑動畫 */
-    @keyframes slideUp {
-        from {
-            transform: translateY(100%);
-            opacity: 0;
+        .footer {
+            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
+                              url('團購下方底圖.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            padding: 60px 20px;
+            margin-top: 80px;
+            border-top: 1px solid #eee;
         }
-        to {
-            transform: translateY(0);
-            opacity: 1;
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
         }
-    }
-}
-/* === Mobile / Tablet Tag Button === */
-.tag-filter-btn {
-    display: none;
-}
 
-/* 平板以下才顯示 */
-@media (max-width: 1024px) {
-    .tag-filter-btn {
-        display: inline-flex;
-    }
-}
-
-/* 電腦版強制不顯示（保險） */
-@media (min-width: 1025px) {
-    .tag-filter-btn {
-        display: none !important;
-    }
-}
-
-/* ===============================
-   Fix: Mobile Filter Action Button
-   =============================== */
-@media (max-width: 1024px) {
-
-    /* 讓分類面板成為定位參考 */
-    .filter-panel {
-        position: relative;
-    }
-
-    /* 底部操作區固定在面板底部 */
-    .filter-actions {
-        position: absolute;   /* ❗從 fixed 改成 absolute */
-        left: 0;
-        right: 0;
-        bottom: 0;
-    }
-}
-
-/* ===============================
-   Mobile Filter Action - FIX BOTTOM
-   =============================== */
-@media (max-width: 1024px) {
-
-    /* 分類面板高度撐滿 */
-    .filter-panel {
-        position: relative;
-        padding-bottom: 110px; /* 預留給底部按鈕 */
-        max-height: calc(100vh - 80px);
-        overflow-y: auto;
-    }
-
-    /* 清除 / 套用：固定在螢幕最底 */
-    .filter-actions {
-        position: fixed;
-        left: 0;
-        right: 0;
-        bottom: 0;
-
-        padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
-        background: rgba(255, 255, 255, 0.96);
-        backdrop-filter: blur(8px);
-
-        z-index: 9999;
-        border-top: 1px solid #eee;
-    }
-}
-
-/* --- 最終修正：手機版分類選單「可上下滑動」且「按鈕固定底部」 --- */
-@media (max-width: 1024px) {
-    /* 1. 修正面板：確保高度不超過螢幕，並改為垂直 Flex 佈局 */
-    .filter-panel {
-        display: flex !important;
-        flex-direction: column !important;
-        height: 80vh !important;           /* 限制面板高度為螢幕的 80% */
-        position: relative !important;
-        padding: 20px 16px 0 !important;   /* 底部 padding 交給按鈕處理 */
-        overflow: hidden !important;        /* 防止面板本身出現雙重捲軸 */
-    }
-
-    /* 2. 修正列表：讓 Tag 恢復垂直排列，並開啟滑動 */
-    .filter-list {
-        display: flex !important;
-        flex-direction: column !important; /* 強制垂直排列，這樣才能看到所有標籤 */
-        gap: 10px !important;
-        flex: 1 !important;                /* 自動佔滿剩餘空間 */
-        overflow-y: auto !important;       /* 開啟垂直滑動 */
-        overflow-x: hidden !important;     /* 關閉橫向滑動 */
-        padding-bottom: 100px !important;  /* 關鍵：在底部預留空間，避免 Tag 被按鈕擋住 */
-        -webkit-overflow-scrolling: touch; /* 讓手機滑動更順暢 */
-    }
-
-    /* 3. 修正標籤樣式：確保每個標籤佔滿寬度，不會縮成一團 */
-    .filter-item {
-        width: 100% !important;
-        flex-shrink: 0 !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        white-space: normal !important;    /* 允許文字過長時換行 */
-    }
-
-    /* 4. 按鈕固定：釘在螢幕最底部的容器內 */
-    .filter-actions {
-        position: absolute !important;     /* 相對於 filter-panel 定位 */
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        width: 100% !important;
-        background: #ffffff !important;    /* 白色背景遮蓋後方文字 */
-        padding: 15px 20px !important;
-        margin: 0 !important;
-        border-top: 1px solid #eee !important;
-        box-shadow: 0 -5px 15px rgba(0,0,0,0.08) !important;
-        z-index: 1000 !important;
-        display: flex !important;
-        gap: 12px !important;
-    }
-
-    .btn-filter-clear, 
-    .btn-filter-apply {
-        flex: 1 !important;
-        height: 48px !important;
-        margin: 0 !important;
-    }
-}
-
-/* 強制隱藏所有版本的篩選操作按鈕與側欄標題 */
-.filter-actions, .filter-header, .filter-panel h3, .filter-panel::before {
-    display: none !important;
-}
-
-/* 移除底部留白，讓面板高度根據標籤自動調整 */
-.filter-panel {
-    padding-bottom: 20px !important;
-    height: auto !important;
-}
-
-/* --- 縮小分類面板整體的字體 --- */
-
-/* 1. 針對每個標籤內部的文字與數字 */
-.filter-item {
-    padding: 8px 12px !important; /* 稍微縮小內距 */
-    font-size: 13px !important;    /* 縮小字體 (原本通常是 14px 或 15px) */
-    min-height: 0 !important;
-}
-
-/* 2. 針對標籤內的名稱與數量 */
-.filter-item .tag-name {
-    font-weight: 500 !important;   /* 字體不用太粗，會顯得比較秀氣 */
-}
-
-.filter-item .tag-count {
-    font-size: 11px !important;    /* 數量數字縮得更小一點 */
-    opacity: 0.7;
-}
-
-/* 3. 如果您有「分類標題」（例如：商品分類、標籤篩選） */
-.filter-section .section-title {
-    font-size: 14px !important;    /* 縮小區塊標題字體 */
-    margin-bottom: 10px !important;
-    color: #8b7355 !important;
-}
-
-/* 4. 針對手機版的特別優化 (讓文字在小螢幕更細緻) */
-@media (max-width: 1024px) {
-    .filter-item {
-        padding: 6px 10px !important;
-        font-size: 12px !important; /* 手機版字體再小一點點 */
-    }
-    
-    /* 讓分類列表每一行的高度縮小，一次可以看到更多選項 */
-    .filter-list {
-        gap: 6px !important;
-    }
-}
-
-/* --- 強制移動關閉按鈕 --- */
-
-/* 1. 確保外層容器不會把 X 擋住 */
-.filter-overlay {
-    display: none; /* 預設隱藏，由 JS 控制 open class */
-    align-items: flex-start !important; 
-}
-
-.filter-overlay.open {
-    display: flex !important;
-}
-
-/* 2. 面板本體：確保它是相對定位 */
-.filter-panel {
-    position: relative !important;
-    padding-top: 50px !important; /* 增加頂部預留空間，確保不會壓到標籤 */
-}
-
-/* 3. 針對 X 按鈕的「終極定位」 */
-.filter-close {
-    display: block !important;    /* 覆蓋掉之前的 display: none */
-    visibility: visible !important;
-    position: absolute !important;
-    top: 10px !important;         /* 距離面板頂部 10px */
-    right: 15px !important;        /* 距離面板右邊 15px */
-    
-    /* 樣式強化 */
-    font-size: 28px !important;
-    color: #8b7355 !important;    /* 改為您的品牌咖啡色 */
-    font-weight: bold !important;
-    width: 44px !important;       /* 固定寬高方便點擊 */
-    height: 44px !important;
-    display: flex !important;
-    align-items: center;
-    justify-content: center;
-    z-index: 9999 !important;     /* 確保在最頂層 */
-    cursor: pointer !important;
-}
-
-/* --- 縮小後的 X 關閉按鈕 --- */
-.filter-close {
-    display: flex !important;
-    visibility: visible !important;
-    position: absolute !important;
-    top: 8px !important;           /* 距離頂部稍微縮減 */
-    right: 10px !important;         /* 距離右邊稍微縮減 */
-    
-    /* 縮小尺寸關鍵 */
-    font-size: 20px !important;     /* 從 28px 縮小到 20px */
-    width: 32px !important;         /* 縮小點擊容器寬度 */
-    height: 32px !important;        /* 縮小點擊容器高度 */
-    
-    color: #999 !important;         /* 顏色調淡一點點，看起來更輕盈 */
-    font-weight: normal !important; /* 拿掉粗體，線條會變細 */
-    
-    z-index: 9999 !important;
-    cursor: pointer !important;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 為了配合縮小的 X，我們同步縮小面板上方的預留空間 */
-.filter-panel {
-    padding-top: 40px !important;   /* 從 50px 縮小到 40px */
-}
-
-/* --- 最終修正：X 按鈕精準對齊標題 --- */
-.filter-close {
-    display: flex !important;
-    visibility: visible !important;
-    position: absolute !important;
-    
-    /* 調整 top 數值，25px 通常能完美對齊 1.2~1.5 line-height 的標題 */
-    top: 25px !important;           
-    right: 15px !important;         
-    
-    font-size: 18px !important;     /* 稍微再縮小一點點點，讓視覺更平衡 */
-    width: 30px !important;         
-    height: 30px !important;        
-    
-    color: #999 !important;         
-    font-weight: normal !important; 
-    z-index: 9999 !important;
-    cursor: pointer !important;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 確保面板頂部的 padding 也能配合標題位置 */
-.filter-panel {
-    padding-top: 30px !important;   
-}
-
-/* 如果您想讓標題字體也跟著縮小，可以加上這段 */
-.filter-section .section-title {
-    font-size: 15px !important;
-}
-
-/* --- 最終修正：標籤垂直排列、寬度自動縮短、靠左對齊 --- */
-
-.filter-list {
-    display: flex !important;
-    flex-direction: column !important; /* 強制垂直排列 */
-    align-items: flex-start !important; /* 讓標籤靠左，寬度就不會撐滿 */
-    gap: 8px !important;               /* 標籤與標籤的上下間距 */
-    width: 100% !important;
-}
-
-.filter-item {
-    width: auto !important;            /* 寬度隨文字長度自動調整 */
-    min-width: 140px !important;       /* 設定最小寬度，避免短字標籤太瘦，視覺較統一 */
-    display: inline-flex !important;
-    align-items: center !important;
-    padding: 8px 18px !important;      /* 增加內距，讓長條看起來變精緻 */
-    border-radius: 12px !important;    /* 圓潤度調整 */
-    font-size: 13px !important;        /* 維持縮小後的字體 */
-    white-space: nowrap !important;
-}
-
-/* 修正 X 按鈕的最終對齊位置 */
-.filter-close {
-    top: 20px !important;              /* 確保 X 在垂直排列時能對齊「分類」標題 */
-    right: 15px !important;
-}
-
-/* 確保標題與標籤之間有適當距離 */
-.filter-section .section-title {
-    margin-bottom: 12px !important;
-}
-
-/* --- 讓面板隨內容縮排，並讓 X 靠近標籤 --- */
-
-.filter-panel {
-    position: relative !important;
-    /* 讓面板寬度不要撐滿，根據標籤寬度調整 (可依喜好調整數值) */
-    max-width: 250px !important; 
-    margin-left: 0 !important;
-    padding-top: 50px !important; /* 增加頂部空間給標題與 X */
-}
-
-.filter-close {
-    display: flex !important;
-    position: absolute !important;
-    
-    /* 調整位置：讓它緊貼在 max-width 的右側內部 */
-    top: 15px !important;
-    right: 10px !important; 
-    
-    font-size: 18px !important;
-    width: 30px !important;
-    height: 30px !important;
-    color: #999 !important;
-    z-index: 9999 !important;
-    cursor: pointer !important;
-}
-
-/* 確保標題（分類）也不要離 X 太遠 */
-.filter-header, .filter-section .section-title {
-    max-width: 180px !important;
-}
-
-/* --- 修正 X 位置，使其完美對齊分類標題 --- */
-
-.filter-panel {
-    position: relative !important;
-    max-width: 250px !important; /* 限制面板總寬度 */
-    padding-top: 25px !important; /* 統一頂部間距 */
-}
-
-.filter-close {
-    display: flex !important;
-    position: absolute !important;
-    
-    /* 這裡調整 top 的數值來上下移動 X */
-    top: 25px !important;         /* 增加到 25px 讓它下移對齊文字 */
-    right: 15px !important;        /* 距離面板右邊緣 */
-    
-    font-size: 18px !important;    /* 保持小巧的尺寸 */
-    width: 30px !important;
-    height: 30px !important;
-    color: #999 !important;
-    z-index: 9999 !important;
-    cursor: pointer !important;
-    align-items: center;
-    justify-content: center;
-}
-
-/* 確保「分類」標題的文字高度也固定 */
-.filter-section .section-title {
-    line-height: 30px !important; /* 與 X 的高度一致，更容易對齊 */
-    margin: 0 0 15px 0 !important;
-    font-size: 15px !important;
-}
-
-/* --- 手機版分類嵌入主頁效果 --- */
-@media (max-width: 1024px) {
-    /* 1. 取消全螢幕遮罩效果，讓它變成主頁的一部份 */
-    .filter-overlay {
-        position: static !important; /* 取消浮動 */
-        display: none;               /* 預設先藏起來 */
-        background: none !important; /* 移除黑色半透明背景 */
-        width: 100% !important;
-        height: auto !important;
-        overflow: hidden;
-        border-bottom: 1px solid #eee; /* 加一條細線區隔商品 */
-    }
-
-    .filter-overlay.open {
-        display: block !important;    /* 打開時直接佔據空間 */
-    }
-
-    /* 2. 調整面板樣式，讓它寬度 100% */
-    .filter-panel {
-        position: relative !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        height: auto !important;
-        transform: none !important;   /* 取消從左邊滑出的動畫 */
-        box-shadow: none !important;  /* 移除陰影讓它融入頁面 */
-        padding: 15px !important;
-        background: #fff !important;
-    }
-
-    /* 3. 商品列表微調：確保展開時有平滑感 */
-    .product-grid { 
-        transition: margin-top 0.3s ease;
-    }
-}
-
-/* 專門針對手機版的修正 (螢幕寬度小於 768px 時生效) */
-@media (max-width: 768px) {
-    /* 1. 確保折扣碼容器在空間不足時能換行，並增加間距 */
-    .coupon-row {
-        flex-wrap: wrap !important; 
-        justify-content: center !important;
-        gap: 8px !important;
-    }
-
-    /* 2. 防止「複製」按鈕被擠壓變形 */
-    .copy-btn {
-        flex-shrink: 0 !important; /* 強制按鈕不縮小 */
-        white-space: nowrap !important; /* 文字不換行 */
-        padding: 6px 16px !important; /* 稍微調整手機版按鈕大小 */
-        min-width: 70px !important; /* 設定最小寬度保證形狀 */
-        height: auto !important;
-    }
-
-    /* 3. 折扣碼文字在手機版稍微縮小，避免佔據太多空間 */
-    .coupon-code {
-        font-size: 16px !important;
-        letter-spacing: 0.5px !important;
-    }
-
-    /* 4. 如果是極窄手機（寬度小於 350px），改為上下排列 */
-    @media (max-width: 350px) {
-        .coupon-row {
-            flex-direction: column !important;
+        .footer-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #5a4a3a;
+            margin-bottom: 12px;
         }
-        .copy-btn {
-            width: 100% !important; /* 按鈕佔滿寬度 */
+
+        .footer-subtitle {
+            font-size: 14px;
+            color: #999;
+            margin-bottom: 30px;
         }
-    }
-}
-
-/* 專門針對手機版的修正 */
-@media (max-width: 768px) {
-    /* 強制讓折扣碼區塊不換行 */
-    .promo-code-box {
-        display: flex !important;
-        flex-wrap: nowrap !important; /* 強制不換行 */
-        align-items: center !important;
-        justify-content: space-between !important;
-        padding: 6px 10px !important;
-    }
-
-    /* 縮小折扣碼文字，確保一行塞得下 */
-    .promo-code-text {
-        font-size: 10px !important; /* 稍微縮小文字 */
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important; /* 萬一真的太長顯示點點點 */
-        flex-grow: 1 !important;
-    }
-
-    /* 固定按鈕寬度，防止變成長條狀 */
-    .copy-btn {
-        flex-shrink: 0 !important; /* 絕對不縮小 */
-        width: 70px !important;    /* 固定寬度 */
-        height: 32px !important;   /* 固定高度 */
-        padding: 0 !important;     /* 移除內距 */
-        font-size: 12px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        margin-left: 5px !important;
-    }
-}
-
-/* 針對手機版徹底修正折扣碼排列 */
-@media (max-width: 768px) {
-    /* 1. 找到放折扣碼的最外層容器，確保它是橫向排列且不換行 */
-    .promo-code-box {
-        display: flex !important;
-        flex-direction: row !important; /* 強制橫向 */
-        flex-wrap: nowrap !important;  /* 強制不換行 */
-        align-items: center !important;
-        width: 100% !important;
-        padding: 8px 10px !important;
-        box-sizing: border-box !important;
-    }
-
-    /* 2. 折扣碼文字：讓它縮小並吸收剩餘空間 */
-    .promo-code-text {
-        flex: 1 !important;        /* 關鍵：自動吃掉左邊剩餘空間 */
-        min-width: 0 !important;    /* 讓 ellipsis 生效 */
-        font-size: 13px !important;
-        white-space: nowrap !important;
-        overflow: hidden !important;
-        text-overflow: ellipsis !important; /* 太長會變點點點，不換行 */
-        margin-right: 8px !important;
-    }
-
-    /* 3. 複製按鈕：強制固定形狀，不准變形 */
-    .copy-btn {
-        flex: 0 0 auto !important; /* 絕對不縮小也不放大 */
-        width: 65px !important;    /* 固定寬度 */
-        height: 30px !important;   /* 固定高度 */
-        padding: 0 !important;
-        font-size: 12px !important;
-        line-height: 30px !important;
-        text-align: center !important;
-        border-radius: 4px !important;
-        display: block !important;
-    }
-}
-@media (max-width: 1024px) {
-    /* 讓分類選單變成全螢幕遮罩，固定在畫面上 */
-    .filter-overlay {
-        position: fixed;    /* 固定位置，不隨頁面捲動 */
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, 0.5); /* 半透明黑底 */
-        z-index: 2000;      /* 確保高於 header (1000) */
-        display: none;      /* 預設隱藏 */
-        justify-content: flex-end; /* 讓面板從右邊或上方出現，這裡可依喜好調整 */
-    }
-
-    /* 當選單開啟時顯示 */
-    .filter-overlay.open {
-        display: flex !important;
-    }
-
-    /* 裡面的白色面板 */
-    .filter-panel {
-        width: 85%;         /* 寬度佔螢幕 85% */
-        height: 100%;
-        background: #fff;
-        margin-left: auto;  /* 靠右對齊 */
-        padding: 20px;
-        overflow-y: auto;   /* 如果分類太多可以捲動 */
-        box-shadow: -5px 0 15px rgba(0,0,0,0.1);
-        position: relative;
-    }
-
-    /* 關閉按鈕 X 的位置 */
-    .filter-close {
-        font-size: 24px;
-        margin-bottom: 20px;
-        cursor: pointer;
-        display: block;
-    }
-}
-/* ===== MOBILE FILTER: FINAL OVERRIDE ===== */
-@media (max-width: 1024px) {
-    .filter-overlay {
-        position: fixed !important;
-        inset: 0 !important;
-        display: none !important;
-        background: rgba(0,0,0,0.45) !important;
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        z-index: 3000 !important;
-        justify-content: flex-end !important;
-        transform: none !important;
-    }
-
-    .filter-overlay.open {
-        display: flex !important;
-    }
-
-    .filter-panel {
-        width: 85% !important;
-        height: 100% !important;
-        margin-left: auto !important;
-        background: #fff !important;
-        position: relative !important;
-        transform: translateX(100%);
-        transition: transform .3s ease;
-    }
-
-    .filter-overlay.open .filter-panel {
-        transform: translateX(0);
-    }
-}
-
-/* ===== MOBILE FILTER LAYOUT FIX ===== */
-@media (max-width: 1024px) {
-
-    .filter-panel {
-        display: flex !important;
-        flex-direction: column !important;
-        height: 100% !important;          /* 撐滿側欄 */
-        max-height: 100% !important;
-        overflow: hidden !important;      /* 自己不捲 */
-        padding: 16px 16px 0 !important;  /* 底部交給 actions */
-        box-sizing: border-box;
-    }
-
-    /* 上方標題區（分類 + X） */
-    .filter-header {
-        flex-shrink: 0;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #eee;
-        margin-bottom: 10px;
-    }
-
-    /* 中間 Tag 清單：唯一可以捲動的區域 */
-    .filter-list {
-        flex: 1 !important;
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        padding-bottom: 110px !important;   /* 給底部按鈕留空間 */
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* 底部按鈕 */
-    .filter-actions {
-        flex-shrink: 0;
-        position: absolute !important;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background: #fff;
-        border-top: 1px solid #eee;
-        padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
-    }
-
-    /* 每個 tag 佔滿寬度，看起來就像你截圖那樣 */
-    .filter-item {
-        width: 100% !important;
-        display: flex !important;
-        justify-content: space-between !important;
-        align-items: center !important;
-        border-radius: 12px !important;
-        white-space: normal !important;
-    }
-}
-
-/* =====================================================
-   MOBILE FILTER – FINAL CLEAN VERSION
-   只影響手機 / 平板，不更動電腦版
-   ===================================================== */
-@media (max-width: 1024px) {
-
-  /* ===== Overlay（全螢幕遮罩） ===== */
-  .filter-overlay {
-    position: fixed !important;
-    inset: 0 !important;
-    background: rgba(0,0,0,0.45) !important;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 3000 !important;
-
-    display: none !important;
-    justify-content: flex-end !important;
-    align-items: stretch !important;
-  }
-
-  .filter-overlay.open {
-    display: flex !important;
-  }
-
-  /* ===== 右側白色面板 ===== */
-  .filter-panel {
-    width: 85% !important;
-    max-width: 420px !important;
-    height: 100% !important;
-
-    background: #ffffff !important;
-    position: relative !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-
-    padding: 16px 16px 0 !important;
-    overflow: hidden !important; /* 關鍵：避免雙捲軸 */
-  }
-
-  .filter-overlay.open .filter-panel {
-    transform: translateX(0);
-  }
-
-  /* ===== 標題 ===== */
-  .filter-panel h3 {
-    font-size: 18px !important;
-    text-align: center !important;
-    margin: 8px 0 12px !important;
-    flex-shrink: 0;
-  }
-
-  /* ===== 關閉 X ===== */
-  .filter-close {
-    position: absolute !important;
-    top: 12px !important;
-    right: 12px !important;
-
-    width: 36px !important;
-    height: 36px !important;
-    font-size: 22px !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    cursor: pointer !important;
-    color: #888 !important;
-    z-index: 10 !important;
-  }
-
-  /* ===== 分類清單（唯一可滑動區域） ===== */
-  .filter-list {
-    flex: 1 !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-
-    padding-bottom: 120px !important; /* 預留給底部按鈕 */
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* ===== 單一分類項目 ===== */
-  .filter-item {
-    width: 100% !important;
-    padding: 10px 14px !important;
-
-    border-radius: 12px !important;
-    background: #f7f7f7 !important;
-    border: 1px solid #eeeeee !important;
-
-    display: flex !important;
-    justify-content: space-between !important;
-    align-items: center !important;
-
-    font-size: 14px !important;
-    cursor: pointer;
-  }
-
-  .filter-item.selected {
-    background: #c9a876 !important;
-    color: #ffffff !important;
-    border-color: transparent !important;
-  }
-
-  /* ===== 底部固定操作區 ===== */
-  .filter-actions {
-    position: absolute !important;
-    left: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-
-    padding: 14px 16px calc(14px + env(safe-area-inset-bottom)) !important;
-    background: #ffffff !important;
-
-    display: flex !important;
-    gap: 12px !important;
-
-    border-top: 1px solid #eeeeee !important;
-  }
-
-  .btn-filter-clear,
-  .btn-filter-apply {
-    flex: 1 !important;
-    height: 44px !important;
-    border-radius: 12px !important;
-    font-size: 15px !important;
-    font-weight: 700 !important;
-  }
-
-  .btn-filter-apply {
-    background: #c9a876 !important;
-    color: #ffffff !important;
-  }
-
-  .btn-filter-clear {
-    background: #f5f5f5 !important;
-    color: #666666 !important;
-  }
-}
-
-/* =====================================
-   MOBILE FILTER – iOS STYLE (NO BUTTONS)
-   ===================================== */
-@media (max-width: 1024px) {
-
-  /* 黑色遮罩 */
-  .filter-overlay {
-    position: fixed !important;
-    inset: 0 !important;
-    background: rgba(0,0,0,0.45) !important;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    z-index: 3000 !important;
-
-    display: none !important;
-    justify-content: flex-end !important;
-  }
-
-  .filter-overlay.open {
-    display: flex !important;
-  }
-
-  /* 白色抽屜 */
-  .filter-panel {
-    width: 90% !important;
-    max-width: 420px !important;
-    height: 100% !important;
-
-    background: #fff !important;
-    position: relative !important;
-
-    display: flex !important;
-    flex-direction: column !important;
-
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-
-    padding: 16px !important;
-    overflow: hidden !important;
-  }
-
-  .filter-overlay.open .filter-panel {
-    transform: translateX(0);
-  }
-
-  /* 標題 */
-  .filter-panel h3 {
-    font-size: 18px !important;
-    text-align: center !important;
-    margin-bottom: 12px !important;
-    flex-shrink: 0;
-  }
-
-  /* X */
-  .filter-close {
-    position: absolute !important;
-    top: 12px !important;
-    right: 12px !important;
-    width: 36px !important;
-    height: 36px !important;
-    font-size: 22px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    cursor: pointer !important;
-    color: #999 !important;
-  }
-
-  /* 分類列表（唯一可以滑的地方） */
-  .filter-list {
-    flex: 1 !important;
-    overflow-y: auto !important;
-    overflow-x: hidden !important;
-    display: flex !important;
-    flex-direction: column !important;
-    gap: 10px !important;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* 單一分類 */
-  .filter-item {
-    width: 100% !important;
-    padding: 12px 14px !important;
-    border-radius: 12px !important;
-    background: #f7f7f7 !important;
-    border: 1px solid #eee !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 10px;
-    font-size: 15px !important;
-  }
-
-  .filter-item.selected {
-    background: #c9a876 !important;
-    color: #fff !important;
-    border-color: transparent !important;
-  }
-
-  /* 移除底部操作列 */
-  .filter-actions {
-    display: none !important;
-  }
-}
 
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .footer-socials a {
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-size: 15px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            border: 2px solid transparent;
+        }
+
+        .footer-socials .line {
+            background: #06c755;
+            color: #fff;
+        }
+        .footer-socials .line:hover {
+            background: #05b44c;
+        }
+
+        .footer-socials .fb {
+            background: #1877f2;
+            color: #fff;
+        }
+        .footer-socials .fb:hover {
+            background: #166fe0;
+        }
+
+        .footer-socials .ig {
+            background: linear-gradient(45deg,
+                #feda75,
+                #fa7e1e,
+                #d62976,
+                #962fbf,
+                #4f5bd5
+            );
+            background-size: 120% 120%;
+            background-position: center;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 999px;
+            text-decoration: none;
+        }
+
+        .footer-socials .yt {
+            background: #ff0000;
+            color: #fff;
+        }
+        .footer-socials .yt:hover {
+            background: #e60000;
+        }
+
+        .footer-text {
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.8;
+        }
+
+        section[id], div[id] {
+            scroll-margin-top: 140px; 
+        }
+
+        /* Mobile Tag Filter Button */
+        .tag-filter-btn {
+            display: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .filter-tabs {
+                flex-wrap: nowrap;
+                gap: 6px;
+            }
+
+            .filter-tab {
+                font-size: 12px;
+                padding: 6px 8px;
+                white-space: nowrap;
+                flex: 1;
+                text-align: center;
+            }
+
+            .countdown-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 6px;
+            }
+
+            .countdown-left {
+                justify-content: center;
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .countdown-right {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
+
+            .banner-name {
+                font-size: 14px;
+                font-weight: 700;
+            }
+
+            .banner-timer {
+                font-size: 13px;
+                font-weight: 600;
+            }
+
+            .tag-filter-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .menu-icon {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .coupon-row {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .copy-btn {
+                flex-shrink: 0;
+                white-space: nowrap;
+                padding: 6px 16px;
+                min-width: 70px;
+                height: auto;
+            }
+
+            .coupon-code {
+                font-size: 16px;
+                letter-spacing: 0.5px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .top-banner { font-size: 13px; padding: 6px; }
+            .header { padding: 8px 12px; }
+            .logo-img { height: 32px; }
+
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 12px;
+            }
+
+            .product-card {
+                border-radius: 12px;
+                border: none;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+                background: #fff;
+                overflow: hidden;
+                transition: box-shadow 0.3s ease;
+            }
+
+            .product-name {
+                font-size: 14px;
+                margin-bottom: 5px;
+            }
+
+            .product-desc {
+                margin-bottom: 6px;
+            }
+
+            .product-tags {
+                margin-bottom: 8px;
+            }
+
+            .product-content {
+                padding: 10px;
+            }
+
+            .btn-primary, .btn-secondary {
+                min-height: 40px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 8px 4px;
+                font-size: 12px;
+                letter-spacing: -0.5px;
+            }
+
+            .filter-item {
+                border-radius: 10px;
+                margin-bottom: 4px;
+                background: #f9f9f9;
+                border: 1px solid #f0f0f0;
+            }
+
+            .header-search-dropdown { 
+                right: 10px; 
+                left: 10px; 
+                top: 64px; 
+                width: auto; 
+            }
+
+            .header-content { padding: 6px 8px; }
+            .logo-text h1 { font-size: 18px; }
+
+            #searchInput {
+                font-size: 16px;
+                border-radius: 20px;
+                padding: 8px 15px;
+                border: 1px solid #eee;
+                -webkit-appearance: none;
+            }
+
+            .coupon-row {
+                flex-direction: column;
+            }
+            .copy-btn {
+                width: 100%;
+            }
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .header-search-dropdown {
+            z-index: 1500;
+        }
+
+        .filter-tabs {
+            z-index: 900;
+        }
+
+        /* ===============================
+           MOBILE FILTER â€" FINAL VERSION
+           ===================================== */
+        @media (max-width: 1024px) {
+
+          .filter-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 3000;
+            display: none;
+            justify-content: flex-end;
+          }
+
+          .filter-overlay.open {
+            display: flex;
+          }
+
+          .filter-panel {
+            width: 85%;
+            max-width: 420px;
+            height: 100%;
+            background: #ffffff;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 50px 16px 20px;
+            overflow: hidden;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+          }
+
+          .filter-overlay.open .filter-panel {
+            transform: translateX(0);
+          }
+
+          .filter-panel h3 {
+            position: absolute;
+            top: 12px;
+            left: 16px;
+            font-size: 18px;
+            margin: 0;
+          }
+
+          .filter-close {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 36px;
+            height: 36px;
+            font-size: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: #888;
+            z-index: 10;
+          }
+
+          .filter-list {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 20px;
+          }
+
+          .filter-item {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            background: #f7f7f7;
+            border: 1px solid #eeeeee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 15px;
+            cursor: pointer;
+            flex-shrink: 0;
+          }
+
+          .filter-item.selected {
+            background: #c9a876;
+            color: #ffffff;
+            border-color: transparent;
+          }
+
+          .filter-actions {
+            display: none;
+          }
+
+          .filter-section .section-title {
+            display: none;
+          }
+        }
     </style>
 </head>
 <body>
