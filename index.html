@@ -1767,7 +1767,7 @@ body {
                             <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
 
                             <a class="btn btn-primary" href="https://reurl.cc/vKXLqA" target="_blank">🛍️ 立即購買 →</a>
-							<a class="btn btn-service" href="https://reurl.cc/vKXLqA" target="_blank">☎️ 聯絡客服 →</a>
+							<a class="btn btn-service" href="http://bit.ly/2PnUsgH" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -1998,7 +1998,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
-                        <p class="product-desc">唐吉訶德、Bic Camera、藥妝、百貨優惠券</p>
+                        <p class="product-desc">唐吉訶德、Bic Camera、藥妝</p>
                         <div class="product-tags">
                             <span class="product-tag">💳 優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
@@ -2499,51 +2499,48 @@ function copyCoupon(id, btn) {
 
     </div>
 </footer>
+
 <script>
-// 監聽整個頁面的點擊事件
+// 1. 定義切換篩選面板的函數 (供 HTML 中的 onclick="toggleFilter()" 使用)
+function toggleFilter() {
+    const overlay = document.querySelector('.filter-overlay');
+    if (overlay) {
+        overlay.classList.toggle('open'); // 你的 CSS 使用 .open 來控制顯示
+    }
+}
+
+// 2. 監聽整個頁面的點擊事件 (自動套用篩選)
 document.addEventListener('click', function(e) {
-    // 判斷是否點擊了分類標籤 (filter-item)
     const item = e.target.closest('.filter-item');
-    
     if (item) {
-        // 如果原本的程式碼還沒執行 toggle，這段會確保它被選中/取消
-        // (如果點擊已經有反應，則不需擔心，這段主要是補強立即生效的邏輯)
-        
-        // 延遲一點點執行，確保 CSS class (selected) 已經切換完成
         setTimeout(() => {
             if (typeof applyFilters === "function") {
                 applyFilters();
-                console.log("已自動套用篩選");
             }
         }, 50);
     }
 });
 
-// 在頁面載入後，強制把 X 按鈕搬到面板的最前面
+// 3. 頁面載入後的其他修正
 document.addEventListener('DOMContentLoaded', function() {
+    // 強制把 X 按鈕搬到面板內部最上方
     const closeBtn = document.querySelector('.filter-close');
     const panel = document.querySelector('.filter-panel');
     if (closeBtn && panel) {
-        panel.prepend(closeBtn); // 把 X 搬到面板內部的最上方
+        panel.prepend(closeBtn);
+    }
+    
+    // 額外確保手機版按鈕點擊有效 (即便 onclick 失效也能補償)
+    const tagBtn = document.querySelector('.tag-filter-btn');
+    if (tagBtn) {
+        tagBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            toggleFilter();
+        });
     }
 });
-// 強制修正手機版開啟行為
-const mobileFilterBtn = document.querySelector('.mobile-filter-trigger'); // 請確認您的按鈕 class
-const filterOverlay = document.querySelector('.filter-overlay');
-
-if (mobileFilterBtn) {
-    mobileFilterBtn.addEventListener('click', function(e) {
-        e.preventDefault();
-        // 切換 open 狀態，CSS 會處理顯示/隱藏
-        filterOverlay.classList.toggle('open');
-        
-        // 如果打開了，平滑捲動到分類頂端
-        if (filterOverlay.classList.contains('open')) {
-            filterOverlay.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-}
 </script>
+
 </body>
 
 </html>
