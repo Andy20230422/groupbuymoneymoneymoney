@@ -598,60 +598,106 @@
         }
 
         /* Responsive */
-        @media (max-width: 1024px) {
-            .filter-tabs {
-                flex-wrap: nowrap;
-                gap: 6px;
-            }
+        /* ===============================
+   MOBILE FILTER — FIXED VERSION
+   =============================== */
+@media (max-width: 1024px) {
 
-            .filter-tab {
-                font-size: 12px;
-                padding: 6px 8px;
-                white-space: nowrap;
-                flex: 1;
-                text-align: center;
-            }
+  .filter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: none;
+    justify-content: flex-end;
+  }
 
-            .countdown-content {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 6px;
-            }
+  .filter-overlay.open {
+    display: flex;
+  }
 
-            .countdown-left {
-                justify-content: center;
-                font-size: 13px;
-                font-weight: 600;
-            }
+  /* ★ 關鍵修正在這裡 */
+  .filter-panel {
+    width: 75%;              /* 原 85% → 75% */
+    max-width: 360px;        /* 原 420px → 360px */
+    height: 100%;
+    background: #ffffff;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 50px 16px 20px;
+    overflow-y: auto;        /* ★ 改成可以滾動 */
+    -webkit-overflow-scrolling: touch;
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
 
-            .countdown-right {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 4px;
-            }
+  .filter-overlay.open .filter-panel {
+    transform: translateX(0);
+  }
 
-            .banner-name {
-                font-size: 14px;
-                font-weight: 700;
-            }
+  .filter-panel h3 {
+    position: sticky;
+    top: 0;
+    background: #ffffff;
+    padding: 12px 0;
+    font-size: 18px;
+    z-index: 2;
+  }
 
-            .banner-timer {
-                font-size: 13px;
-                font-weight: 600;
-            }
+  .filter-close {
+    position: sticky;
+    top: 10px;
+    margin-left: auto;
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #888;
+    z-index: 3;
+  }
 
-            .tag-filter-btn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
+  .filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 24px;
+  }
 
-            .menu-icon {
-                display: none;
-            }
-        }
+  .filter-item {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    background: #f7f7f7;
+    border: 1px solid #eeeeee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    cursor: pointer;
+  }
+
+  .filter-item.selected {
+    background: #c9a876;
+    color: #ffffff;
+    border-color: transparent;
+  }
+
+  /* 手機版本來就不需要 */
+  .filter-actions {
+    display: none;
+  }
+
+  .filter-section .section-title {
+    display: none;
+  }
+}
+
 
         @media (max-width: 768px) {
             .coupon-row {
@@ -871,6 +917,42 @@
             display: none;
           }
         }
+		
+		/* ===============================GPT
+   DESKTOP FILTER PANEL
+   =============================== */
+/* ===============================
+   DESKTOP FILTER PANEL FINAL
+   =============================== */
+@media (min-width: 1025px) {
+
+    /* 桌機版側欄寬度 */
+    .filter-panel {
+        width: 280px;
+        max-width: 280px;
+        padding: 18px 16px;
+    }
+
+    /* 桌機版隱藏 清除 / 套用 */
+    .filter-actions {
+        display: none;
+    }
+
+    /* 桌機版分類項目更緊湊 */
+    .filter-item {
+        padding: 8px 10px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+
+    /* 桌機版標題 */
+    .filter-panel h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+}
+
+		
     </style>
 </head>
 <body>
