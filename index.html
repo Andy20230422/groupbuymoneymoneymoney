@@ -1175,6 +1175,250 @@ body {
         margin: 0 !important;
     }
 }
+
+/* 強制隱藏所有版本的篩選操作按鈕與側欄標題 */
+.filter-actions, .filter-header, .filter-panel h3, .filter-panel::before {
+    display: none !important;
+}
+
+/* 移除底部留白，讓面板高度根據標籤自動調整 */
+.filter-panel {
+    padding-bottom: 20px !important;
+    height: auto !important;
+}
+
+/* --- 縮小分類面板整體的字體 --- */
+
+/* 1. 針對每個標籤內部的文字與數字 */
+.filter-item {
+    padding: 8px 12px !important; /* 稍微縮小內距 */
+    font-size: 13px !important;    /* 縮小字體 (原本通常是 14px 或 15px) */
+    min-height: 0 !important;
+}
+
+/* 2. 針對標籤內的名稱與數量 */
+.filter-item .tag-name {
+    font-weight: 500 !important;   /* 字體不用太粗，會顯得比較秀氣 */
+}
+
+.filter-item .tag-count {
+    font-size: 11px !important;    /* 數量數字縮得更小一點 */
+    opacity: 0.7;
+}
+
+/* 3. 如果您有「分類標題」（例如：商品分類、標籤篩選） */
+.filter-section .section-title {
+    font-size: 14px !important;    /* 縮小區塊標題字體 */
+    margin-bottom: 10px !important;
+    color: #8b7355 !important;
+}
+
+/* 4. 針對手機版的特別優化 (讓文字在小螢幕更細緻) */
+@media (max-width: 1024px) {
+    .filter-item {
+        padding: 6px 10px !important;
+        font-size: 12px !important; /* 手機版字體再小一點點 */
+    }
+    
+    /* 讓分類列表每一行的高度縮小，一次可以看到更多選項 */
+    .filter-list {
+        gap: 6px !important;
+    }
+}
+
+/* --- 強制移動關閉按鈕 --- */
+
+/* 1. 確保外層容器不會把 X 擋住 */
+.filter-overlay {
+    display: none; /* 預設隱藏，由 JS 控制 open class */
+    align-items: flex-start !important; 
+}
+
+.filter-overlay.open {
+    display: flex !important;
+}
+
+/* 2. 面板本體：確保它是相對定位 */
+.filter-panel {
+    position: relative !important;
+    padding-top: 50px !important; /* 增加頂部預留空間，確保不會壓到標籤 */
+}
+
+/* 3. 針對 X 按鈕的「終極定位」 */
+.filter-close {
+    display: block !important;    /* 覆蓋掉之前的 display: none */
+    visibility: visible !important;
+    position: absolute !important;
+    top: 10px !important;         /* 距離面板頂部 10px */
+    right: 15px !important;        /* 距離面板右邊 15px */
+    
+    /* 樣式強化 */
+    font-size: 28px !important;
+    color: #8b7355 !important;    /* 改為您的品牌咖啡色 */
+    font-weight: bold !important;
+    width: 44px !important;       /* 固定寬高方便點擊 */
+    height: 44px !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999 !important;     /* 確保在最頂層 */
+    cursor: pointer !important;
+}
+
+/* --- 縮小後的 X 關閉按鈕 --- */
+.filter-close {
+    display: flex !important;
+    visibility: visible !important;
+    position: absolute !important;
+    top: 8px !important;           /* 距離頂部稍微縮減 */
+    right: 10px !important;         /* 距離右邊稍微縮減 */
+    
+    /* 縮小尺寸關鍵 */
+    font-size: 20px !important;     /* 從 28px 縮小到 20px */
+    width: 32px !important;         /* 縮小點擊容器寬度 */
+    height: 32px !important;        /* 縮小點擊容器高度 */
+    
+    color: #999 !important;         /* 顏色調淡一點點，看起來更輕盈 */
+    font-weight: normal !important; /* 拿掉粗體，線條會變細 */
+    
+    z-index: 9999 !important;
+    cursor: pointer !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 為了配合縮小的 X，我們同步縮小面板上方的預留空間 */
+.filter-panel {
+    padding-top: 40px !important;   /* 從 50px 縮小到 40px */
+}
+
+/* --- 最終修正：X 按鈕精準對齊標題 --- */
+.filter-close {
+    display: flex !important;
+    visibility: visible !important;
+    position: absolute !important;
+    
+    /* 調整 top 數值，25px 通常能完美對齊 1.2~1.5 line-height 的標題 */
+    top: 25px !important;           
+    right: 15px !important;         
+    
+    font-size: 18px !important;     /* 稍微再縮小一點點點，讓視覺更平衡 */
+    width: 30px !important;         
+    height: 30px !important;        
+    
+    color: #999 !important;         
+    font-weight: normal !important; 
+    z-index: 9999 !important;
+    cursor: pointer !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 確保面板頂部的 padding 也能配合標題位置 */
+.filter-panel {
+    padding-top: 30px !important;   
+}
+
+/* 如果您想讓標題字體也跟著縮小，可以加上這段 */
+.filter-section .section-title {
+    font-size: 15px !important;
+}
+
+/* --- 最終修正：標籤垂直排列、寬度自動縮短、靠左對齊 --- */
+
+.filter-list {
+    display: flex !important;
+    flex-direction: column !important; /* 強制垂直排列 */
+    align-items: flex-start !important; /* 讓標籤靠左，寬度就不會撐滿 */
+    gap: 8px !important;               /* 標籤與標籤的上下間距 */
+    width: 100% !important;
+}
+
+.filter-item {
+    width: auto !important;            /* 寬度隨文字長度自動調整 */
+    min-width: 140px !important;       /* 設定最小寬度，避免短字標籤太瘦，視覺較統一 */
+    display: inline-flex !important;
+    align-items: center !important;
+    padding: 8px 18px !important;      /* 增加內距，讓長條看起來變精緻 */
+    border-radius: 12px !important;    /* 圓潤度調整 */
+    font-size: 13px !important;        /* 維持縮小後的字體 */
+    white-space: nowrap !important;
+}
+
+/* 修正 X 按鈕的最終對齊位置 */
+.filter-close {
+    top: 20px !important;              /* 確保 X 在垂直排列時能對齊「分類」標題 */
+    right: 15px !important;
+}
+
+/* 確保標題與標籤之間有適當距離 */
+.filter-section .section-title {
+    margin-bottom: 12px !important;
+}
+
+/* --- 讓面板隨內容縮排，並讓 X 靠近標籤 --- */
+
+.filter-panel {
+    position: relative !important;
+    /* 讓面板寬度不要撐滿，根據標籤寬度調整 (可依喜好調整數值) */
+    max-width: 250px !important; 
+    margin-left: 0 !important;
+    padding-top: 50px !important; /* 增加頂部空間給標題與 X */
+}
+
+.filter-close {
+    display: flex !important;
+    position: absolute !important;
+    
+    /* 調整位置：讓它緊貼在 max-width 的右側內部 */
+    top: 15px !important;
+    right: 10px !important; 
+    
+    font-size: 18px !important;
+    width: 30px !important;
+    height: 30px !important;
+    color: #999 !important;
+    z-index: 9999 !important;
+    cursor: pointer !important;
+}
+
+/* 確保標題（分類）也不要離 X 太遠 */
+.filter-header, .filter-section .section-title {
+    max-width: 180px !important;
+}
+
+/* --- 修正 X 位置，使其完美對齊分類標題 --- */
+
+.filter-panel {
+    position: relative !important;
+    max-width: 250px !important; /* 限制面板總寬度 */
+    padding-top: 25px !important; /* 統一頂部間距 */
+}
+
+.filter-close {
+    display: flex !important;
+    position: absolute !important;
+    
+    /* 這裡調整 top 的數值來上下移動 X */
+    top: 25px !important;         /* 增加到 25px 讓它下移對齊文字 */
+    right: 15px !important;        /* 距離面板右邊緣 */
+    
+    font-size: 18px !important;    /* 保持小巧的尺寸 */
+    width: 30px !important;
+    height: 30px !important;
+    color: #999 !important;
+    z-index: 9999 !important;
+    cursor: pointer !important;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 確保「分類」標題的文字高度也固定 */
+.filter-section .section-title {
+    line-height: 30px !important; /* 與 X 的高度一致，更容易對齊 */
+    margin: 0 0 15px 0 !important;
+    font-size: 15px !important;
+}
     </style>
 </head>
 <body>
@@ -2137,7 +2381,35 @@ function copyCoupon(id, btn) {
 
     </div>
 </footer>
+<script>
+// 監聽整個頁面的點擊事件
+document.addEventListener('click', function(e) {
+    // 判斷是否點擊了分類標籤 (filter-item)
+    const item = e.target.closest('.filter-item');
+    
+    if (item) {
+        // 如果原本的程式碼還沒執行 toggle，這段會確保它被選中/取消
+        // (如果點擊已經有反應，則不需擔心，這段主要是補強立即生效的邏輯)
+        
+        // 延遲一點點執行，確保 CSS class (selected) 已經切換完成
+        setTimeout(() => {
+            if (typeof applyFilters === "function") {
+                applyFilters();
+                console.log("已自動套用篩選");
+            }
+        }, 50);
+    }
+});
 
+// 在頁面載入後，強制把 X 按鈕搬到面板的最前面
+document.addEventListener('DOMContentLoaded', function() {
+    const closeBtn = document.querySelector('.filter-close');
+    const panel = document.querySelector('.filter-panel');
+    if (closeBtn && panel) {
+        panel.prepend(closeBtn); // 把 X 搬到面板內部的最上方
+    }
+});
+</script>
 </body>
 
 </html>
