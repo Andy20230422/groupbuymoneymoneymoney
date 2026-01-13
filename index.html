@@ -1928,7 +1928,7 @@ body {
                         <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
                         <p class="product-desc">🇯🇵日本旅遊必備的「唐吉訶德」、「Bic Camera」、「藥妝」、「百貨」優惠券在這裡！</p>
                         <div class="product-tags">
-                            <span class="product-tag">💳 優惠券</span>
+                            <span class="product-tag">💳 日本優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
                         </div>
 
@@ -2139,17 +2139,50 @@ body {
                 <div class="filter-close" id="closeFilterBtn" title="關閉">✕</div>
             </div>
 
-            <div class="filter-section" id="categorySection">
-                <div class="section-title">🏷️ 分類</div>
-                <div class="filter-list" id="categoryList">
-                    <!-- 由 JS 動態填入 -->
-                </div>
-            </div>
-
-            <div class="filter-actions">
-                <button class="btn-filter-clear" id="filterClearBtn">清除</button>
-                <button class="btn-filter-apply" id="filterApplyBtn">套用</button>
-            </div>
+            <div class="filter-list" id="categoryFilter">
+    <div class="filter-item selected" data-category="all">
+        <span class="tag-name">全部</span>
+    </div>
+    <div class="filter-item" data-category="日本優惠券">
+        <span class="tag-name">💳 日本優惠券</span>
+    </div>
+    <div class="filter-item" data-category="旅遊">
+        <span class="tag-name">✈️ 旅遊</span>
+    </div>
+    <div class="filter-item" data-category="3c">
+        <span class="tag-name">📱 3c</span>
+    </div>
+    <div class="filter-item" data-category="家電">
+        <span class="tag-name">📺 家電</span>
+    </div>
+    <div class="filter-item" data-category="居家">
+        <span class="tag-name">🏠 居家</span>
+    </div>
+    <div class="filter-item" data-category="食品">
+        <span class="tag-name">🥯 食品</span>
+    </div>
+    <div class="filter-item" data-category="蝦皮好物">
+        <span class="tag-name">🦐 蝦皮好物</span>
+    </div>
+    <div class="filter-item" data-category="訂房">
+        <span class="tag-name">🏨 訂房</span>
+    </div>
+    <div class="filter-item" data-category="eSIM">
+        <span class="tag-name">📶 eSIM</span>
+    </div>
+    <div class="filter-item" data-category="vpn">
+        <span class="tag-name">🔒 vpn</span>
+    </div>
+    <div class="filter-item" data-category="折扣碼">
+        <span class="tag-name">🎟️ 折扣碼</span>
+    </div>
+    <div class="filter-item" data-category="優惠連結">
+        <span class="tag-name">💳 優惠連結</span>
+    </div>
+    <div class="filter-item" data-category="回饋">
+        <span class="tag-name">💰 回饋</span>
+    </div>
+</div>
         </div>
 		
 		
@@ -2157,21 +2190,20 @@ body {
     </div>
 
 
-    <script>
+<script>
 (function () {
     'use strict';
 
     let showOnlyEnded = false;
 
-    // --- 1. 日期工具 ---
+    // --- 1. 日期與橫幅工具 ---
     function normalizeToISO(dateStr) {
         if (!dateStr) return null;
         dateStr = dateStr.trim();
         if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
         var m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
         if (m) {
-            var mon = String(m[1]).padStart(2, '0');
-            var day = String(m[2]).padStart(2, '0');
+            var mon = String(m[1]).padStart(2, '0'), day = String(m[2]).padStart(2, '0');
             var year = m[3] ? m[3] : (new Date()).getFullYear();
             return year + '-' + mon + '-' + day;
         }
@@ -2180,24 +2212,16 @@ body {
 
     function daysLeftTo(endISO) {
         try {
-            var end = new Date(endISO + 'T23:59:59');
-            var now = new Date();
+            var end = new Date(endISO + 'T23:59:59'), now = new Date();
             var diff = end - now;
-            var days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            return { days: days, diffMs: diff };
+            return { days: Math.ceil(diff / (1000 * 60 * 60 * 24)), diffMs: diff };
         } catch (e) { return null; }
     }
 
-    // --- 2. 更新狀態 ---
     function updateElement(el) {
-        var endAttr = el.getAttribute('data-end');
-        var endISO = normalizeToISO(endAttr);
-        var outSpan = el.querySelector('.days-left');
-        var card = el.closest('.product-card');
+        var endISO = normalizeToISO(el.getAttribute('data-end')), outSpan = el.querySelector('.days-left'), card = el.closest('.product-card');
         if (!endISO || !outSpan) return;
         var result = daysLeftTo(endISO);
-        if (!result) return;
-
         if (result.diffMs < 0) {
             outSpan.textContent = '已結束';
             if (card) card.classList.add('ended');
@@ -2207,181 +2231,137 @@ body {
         }
     }
 
-// Mobile: 點 tag 後自動收起上方分類
-document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (window.innerWidth <= 1024) {
-            document.getElementById('filterOverlay')?.classList.remove('open');
-        }
-    });
-});
-
-
     function updateBanner() {
-        var bannerName = document.getElementById('bannerName');
-        var bannerTimer = document.getElementById('bannerTimer');
-        var metas = document.querySelectorAll('.product-meta');
-        var now = new Date();
-        var nearest = null;
-
-        metas.forEach(function (meta) {
+        var bannerName = document.getElementById('bannerName'), bannerTimer = document.getElementById('bannerTimer');
+        var metas = document.querySelectorAll('.product-meta'), now = new Date(), nearest = null;
+        metas.forEach(meta => {
             var endISO = normalizeToISO(meta.getAttribute('data-end'));
             if (!endISO) return;
             var diff = new Date(endISO + 'T23:59:59') - now;
             if (diff > 0 && (!nearest || diff < nearest.diff)) {
-                var card = meta.closest('.product-card');
-                nearest = { name: card.querySelector('.product-name').textContent, diff: diff };
+                nearest = { name: meta.closest('.product-card').querySelector('.product-name').textContent, diff: diff };
             }
         });
-
-        if (bannerName && bannerTimer) {
-            if (!nearest) {
-                bannerName.textContent = '目前無即將截止項目';
-                bannerTimer.style.display = 'none';
-            } else {
-                bannerName.textContent = nearest.name;
-                bannerTimer.style.display = 'inline-block';
-                var s = Math.floor(nearest.diff / 1000);
-                var d = Math.floor(s / 86400);
-                var r = s % 86400;
-                var h = String(Math.floor(r / 3600)).padStart(2, '0');
-                var m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
-                var sec = String(r % 60).padStart(2, '0');
-                bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + h + ':' + m + ':' + sec;
-            }
+        if (bannerName && bannerTimer && nearest) {
+            bannerName.textContent = nearest.name;
+            var s = Math.floor(nearest.diff / 1000), d = Math.floor(s / 86400), r = s % 86400;
+            bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + String(Math.floor(r / 3600)).padStart(2, '0') + ':' + String(Math.floor((r % 3600) / 60)).padStart(2, '0') + ':' + String(r % 60).padStart(2, '0');
         }
     }
 
-    // --- 3. 側欄分類產生 ---
+    // --- 2. 側欄分類產生 (核心修正) ---
     function renderCategoryList() {
-        var categoryList = document.getElementById('categoryList');
-        if (!categoryList) return;
-        var allTags = new Set();
-        document.querySelectorAll('.product-tag').forEach(tag => allTags.add(tag.textContent.trim()));
-        
-        categoryList.innerHTML = '<div class="filter-item selected" data-tag="全部">全部</div>';
-        Array.from(allTags).sort().forEach(tag => {
+        // 確保抓到的 ID 是您 HTML 裡的 "categoryFilter"
+        var categoryContainer = document.getElementById('categoryFilter') || document.getElementById('categoryList');
+        if (!categoryContainer) {
+            console.error("找不到分類容器 (categoryFilter)！請檢查 HTML ID");
+            return;
+        }
+
+        const customOrder = [
+            { label: '全部', tag: 'all' },
+            { label: '💳 日本優惠券', tag: '日本優惠券' },
+            { label: '✈️ 旅遊', tag: '旅遊' },
+            { label: '📱 3c', tag: '3c' },
+            { label: '📺 家電', tag: '家電' },
+            { label: '🏠 居家', tag: '居家' },
+            { label: '🥯 食品', tag: '食品' },
+            { label: '🦐 蝦皮好物', tag: '蝦皮好物' },
+            { label: '🏨 訂房', tag: '訂房' },
+            { label: '📶 eSIM', tag: 'eSIM' },
+            { label: '🔒 vpn', tag: 'vpn' },
+            { label: '🎟️ 折扣碼', tag: '折扣碼' },
+            { label: '💳 優惠連結', tag: '優惠連結' },
+            { label: '💰 回饋', tag: '回饋' }
+        ];
+
+        categoryContainer.innerHTML = '';
+        customOrder.forEach(item => {
             var div = document.createElement('div');
             div.className = 'filter-item';
-            div.setAttribute('data-tag', tag);
-            div.textContent = tag;
-            categoryList.appendChild(div);
+            if (item.tag === 'all') div.classList.add('selected');
+            div.setAttribute('data-category', item.tag); // 統一使用 data-category
+            div.innerHTML = `<span class="tag-name">${item.label}</span>`;
+            categoryContainer.appendChild(div);
         });
 
-        // 點擊分類項目
-        categoryList.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-item')) {
-                categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
-                e.target.classList.add('selected');
-                filterCards(); // 即時預覽
+        // 點擊事件
+        categoryContainer.onclick = function(e) {
+            var item = e.target.closest('.filter-item');
+            if (item) {
+                console.log("點擊了分類:", item.getAttribute('data-category'));
+                categoryContainer.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
+                item.classList.add('selected');
+                filterCards();
+                // 手機版自動收起
+                if (window.innerWidth <= 1024) {
+                    document.getElementById('filterOverlay')?.classList.remove('open');
+                }
             }
-        });
+        };
     }
 
-    // --- 4. 篩選邏輯 ---
-   // --- 修復後的搜尋邏輯 ---
-function filterCards() {
-    // 1. 抓取搜尋框文字 (不論它是否在下拉選單內)
-    const searchInput = document.getElementById('searchInput');
-    const keyword = (searchInput?.value || '').trim().toLowerCase();
-    
-    // 2. 抓取目前選中的分類
-    const selected = document.querySelector('#categoryList .filter-item.selected');
-    const catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
+    // --- 3. 篩選邏輯 (核心修正) ---
+    function filterCards() {
+        const searchInput = document.getElementById('searchInput');
+        const keyword = (searchInput?.value || '').trim().toLowerCase();
+        
+        // 取得當前選中的分類
+        const selectedItem = document.querySelector('.filter-item.selected');
+        const selectedCat = selectedItem ? selectedItem.getAttribute('data-category') : 'all';
 
-    // 3. 執行過濾
-    document.querySelectorAll('.product-card').forEach(function (card) {
-        const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
-        const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase(); // 增加描述搜尋
-        const tags = (card.dataset.tags || '').split('|');
-        const isEnded = card.classList.contains('ended');
-        
-        const matchCat = !catTag || tags.some(t => t.includes(catTag));
-        // 搜尋名稱或描述
-        const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
-        
-        // 判斷是否應該顯示 (考慮「顯示已結束」的狀態)
-        const shouldShow = showOnlyEnded ? 
-            (matchCat && matchSearch && isEnded) : 
-            (matchCat && matchSearch && !isEnded);
+        console.log("執行篩選 - 分類:", selectedCat, " 關鍵字:", keyword);
+
+        document.querySelectorAll('.product-card').forEach(function (card) {
+            const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+            const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase();
             
-        card.style.display = shouldShow ? '' : 'none';
-    });
+            // 取得商品卡片上的所有標籤 (從 data-tags 屬性或 product-tag 內容)
+            const cardTags = (card.dataset.tags || '').toLowerCase();
+            const isEnded = card.classList.contains('ended');
+            
+            // 分類比對：如果是 all 或者是標籤包含該文字
+            const matchCat = (selectedCat === 'all' || cardTags.includes(selectedCat.toLowerCase()));
+            const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
+            
+            const shouldShow = showOnlyEnded ? (matchCat && matchSearch && isEnded) : (matchCat && matchSearch && !isEnded);
+            card.style.display = shouldShow ? 'flex' : 'none';
+        });
 
-    // 更新「顯示已結束」按鈕的數字
-    const toggleBtn = document.getElementById('toggleEndedBtn');
-    if (toggleBtn) {
-        const count = document.querySelectorAll('.product-card.ended').length;
-        toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
-    }
-}
-
-// --- 在 DOMContentLoaded 裡加入關鍵監聽 ---
-document.addEventListener('DOMContentLoaded', function () {
-    // ... 原有的初始化代碼 ...
-	
-	// Mobile / Tablet 右上角「分類」按鈕
-document.getElementById('openTagFilterBtn')?.addEventListener('click', function () {
-    document.getElementById('filterOverlay')?.classList.add('open');
-});
-
-
-    // 核心修復：確保搜尋框有被綁定事件
-    const searchBox = document.getElementById('searchInput');
-    if (searchBox) {
-        // 'input' 事件會在你每打一個字時就觸發搜尋
-        searchBox.addEventListener('input', filterCards);
-    }
-
-    // 處理搜尋下拉選單的開關 (因為你原本沒寫開關邏輯)
-    const searchToggle = document.getElementById('searchToggle');
-    const searchDropdown = document.getElementById('headerSearchDropdown');
-    
-    searchToggle?.addEventListener('click', function(e) {
-        e.stopPropagation();
-        searchDropdown.classList.toggle('open');
-        if (searchDropdown.classList.contains('open')) {
-            searchBox.focus(); // 打開時自動聚焦，方便直接打字
+        // 更新顯示結束按鈕文字
+        const toggleBtn = document.getElementById('toggleEndedBtn');
+        if (toggleBtn) {
+            const endedCount = document.querySelectorAll('.product-card.ended').length;
+            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + endedCount + ')';
         }
-    });
+    }
 
-    // 點擊頁面其他地方關閉搜尋選單
-    document.addEventListener('click', function() {
-        searchDropdown.classList.remove('open');
-    });
-    searchDropdown?.addEventListener('click', (e) => e.stopPropagation());
-});
-    // --- 5. 初始化與按鈕綁定 ---
+    // --- 4. 初始化 ---
     document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.product-card').forEach(function(card) {
-            var tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim());
-            card.dataset.tags = tags.join('|');
+        // 先將商品原本的標籤存入 dataset 方便後續搜尋
+        document.querySelectorAll('.product-card').forEach(card => {
+            const tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim()).join('|');
+            card.dataset.tags = tags;
             card.querySelectorAll('.product-meta').forEach(updateElement);
         });
 
         renderCategoryList();
 
-        // 側欄開關
+        // 綁定按鈕
         const overlay = document.getElementById('filterOverlay');
         document.getElementById('openFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
+        document.getElementById('openTagFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
         document.getElementById('closeFilterBtn')?.addEventListener('click', () => overlay.classList.remove('open'));
-
-        // 「清除」按鈕：對應 ID filterClearBtn
-        document.getElementById('filterClearBtn')?.addEventListener('click', function() {
+        document.getElementById('filterClearBtn')?.addEventListener('click', () => {
             if (document.getElementById('searchInput')) document.getElementById('searchInput').value = '';
-            var items = document.querySelectorAll('#categoryList .filter-item');
-            items.forEach(i => i.classList.remove('selected'));
-            if (items[0]) items[0].classList.add('selected');
+            document.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
+            document.querySelector('.filter-item')?.classList.add('selected');
             filterCards();
         });
-
-        // 「套用」按鈕：對應 ID filterApplyBtn
-        document.getElementById('filterApplyBtn')?.addEventListener('click', function() {
+        document.getElementById('filterApplyBtn')?.addEventListener('click', () => {
             filterCards();
             overlay.classList.remove('open');
         });
-
-        // 搜尋與結束切換
         document.getElementById('searchInput')?.addEventListener('input', filterCards);
         document.getElementById('toggleEndedBtn')?.addEventListener('click', function() {
             showOnlyEnded = !showOnlyEnded;
@@ -2394,7 +2374,7 @@ document.getElementById('openTagFilterBtn')?.addEventListener('click', function 
     });
 })();
 
-// 全域函式
+// 全域功能
 function goToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 function copyCoupon(id, btn) {
     const code = document.getElementById(id)?.textContent.trim();
@@ -2404,7 +2384,7 @@ function copyCoupon(id, btn) {
         setTimeout(() => btn.textContent = t, 2000);
     });
 }
-    </script>
+</script>
 	<footer class="footer">
     <div class="footer-content">
 
