@@ -1419,6 +1419,41 @@ body {
     margin: 0 0 15px 0 !important;
     font-size: 15px !important;
 }
+
+/* --- 手機版分類嵌入主頁效果 --- */
+@media (max-width: 1024px) {
+    /* 1. 取消全螢幕遮罩效果，讓它變成主頁的一部份 */
+    .filter-overlay {
+        position: static !important; /* 取消浮動 */
+        display: none;               /* 預設先藏起來 */
+        background: none !important; /* 移除黑色半透明背景 */
+        width: 100% !important;
+        height: auto !important;
+        overflow: hidden;
+        border-bottom: 1px solid #eee; /* 加一條細線區隔商品 */
+    }
+
+    .filter-overlay.open {
+        display: block !important;    /* 打開時直接佔據空間 */
+    }
+
+    /* 2. 調整面板樣式，讓它寬度 100% */
+    .filter-panel {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        transform: none !important;   /* 取消從左邊滑出的動畫 */
+        box-shadow: none !important;  /* 移除陰影讓它融入頁面 */
+        padding: 15px !important;
+        background: #fff !important;
+    }
+
+    /* 3. 商品列表微調：確保展開時有平滑感 */
+    .product-grid { 
+        transition: margin-top 0.3s ease;
+    }
+}
     </style>
 </head>
 <body>
@@ -2409,6 +2444,22 @@ document.addEventListener('DOMContentLoaded', function() {
         panel.prepend(closeBtn); // 把 X 搬到面板內部的最上方
     }
 });
+// 強制修正手機版開啟行為
+const mobileFilterBtn = document.querySelector('.mobile-filter-trigger'); // 請確認您的按鈕 class
+const filterOverlay = document.querySelector('.filter-overlay');
+
+if (mobileFilterBtn) {
+    mobileFilterBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        // 切換 open 狀態，CSS 會處理顯示/隱藏
+        filterOverlay.classList.toggle('open');
+        
+        // 如果打開了，平滑捲動到分類頂端
+        if (filterOverlay.classList.contains('open')) {
+            filterOverlay.scrollIntoView({ behavior: 'smooth' });
+        }
+    });
+}
 </script>
 </body>
 
