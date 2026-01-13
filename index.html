@@ -360,8 +360,20 @@
 }
 
 .footer-socials .ig {
-    background: linear-gradient(45deg,#f58529,#dd2a7b,#8134af,#515bd4);
-    color: #fff;
+    background: linear-gradient(45deg,
+        #feda75,
+        #fa7e1e,
+        #d62976,
+        #962fbf,
+        #4f5bd5
+    );
+    background-size: 120% 120%;
+    background-position: center;
+
+    color: white;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
 }
 
 .footer-socials .yt {
@@ -1105,7 +1117,42 @@ body {
     }
 }
 
+/* 只對手機與平板生效，不影響電腦版 */
+@media (max-width: 1024px) {
+    /* 1. 確保分類面板容器有足夠的底部間距，避免內容被按鈕遮擋 */
+    .filter-panel {
+        position: relative !important;
+        padding-bottom: 100px !important; /* 為底部按鈕預留空間 */
+        max-height: 85vh !important;     /* 限制高度避免超出螢幕 */
+        overflow-y: auto !important;    /* 內容過多時可捲動 */
+        display: flex !important;
+        flex-direction: column !important;
+    }
 
+    /* 2. 將按鈕固定在手機版面板的最下方 */
+    .filter-actions {
+        position: fixed !important;      /* 改為固定定位 */
+        left: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        width: 100% !important;
+        background: #ffffff !important;  /* 務必給背景色，否則會透明看到後方文字 */
+        padding: 15px 20px !important;
+        margin-top: 0 !important;
+        border-top: 1px solid #eee !important;
+        box-shadow: 0 -4px 10px rgba(0,0,0,0.05) !important;
+        z-index: 10 !important;
+        display: flex !important;
+        gap: 10px !important;
+    }
+
+    /* 3. 調整按鈕寬度，讓它們平分空間 */
+    .btn-filter-clear, 
+    .btn-filter-apply {
+        flex: 1 !important;
+        margin: 0 !important;
+    }
+}
     </style>
 </head>
 <body>
@@ -2033,7 +2080,7 @@ function copyCoupon(id, btn) {
 
         <div class="footer-title">加入2A夫妻社群</div>
         <div class="footer-subtitle">
-            第一手團購通知、限時好康、不漏接
+            第一手團購通知、限時好康不漏接
         </div>
 
         <div class="footer-socials">
