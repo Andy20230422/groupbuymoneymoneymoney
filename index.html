@@ -698,23 +698,14 @@ body {
 }
 
 /* 2. 當螢幕寬度小於 480px (手機) 時才觸發 */
-/* 找到這一段並修改 */
 @media (max-width: 480px) {
     .menu-icon {
-        /* 原本是 display: none !important; 請改為 block 或 flex */
-        display: flex !important; 
-        font-size: 24px; /* 調小一點適合手機 */
+        display: none !important; /* 只有手機版會隱藏 */
     }
     
-.left-area {
-        gap: 8px !important; /* 縮小按鈕與 Logo 之間的間距 */
-        min-width: auto !important;
-    }
-	/* 確保手機版雙欄排版不跑位 */
-    .products-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 12px !important;
-        padding: 10px !important;
+    /* 讓 Logo 在按鈕隱藏後稍微靠左一點，不會空出一塊 */
+    .left-area {
+        gap: 0 !important;
     }
 }
 
@@ -1463,62 +1454,6 @@ body {
         transition: margin-top 0.3s ease;
     }
 }
-@media (max-width: 1024px) {
-    /* 預設隱藏，但不使用 absolute 浮動 */
-    .filter-overlay {
-        display: none !important; 
-        position: relative !important; /* 改為相對定位，這樣展開時會推擠下方商品 */
-        top: 0 !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: auto !important;
-        background: #fff !important; /* 移除黑色遮罩背景 */
-        z-index: 10;
-        border-bottom: 1px solid #f0f0f0; /* 下方加一條裝飾線 */
-    }
-
-    /* 當 class 含有 open 時顯示 */
-    .filter-overlay.open {
-        display: block !important;
-    }
-
-    /* 內部的面板取消滑出動畫 */
-    .filter-panel {
-        transform: none !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        box-shadow: none !important;
-        padding: 10px 15px !important;
-    }
-}
-/* 3. 側欄濾鏡手機版樣式修復 */
-@media (max-width: 1024px) {
-    .filter-overlay {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.45);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        z-index: 2000;
-        display: none; /* 預設隱藏，由 JS 控制 open class */
-        align-items: flex-start;
-        justify-content: flex-start;
-    }
-
-    .filter-overlay.open {
-        display: flex !important;
-    }
-
-    .filter-panel {
-        width: 280px !important; /* 恢復側邊欄寬度 */
-        height: 100%;
-        background: #fff;
-        padding: 20px;
-        overflow-y: auto;
-        box-shadow: 5px 0 15px rgba(0,0,0,0.1);
-    }
-}
-
     </style>
 </head>
 <body>
@@ -1631,7 +1566,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">南田牧野家-抹茶甜點專賣店</h3>
-                        <p class="product-desc">✅新品禮盒9折</p>
+                        <p class="product-desc">✅新品禮盒9折<br>✅滿2,500元贈雪球一包（口味隨機）</p>
                         <div class="product-tags">
                             <span class="product-tag">🥯 食品</span>
                             
@@ -1657,7 +1592,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">THOMSON 石墨烯壁掛暖風機</h3>
-                        <p class="product-desc">✅首次消費，使用【JOIN88】88折</p>
+                        <p class="product-desc">🚚原開團價$2990，現在只要$2880<br>✅首次消費，使用【JOIN88】88折</p>
                         <div class="product-tags">
                             <span class="product-tag">🏠 居家</span>
                             
@@ -1682,7 +1617,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">朵妮朵絲 - 天然植萃精油</h3>
-                        <p class="product-desc">✅台灣輔助醫學會推薦</p>
+                        <p class="product-desc">✅台灣輔助醫學會推薦<br>✅團購專屬組合最低54折起</p>
                         <div class="product-tags">
                             <span class="product-tag">🏠 居家</span>
                             
@@ -1708,7 +1643,8 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">MiLi MiTag 智慧防丟器</h3>
-                        <p class="product-desc">✅蘋果和安卓都能用</p>
+                        <p class="product-desc">✅蘋果和安卓都能用，3秒就連線<br>
+						✅續航200-300天，電池可更換</p>
                         <div class="product-tags">
                             
 							<span class="product-tag">✈️ 旅遊</span>
@@ -1735,7 +1671,8 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">AUKEY 專用輕薄追蹤定位器</h3>
-                        <p class="product-desc">✅適用於蘋果系統</p>
+                        <p class="product-desc">✅適用於蘋果系統，1秒就能連線<br>
+						✅無線充電，續航180天</p>
                         <div class="product-tags">
                             <span class="product-tag">✈️ 旅遊</span>
                             
@@ -1761,7 +1698,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">🇯🇵2026日本新年精選禮盒團</h3>
-                        <p class="product-desc">🎁滿$3,800贈禮盒1盒，可累贈</p>
+                        <p class="product-desc">🎁滿$3,800贈日本精選禮盒1盒，可累贈</p>
                         <div class="product-tags">
                             <span class="product-tag">🥯 食品</span>
                             
@@ -1785,7 +1722,8 @@ body {
                     <div class="product-image"><img src="hair-dryer.jpg" alt="負離子高速吹風機"></div>
                     <div class="product-content">
                         <h3 class="product-name">負離子高速吹風機</h3>
-                        <p class="product-desc">🚚1台免運</p>
+                        <p class="product-desc">🚚1台就免運<br>
+						✅短髮2分鐘、男生30秒全乾</p>
                         <div class="product-tags">
                             <span class="product-tag">📺 家電</span>
                             <span class="product-tag">🏠 居家</span>
@@ -1808,7 +1746,8 @@ body {
                     <div class="product-image"><img src="folding-dryer.jpg" alt="折疊高速負離子吹風機"></div>
                     <div class="product-content">
                         <h3 class="product-name">折疊高速負離子吹風機</h3>
-                        <p class="product-desc">🚚1台免運，可帶出國</p>
+                        <p class="product-desc">🚚1台就免運，90度好摺疊收納<br>
+						✅可帶出國，100~240國際電壓</p>
                         <div class="product-tags">
                             <span class="product-tag">📺 家電</span>
 							<span class="product-tag">🏠 居家</span>
@@ -1833,7 +1772,8 @@ body {
                     <div class="product-image"><img src="magnetic-stand.jpg" alt="全能超薄磁吸支架"></div>
                     <div class="product-content">
                         <h3 class="product-name">全能超薄磁吸支架</h3>
-                        <p class="product-desc">✅手機、平板、電腦通用</p>
+                        <p class="product-desc">✅8段高度自由調整<br>
+						✅手機、平板、電腦通用</p>
                         <div class="product-tags">
                             <span class="product-tag">📱 3C</span>
 							<span class="product-tag">🏠 居家</span>
@@ -1866,8 +1806,8 @@ body {
 			                <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="萬用裝備袋.jpg" alt="萬用裝備袋-可託運"></div>
                     <div class="product-content">
-                        <h3 class="product-name">出國萬用裝備帶-要托運</h3>
-                        <p class="product-desc">✅可託運買太多的急救袋</p>
+                        <h3 class="product-name">🦐蝦皮好物推薦: 萬用裝備袋-可託運</h3>
+                        <p class="product-desc">Amber嚴選：可託運買太多的急救袋</p>
                         <div class="product-tags">
 						<span class="product-tag">🦐 蝦皮好物</span>
 						<span class="product-tag">✈️ 旅遊</span>
@@ -1886,7 +1826,8 @@ body {
                     <div class="product-image"><img src="aspor-selfie.jpg" alt="ASPOR迷你自拍棒"></div>
                     <div class="product-content">
                         <h3 class="product-name">ASPOR迷你自拍棒</h3>
-                        <p class="product-desc">✅蘋果、安卓都能用</p>
+                        <p class="product-desc">✅11.7cm，比手機輕小巧<br>
+						✅iPhone、Android都能用</p>
                         <div class="product-tags">
 						<span class="product-tag">📱 3C</span>
 						<span class="product-tag">✈️ 旅遊</span>
@@ -1903,8 +1844,9 @@ body {
                 <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="yamada-heater.jpg" alt="YAMADA電暖器"></div>
                     <div class="product-content">
-                        <h3 class="product-name">銀粒子抑菌智慧温控陶瓷電暖器</h3>
-                        <p class="product-desc">✅有效抑菌99.9%</p>
+                        <h3 class="product-name">YAMADA山田家電 銀粒子抑菌智慧温控陶瓷電暖器</h3>
+                        <p class="product-desc">✅Ag+銀粒子扇葉有效抑菌99.9%<br>
+						✅10坪內都適用</p>
                         <div class="product-tags">
 						<span class="product-tag">📺 家電</span>
 						<span class="product-tag">🏠 居家</span>
@@ -1921,8 +1863,9 @@ body {
                 <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="inko-cushion.jpg" alt="韓國INKO暖感坐墊"></div>
                     <div class="product-content">
-                        <h3 class="product-name">韓國INKO超薄USB暖感坐墊</h3>
-                        <p class="product-desc">✅插行動電源就可以使用</p>
+                        <h3 class="product-name">韓國INKO超薄USB便攜式暖感坐墊/保暖墊</h3>
+                        <p class="product-desc">✅插行動電源就可以使用<br>
+						✅0電磁波</p>
                         <div class="product-tags">
 						<span class="product-tag">📺 家電</span>
 						<span class="product-tag">🏠 居家</span>
@@ -1954,9 +1897,9 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
-                        <p class="product-desc">唐吉訶德、Bic Camera、藥妝、百貨優惠券</p>
+                        <p class="product-desc">🇯🇵日本旅遊必備的「唐吉訶德」、「Bic Camera」、「藥妝」、「百貨」優惠券在這裡！</p>
                         <div class="product-tags">
-                            <span class="product-tag">💳 日本優惠券</span>
+                            <span class="product-tag">💳 優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
                         </div>
 
@@ -1975,9 +1918,9 @@ body {
         <img src="kkday.jpg" alt="KKday 折扣">
     </div>
     <div class="product-content">
-        <h3 class="product-name">KKday 旅遊體驗</h3>
+        <h3 class="product-name">KKday 旅遊體驗折扣</h3>
         <p class="product-desc">
-    ✅輸入折扣碼滿$2,500享92折
+    單筆滿 $2,500 享 92 折
 </p>
  <div class="product-tags">
             <span class="product-tag">✈️ 旅遊</span>
@@ -2007,9 +1950,9 @@ body {
         <img src="klook.jpg" alt="Klook 折扣">
     </div>
     <div class="product-content">
-        <h3 class="product-name">Klook 旅遊行程</h3>
+        <h3 class="product-name">Klook 旅遊行程折扣</h3>
         <p class="product-desc">
-    ✅輸入折扣碼滿$1,500享95折
+    單筆滿 $1,500 享 95 折
 </p>
         <div class="product-tags">
             <span class="product-tag">✈️ 旅遊</span>
@@ -2041,7 +1984,8 @@ body {
     <div class="product-content">
         <h3 class="product-name">Agoda 全球訂房優惠</h3>
         <p class="product-desc">
-            ✅全球飯店即時優惠
+            全球飯店即時優惠<br>
+            不定期折扣自動套用
         </p>
         <div class="product-tags">
             <span class="product-tag">🏨 訂房</span>
@@ -2063,7 +2007,8 @@ body {
     <div class="product-content">
         <h3 class="product-name">Holafly 吃到飽 eSIM</h3>
         <p class="product-desc">
-            ✅前往網址購買立即享95折
+            前往網址購買<br>
+            立即享95折
         </p>
         <div class="product-tags">
             <span class="product-tag">📶 eSIM</span>
@@ -2084,7 +2029,8 @@ body {
     <div class="product-content">
         <h3 class="product-name">NordVPN 網路安全方案</h3>
         <p class="product-desc">
-            ✅輸入【2acouple】85 折＋2年再送4個月
+            折扣碼【2acouple】<br>
+            85 折＋2 年方案再送 4 個月
         </p>
         <div class="product-tags">
             <span class="product-tag">🔐 VPN</span>
@@ -2106,7 +2052,8 @@ body {
     <div class="product-content">
         <h3 class="product-name">易遊網 旅遊優惠</h3>
         <p class="product-desc">
-            ✅機票、訂房、團體行程
+            機票、訂房、團體行程<br>
+            不定期專屬優惠
         </p>
         <div class="product-tags">
             <span class="product-tag">✈️ 旅遊</span>
@@ -2127,7 +2074,8 @@ body {
     <div class="product-content">
         <h3 class="product-name">LINE 旅遊優惠</h3>
         <p class="product-desc">
-            ✅機票、飯店、行程比價
+            機票、飯店、行程比價<br>
+            LINE 回饋不定期
         </p>
         <div class="product-tags">
             <span class="product-tag">✈️ 旅遊</span>
@@ -2162,50 +2110,17 @@ body {
                 <div class="filter-close" id="closeFilterBtn" title="關閉">✕</div>
             </div>
 
-            <div class="filter-list" id="categoryFilter">
-    <div class="filter-item selected" data-category="all">
-        <span class="tag-name">全部</span>
-    </div>
-    <div class="filter-item" data-category="日本優惠券">
-        <span class="tag-name">💳 日本優惠券</span>
-    </div>
-    <div class="filter-item" data-category="旅遊">
-        <span class="tag-name">✈️ 旅遊</span>
-    </div>
-    <div class="filter-item" data-category="3c">
-        <span class="tag-name">📱 3c</span>
-    </div>
-    <div class="filter-item" data-category="家電">
-        <span class="tag-name">📺 家電</span>
-    </div>
-    <div class="filter-item" data-category="居家">
-        <span class="tag-name">🏠 居家</span>
-    </div>
-    <div class="filter-item" data-category="食品">
-        <span class="tag-name">🥯 食品</span>
-    </div>
-    <div class="filter-item" data-category="蝦皮好物">
-        <span class="tag-name">🦐 蝦皮好物</span>
-    </div>
-    <div class="filter-item" data-category="訂房">
-        <span class="tag-name">🏨 訂房</span>
-    </div>
-    <div class="filter-item" data-category="eSIM">
-        <span class="tag-name">📶 eSIM</span>
-    </div>
-    <div class="filter-item" data-category="vpn">
-        <span class="tag-name">🔒 vpn</span>
-    </div>
-    <div class="filter-item" data-category="折扣碼">
-        <span class="tag-name">🎟️ 折扣碼</span>
-    </div>
-    <div class="filter-item" data-category="優惠連結">
-        <span class="tag-name">💳 優惠連結</span>
-    </div>
-    <div class="filter-item" data-category="回饋">
-        <span class="tag-name">💰 回饋</span>
-    </div>
-</div>
+            <div class="filter-section" id="categorySection">
+                <div class="section-title">🏷️ 分類</div>
+                <div class="filter-list" id="categoryList">
+                    <!-- 由 JS 動態填入 -->
+                </div>
+            </div>
+
+            <div class="filter-actions">
+                <button class="btn-filter-clear" id="filterClearBtn">清除</button>
+                <button class="btn-filter-apply" id="filterApplyBtn">套用</button>
+            </div>
         </div>
 		
 		
@@ -2213,20 +2128,21 @@ body {
     </div>
 
 
-<script>
+    <script>
 (function () {
     'use strict';
 
     let showOnlyEnded = false;
 
-    // --- 1. 日期與橫幅工具 ---
+    // --- 1. 日期工具 ---
     function normalizeToISO(dateStr) {
         if (!dateStr) return null;
         dateStr = dateStr.trim();
         if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
         var m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
         if (m) {
-            var mon = String(m[1]).padStart(2, '0'), day = String(m[2]).padStart(2, '0');
+            var mon = String(m[1]).padStart(2, '0');
+            var day = String(m[2]).padStart(2, '0');
             var year = m[3] ? m[3] : (new Date()).getFullYear();
             return year + '-' + mon + '-' + day;
         }
@@ -2235,16 +2151,24 @@ body {
 
     function daysLeftTo(endISO) {
         try {
-            var end = new Date(endISO + 'T23:59:59'), now = new Date();
+            var end = new Date(endISO + 'T23:59:59');
+            var now = new Date();
             var diff = end - now;
-            return { days: Math.ceil(diff / (1000 * 60 * 60 * 24)), diffMs: diff };
+            var days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return { days: days, diffMs: diff };
         } catch (e) { return null; }
     }
 
+    // --- 2. 更新狀態 ---
     function updateElement(el) {
-        var endISO = normalizeToISO(el.getAttribute('data-end')), outSpan = el.querySelector('.days-left'), card = el.closest('.product-card');
+        var endAttr = el.getAttribute('data-end');
+        var endISO = normalizeToISO(endAttr);
+        var outSpan = el.querySelector('.days-left');
+        var card = el.closest('.product-card');
         if (!endISO || !outSpan) return;
         var result = daysLeftTo(endISO);
+        if (!result) return;
+
         if (result.diffMs < 0) {
             outSpan.textContent = '已結束';
             if (card) card.classList.add('ended');
@@ -2254,137 +2178,181 @@ body {
         }
     }
 
+// Mobile: 點 tag 後自動收起上方分類
+document.querySelectorAll('.category-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (window.innerWidth <= 1024) {
+            document.getElementById('filterOverlay')?.classList.remove('open');
+        }
+    });
+});
+
+
     function updateBanner() {
-        var bannerName = document.getElementById('bannerName'), bannerTimer = document.getElementById('bannerTimer');
-        var metas = document.querySelectorAll('.product-meta'), now = new Date(), nearest = null;
-        metas.forEach(meta => {
+        var bannerName = document.getElementById('bannerName');
+        var bannerTimer = document.getElementById('bannerTimer');
+        var metas = document.querySelectorAll('.product-meta');
+        var now = new Date();
+        var nearest = null;
+
+        metas.forEach(function (meta) {
             var endISO = normalizeToISO(meta.getAttribute('data-end'));
             if (!endISO) return;
             var diff = new Date(endISO + 'T23:59:59') - now;
             if (diff > 0 && (!nearest || diff < nearest.diff)) {
-                nearest = { name: meta.closest('.product-card').querySelector('.product-name').textContent, diff: diff };
+                var card = meta.closest('.product-card');
+                nearest = { name: card.querySelector('.product-name').textContent, diff: diff };
             }
         });
-        if (bannerName && bannerTimer && nearest) {
-            bannerName.textContent = nearest.name;
-            var s = Math.floor(nearest.diff / 1000), d = Math.floor(s / 86400), r = s % 86400;
-            bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + String(Math.floor(r / 3600)).padStart(2, '0') + ':' + String(Math.floor((r % 3600) / 60)).padStart(2, '0') + ':' + String(r % 60).padStart(2, '0');
+
+        if (bannerName && bannerTimer) {
+            if (!nearest) {
+                bannerName.textContent = '目前無即將截止項目';
+                bannerTimer.style.display = 'none';
+            } else {
+                bannerName.textContent = nearest.name;
+                bannerTimer.style.display = 'inline-block';
+                var s = Math.floor(nearest.diff / 1000);
+                var d = Math.floor(s / 86400);
+                var r = s % 86400;
+                var h = String(Math.floor(r / 3600)).padStart(2, '0');
+                var m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
+                var sec = String(r % 60).padStart(2, '0');
+                bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + h + ':' + m + ':' + sec;
+            }
         }
     }
 
-    // --- 2. 側欄分類產生 (核心修正) ---
+    // --- 3. 側欄分類產生 ---
     function renderCategoryList() {
-        // 確保抓到的 ID 是您 HTML 裡的 "categoryFilter"
-        var categoryContainer = document.getElementById('categoryFilter') || document.getElementById('categoryList');
-        if (!categoryContainer) {
-            console.error("找不到分類容器 (categoryFilter)！請檢查 HTML ID");
-            return;
-        }
-
-        const customOrder = [
-            { label: '全部', tag: 'all' },
-            { label: '💳 日本優惠券', tag: '日本優惠券' },
-            { label: '✈️ 旅遊', tag: '旅遊' },
-            { label: '📱 3c', tag: '3c' },
-            { label: '📺 家電', tag: '家電' },
-            { label: '🏠 居家', tag: '居家' },
-            { label: '🥯 食品', tag: '食品' },
-            { label: '🦐 蝦皮好物', tag: '蝦皮好物' },
-            { label: '🏨 訂房', tag: '訂房' },
-            { label: '📶 eSIM', tag: 'eSIM' },
-            { label: '🔒 vpn', tag: 'vpn' },
-            { label: '🎟️ 折扣碼', tag: '折扣碼' },
-            { label: '💳 優惠連結', tag: '優惠連結' },
-            { label: '💰 回饋', tag: '回饋' }
-        ];
-
-        categoryContainer.innerHTML = '';
-        customOrder.forEach(item => {
+        var categoryList = document.getElementById('categoryList');
+        if (!categoryList) return;
+        var allTags = new Set();
+        document.querySelectorAll('.product-tag').forEach(tag => allTags.add(tag.textContent.trim()));
+        
+        categoryList.innerHTML = '<div class="filter-item selected" data-tag="全部">全部</div>';
+        Array.from(allTags).sort().forEach(tag => {
             var div = document.createElement('div');
             div.className = 'filter-item';
-            if (item.tag === 'all') div.classList.add('selected');
-            div.setAttribute('data-category', item.tag); // 統一使用 data-category
-            div.innerHTML = `<span class="tag-name">${item.label}</span>`;
-            categoryContainer.appendChild(div);
+            div.setAttribute('data-tag', tag);
+            div.textContent = tag;
+            categoryList.appendChild(div);
         });
 
-        // 點擊事件
-        categoryContainer.onclick = function(e) {
-            var item = e.target.closest('.filter-item');
-            if (item) {
-                console.log("點擊了分類:", item.getAttribute('data-category'));
-                categoryContainer.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
-                item.classList.add('selected');
-                filterCards();
-                // 手機版自動收起
-                if (window.innerWidth <= 1024) {
-                    document.getElementById('filterOverlay')?.classList.remove('open');
-                }
+        // 點擊分類項目
+        categoryList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-item')) {
+                categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
+                e.target.classList.add('selected');
+                filterCards(); // 即時預覽
             }
-        };
-    }
-
-    // --- 3. 篩選邏輯 (核心修正) ---
-    function filterCards() {
-        const searchInput = document.getElementById('searchInput');
-        const keyword = (searchInput?.value || '').trim().toLowerCase();
-        
-        // 取得當前選中的分類
-        const selectedItem = document.querySelector('.filter-item.selected');
-        const selectedCat = selectedItem ? selectedItem.getAttribute('data-category') : 'all';
-
-        console.log("執行篩選 - 分類:", selectedCat, " 關鍵字:", keyword);
-
-        document.querySelectorAll('.product-card').forEach(function (card) {
-            const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
-            const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase();
-            
-            // 取得商品卡片上的所有標籤 (從 data-tags 屬性或 product-tag 內容)
-            const cardTags = (card.dataset.tags || '').toLowerCase();
-            const isEnded = card.classList.contains('ended');
-            
-            // 分類比對：如果是 all 或者是標籤包含該文字
-            const matchCat = (selectedCat === 'all' || cardTags.includes(selectedCat.toLowerCase()));
-            const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
-            
-            const shouldShow = showOnlyEnded ? (matchCat && matchSearch && isEnded) : (matchCat && matchSearch && !isEnded);
-            card.style.display = shouldShow ? 'flex' : 'none';
         });
-
-        // 更新顯示結束按鈕文字
-        const toggleBtn = document.getElementById('toggleEndedBtn');
-        if (toggleBtn) {
-            const endedCount = document.querySelectorAll('.product-card.ended').length;
-            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + endedCount + ')';
-        }
     }
 
-    // --- 4. 初始化 ---
+    // --- 4. 篩選邏輯 ---
+   // --- 修復後的搜尋邏輯 ---
+function filterCards() {
+    // 1. 抓取搜尋框文字 (不論它是否在下拉選單內)
+    const searchInput = document.getElementById('searchInput');
+    const keyword = (searchInput?.value || '').trim().toLowerCase();
+    
+    // 2. 抓取目前選中的分類
+    const selected = document.querySelector('#categoryList .filter-item.selected');
+    const catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
+
+    // 3. 執行過濾
+    document.querySelectorAll('.product-card').forEach(function (card) {
+        const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+        const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase(); // 增加描述搜尋
+        const tags = (card.dataset.tags || '').split('|');
+        const isEnded = card.classList.contains('ended');
+        
+        const matchCat = !catTag || tags.some(t => t.includes(catTag));
+        // 搜尋名稱或描述
+        const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
+        
+        // 判斷是否應該顯示 (考慮「顯示已結束」的狀態)
+        const shouldShow = showOnlyEnded ? 
+            (matchCat && matchSearch && isEnded) : 
+            (matchCat && matchSearch && !isEnded);
+            
+        card.style.display = shouldShow ? '' : 'none';
+    });
+
+    // 更新「顯示已結束」按鈕的數字
+    const toggleBtn = document.getElementById('toggleEndedBtn');
+    if (toggleBtn) {
+        const count = document.querySelectorAll('.product-card.ended').length;
+        toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
+    }
+}
+
+// --- 在 DOMContentLoaded 裡加入關鍵監聽 ---
+document.addEventListener('DOMContentLoaded', function () {
+    // ... 原有的初始化代碼 ...
+	
+	// Mobile / Tablet 右上角「分類」按鈕
+document.getElementById('openTagFilterBtn')?.addEventListener('click', function () {
+    document.getElementById('filterOverlay')?.classList.add('open');
+});
+
+
+    // 核心修復：確保搜尋框有被綁定事件
+    const searchBox = document.getElementById('searchInput');
+    if (searchBox) {
+        // 'input' 事件會在你每打一個字時就觸發搜尋
+        searchBox.addEventListener('input', filterCards);
+    }
+
+    // 處理搜尋下拉選單的開關 (因為你原本沒寫開關邏輯)
+    const searchToggle = document.getElementById('searchToggle');
+    const searchDropdown = document.getElementById('headerSearchDropdown');
+    
+    searchToggle?.addEventListener('click', function(e) {
+        e.stopPropagation();
+        searchDropdown.classList.toggle('open');
+        if (searchDropdown.classList.contains('open')) {
+            searchBox.focus(); // 打開時自動聚焦，方便直接打字
+        }
+    });
+
+    // 點擊頁面其他地方關閉搜尋選單
+    document.addEventListener('click', function() {
+        searchDropdown.classList.remove('open');
+    });
+    searchDropdown?.addEventListener('click', (e) => e.stopPropagation());
+});
+    // --- 5. 初始化與按鈕綁定 ---
     document.addEventListener('DOMContentLoaded', function () {
-        // 先將商品原本的標籤存入 dataset 方便後續搜尋
-        document.querySelectorAll('.product-card').forEach(card => {
-            const tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim()).join('|');
-            card.dataset.tags = tags;
+        document.querySelectorAll('.product-card').forEach(function(card) {
+            var tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim());
+            card.dataset.tags = tags.join('|');
             card.querySelectorAll('.product-meta').forEach(updateElement);
         });
 
         renderCategoryList();
 
-        // 綁定按鈕
+        // 側欄開關
         const overlay = document.getElementById('filterOverlay');
         document.getElementById('openFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
-        document.getElementById('openTagFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
         document.getElementById('closeFilterBtn')?.addEventListener('click', () => overlay.classList.remove('open'));
-        document.getElementById('filterClearBtn')?.addEventListener('click', () => {
+
+        // 「清除」按鈕：對應 ID filterClearBtn
+        document.getElementById('filterClearBtn')?.addEventListener('click', function() {
             if (document.getElementById('searchInput')) document.getElementById('searchInput').value = '';
-            document.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
-            document.querySelector('.filter-item')?.classList.add('selected');
+            var items = document.querySelectorAll('#categoryList .filter-item');
+            items.forEach(i => i.classList.remove('selected'));
+            if (items[0]) items[0].classList.add('selected');
             filterCards();
         });
-        document.getElementById('filterApplyBtn')?.addEventListener('click', () => {
+
+        // 「套用」按鈕：對應 ID filterApplyBtn
+        document.getElementById('filterApplyBtn')?.addEventListener('click', function() {
             filterCards();
             overlay.classList.remove('open');
         });
+
+        // 搜尋與結束切換
         document.getElementById('searchInput')?.addEventListener('input', filterCards);
         document.getElementById('toggleEndedBtn')?.addEventListener('click', function() {
             showOnlyEnded = !showOnlyEnded;
@@ -2397,7 +2365,7 @@ body {
     });
 })();
 
-// 全域功能
+// 全域函式
 function goToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 function copyCoupon(id, btn) {
     const code = document.getElementById(id)?.textContent.trim();
@@ -2407,7 +2375,7 @@ function copyCoupon(id, btn) {
         setTimeout(() => btn.textContent = t, 2000);
     });
 }
-</script>
+    </script>
 	<footer class="footer">
     <div class="footer-content">
 
@@ -2492,72 +2460,6 @@ if (mobileFilterBtn) {
         }
     });
 }
-document.addEventListener('DOMContentLoaded', function() {
-    // 抓取所有可能的按鈕（menu-icon 是您右上角那個，tag-filter-btn 是您後來新增的）
-    const mobileFilterBtn = document.querySelectorAll('.menu-icon, .tag-filter-btn, .mobile-filter-trigger');
-    const filterOverlay = document.querySelector('.filter-overlay');
-    const closeBtn = document.querySelector('.filter-close');
-
-    // 點擊按鈕開啟選單
-    mobileFilterBtn.forEach(btn => {
-        btn.addEventListener('click', function(e) {
-            // 只有在手機/平板寬度下才執行這個邏輯，確保網頁版功能不被干擾
-            if (window.innerWidth <= 1024) {
-                e.preventDefault();
-                e.stopPropagation();
-                if (filterOverlay) {
-                    filterOverlay.classList.add('open');
-                    document.body.style.overflow = 'hidden'; // 防止底層頁面滾動
-                }
-            }
-        });
-    });
-
-    // 點擊 X 或 遮罩關閉
-    if (closeBtn && filterOverlay) {
-        closeBtn.addEventListener('click', function() {
-            filterOverlay.classList.remove('open');
-            document.body.style.overflow = '';
-        });
-
-        // 點擊黑色遮罩區域也能關閉
-        filterOverlay.addEventListener('click', function(e) {
-            if (e.target === filterOverlay) {
-                filterOverlay.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-});
-document.addEventListener('DOMContentLoaded', function() {
-    // 抓取電腦與手機版的選單按鈕
-    const menuBtn = document.querySelector('.menu-icon');
-    const filterOverlay = document.querySelector('.filter-overlay');
-    const closeBtn = document.querySelector('.filter-close');
-
-    if (menuBtn && filterOverlay) {
-        menuBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            filterOverlay.classList.add('open');
-            document.body.style.overflow = 'hidden'; // 開啟時防止底層滾動
-        });
-    }
-
-    if (closeBtn && filterOverlay) {
-        closeBtn.addEventListener('click', function() {
-            filterOverlay.classList.remove('open');
-            document.body.style.overflow = ''; // 關閉時恢復滾動
-        });
-
-        // 點擊遮罩空白處也可關閉
-        filterOverlay.addEventListener('click', function(e) {
-            if (e.target === filterOverlay) {
-                filterOverlay.classList.remove('open');
-                document.body.style.overflow = '';
-            }
-        });
-    }
-});
 </script>
 </body>
 
