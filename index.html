@@ -917,7 +917,29 @@
             display: none;
           }
         }
-		
+		/* ===============================
+   MOBILE: FIX FILTER TABS LAYOUT
+   =============================== */
+@media (max-width: 768px) {
+    .filter-tabs {
+        flex-wrap: nowrap !important;
+    }
+
+    .filter-tab {
+        flex: 1 1 0 !important;
+        white-space: nowrap;
+        text-align: center;
+    }
+}
+/* ===============================
+   DESKTOP: HIDE FILTER ACTIONS
+   =============================== */
+@media (min-width: 1025px) {
+    .filter-actions {
+        display: none !important;
+    }
+}
+
 		
     </style>
 </head>
