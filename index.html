@@ -700,48 +700,21 @@ body {
     text-shadow: 0 1px 3px rgba(255,255,255,0.5); /* 增加文字辨識度 */
 }
 
-/* --- 手機版：頂部分類按鈕「強制一行四個」 --- */
+@media (max-width: 1024px) {
+  .filter-tabs {
+    flex-wrap: nowrap;      /* 強制只一排 */
+    gap: 6px;               /* 縮小間距 */
+  }
 
-@media (max-width: 480px) {
-    /* 1. 確保容器不換行 */
-    .category-container, .filter-buttons {
-        display: flex !important;
-        flex-wrap: nowrap !important; /* 強制不換行 */
-        justify-content: space-around !important; /* 平均分配空間 */
-        gap: 4px !important; /* 縮小按鈕間的縫隙 */
-        padding: 10px 5px !important;
-        width: 100% !important;
-        overflow-x: hidden; /* 防止內容溢出 */
-    }
-
-    /* 2. 調整按鈕寬度與字體 */
-    .category-btn, .filter-btn {
-        flex: 1 !important;    /* 讓四個按鈕平分寬度 */
-        min-width: 0 !important; /* 防止被文字撐開 */
-        padding: 6px 2px !important; /* 縮小左右內距 */
-        font-size: 11px !important;  /* 大幅縮小字體以容納四個字 */
-        white-space: nowrap !important; /* 文字不換行 */
-        text-align: center !important;
-        border-radius: 15px !important; /* 讓按鈕圓角一點比較好看 */
-    }
+  .filter-tab {
+    font-size: 12px;        /* 縮小字體（關鍵） */
+    padding: 6px 8px;       /* 縮小內距 */
+    white-space: nowrap;    /* 文字不換行 */
+    flex: 1;                /* 四顆平均寬度 */
+    text-align: center;
+  }
 }
 
-/* --- 倒數計時區塊：維持垂直排列 (上中下) --- */
-@media (max-width: 480px) {
-    .countdown-banner, .timer-wrapper {
-        display: flex !important;
-        flex-direction: column !important;
-        align-items: center !important;
-        padding: 8px !important;
-        height: auto !important;
-    }
-    
-    /* 縮小倒數計時內的標題字體 */
-    .countdown-banner .text-group {
-        font-size: 13px !important;
-        margin-bottom: 5px !important;
-    }
-}
 
     </style>
 </head>
