@@ -772,6 +772,21 @@ body {
   }
 }
 
+/* ===== Mobile / Tablet Tag Filter Button ===== */
+
+/* 預設所有裝置都隱藏 */
+.tag-filter-btn {
+    display: none !important;
+}
+
+/* 只在手機 / 平板顯示 */
+@media (max-width: 1024px) {
+    .tag-filter-btn {
+        display: inline-flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+}
 
     </style>
 </head>
@@ -793,6 +808,15 @@ body {
 
             <!-- right actions: search icon + share icon -->
             <div class="header-actions" aria-hidden="false">
+			
+			<!-- Mobile / Tablet Tag Filter Button -->
+<button class="icon-btn tag-filter-btn" id="openTagFilterBtn" aria-label="商品分類">
+    <!-- tag icon -->
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+        <path d="M3 12l9 9 9-9-9-9-9 9z" stroke="currentColor" stroke-width="2"/>
+    </svg>
+</button>
+				
                 <!-- Search toggle button (放大鏡) -->
                 <button class="icon-btn" id="searchToggle" aria-label="搜尋品牌名稱">
                     <!-- inline SVG magnifier -->
@@ -1432,7 +1456,28 @@ body {
                 <button class="btn-filter-apply" id="filterApplyBtn">套用</button>
             </div>
         </div>
+		
+		
+		
     </div>
+/* === Mobile / Tablet Tag Button === */
+.tag-filter-btn {
+    display: none;
+}
+
+/* 平板以下才顯示 */
+@media (max-width: 1024px) {
+    .tag-filter-btn {
+        display: inline-flex;
+    }
+}
+
+/* 電腦版強制不顯示（保險） */
+@media (min-width: 1025px) {
+    .tag-filter-btn {
+        display: none !important;
+    }
+}
 
     <script>
 (function () {
@@ -1586,6 +1631,12 @@ function filterCards() {
 // --- 在 DOMContentLoaded 裡加入關鍵監聽 ---
 document.addEventListener('DOMContentLoaded', function () {
     // ... 原有的初始化代碼 ...
+	
+	// Mobile / Tablet 右上角「分類」按鈕
+document.getElementById('openTagFilterBtn')?.addEventListener('click', function () {
+    document.getElementById('filterOverlay')?.classList.add('open');
+});
+
 
     // 核心修復：確保搜尋框有被綁定事件
     const searchBox = document.getElementById('searchInput');
