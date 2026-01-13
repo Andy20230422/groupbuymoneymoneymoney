@@ -1038,6 +1038,43 @@ body {
         }
     }
 }
+/* === Mobile / Tablet Tag Button === */
+.tag-filter-btn {
+    display: none;
+}
+
+/* 平板以下才顯示 */
+@media (max-width: 1024px) {
+    .tag-filter-btn {
+        display: inline-flex;
+    }
+}
+
+/* 電腦版強制不顯示（保險） */
+@media (min-width: 1025px) {
+    .tag-filter-btn {
+        display: none !important;
+    }
+}
+
+/* ===============================
+   Fix: Mobile Filter Action Button
+   =============================== */
+@media (max-width: 1024px) {
+
+    /* 讓分類面板成為定位參考 */
+    .filter-panel {
+        position: relative;
+    }
+
+    /* 底部操作區固定在面板底部 */
+    .filter-actions {
+        position: absolute;   /* ❗從 fixed 改成 absolute */
+        left: 0;
+        right: 0;
+        bottom: 0;
+    }
+}
 
     </style>
 </head>
@@ -1711,24 +1748,7 @@ body {
 		
 		
     </div>
-/* === Mobile / Tablet Tag Button === */
-.tag-filter-btn {
-    display: none;
-}
 
-/* 平板以下才顯示 */
-@media (max-width: 1024px) {
-    .tag-filter-btn {
-        display: inline-flex;
-    }
-}
-
-/* 電腦版強制不顯示（保險） */
-@media (min-width: 1025px) {
-    .tag-filter-btn {
-        display: none !important;
-    }
-}
 
     <script>
 (function () {
