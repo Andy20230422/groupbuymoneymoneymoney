@@ -1937,6 +1937,186 @@ body {
   }
 }
 
+/* =====================================================
+   MOBILE / TABLET FILTER – FINAL VERSION
+   Only for max-width: 1024px
+   Desktop is NOT affected
+   ===================================================== */
+
+@media (max-width: 1024px) {
+
+  /* =====================
+     Top-right Filter Button
+     ===================== */
+  .tag-filter-btn {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* =====================
+     Overlay (dark background)
+     ===================== */
+  .filter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 3000;
+
+    display: none;
+    justify-content: flex-end;
+  }
+
+  .filter-overlay.open {
+    display: flex;
+  }
+
+  /* =====================
+     Sliding Panel (Right)
+     ===================== */
+  .filter-panel {
+    width: 85%;
+    max-width: 420px;
+    height: 100%;
+    background: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+
+    position: relative;
+    padding: 16px 16px 0;
+    overflow: hidden;
+
+    transform: translateX(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .filter-overlay.open .filter-panel {
+    transform: translateX(0);
+  }
+
+  /* =====================
+     Header (Title + Close)
+     ===================== */
+  .filter-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-bottom: 12px;
+    border-bottom: 1px solid #eee;
+    flex-shrink: 0;
+  }
+
+  .filter-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  /* Close (X) Button */
+  .filter-close {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 36px;
+    height: 36px;
+    font-size: 22px;
+    color: #888;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  /* =====================
+     Category List (Scrollable)
+     ===================== */
+  .filter-list {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding: 16px 0 120px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* =====================
+     Category Item
+     ===================== */
+  .filter-item {
+    width: 100%;
+    padding: 12px 16px;
+
+    border-radius: 12px;
+    background: #f5f5f5;
+    border: 1px solid #eee;
+
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+
+    cursor: pointer;
+    transition: background 0.2s ease, color 0.2s ease;
+  }
+
+  .filter-item.selected {
+    background: #c9a876;
+    color: #ffffff;
+    border-color: transparent;
+  }
+
+  /* =====================
+     Bottom Actions
+     ===================== */
+  .filter-actions {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+    background: rgba(255, 255, 255, 0.97);
+    backdrop-filter: blur(6px);
+
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid #eee;
+  }
+
+  .btn-filter-clear,
+  .btn-filter-apply {
+    flex: 1;
+    padding: 12px 0;
+
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+  }
+
+  .btn-filter-clear {
+    background: #f5f5f5;
+    color: #666;
+  }
+
+  .btn-filter-apply {
+    background: #c9a876;
+    color: #fff;
+  }
+}
+
+
     </style>
 </head>
 <body>
@@ -2875,113 +3055,54 @@ function copyCoupon(id, btn) {
 </footer>
 
 <script>
-// 1. 定義切換篩選面板的函數 (供 HTML 中的 onclick="toggleFilter()" 使用)
-function toggleFilter() {
-    const overlay = document.querySelector('.filter-overlay');
-    if (overlay) {
-        overlay.classList.toggle('open'); // 你的 CSS 使用 .open 來控制顯示
+(function () {
+  const overlay = document.getElementById('filterOverlay');
+  const openBtn = document.getElementById('openTagFilterBtn');
+  const closeBtn = document.querySelector('.filter-close');
+
+  if (!overlay || !openBtn) return;
+
+  /* ===== 開啟 ===== */
+  function openFilter() {
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  /* ===== 關閉 ===== */
+  function closeFilter() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  /* ===== 綁定事件 ===== */
+  openBtn.addEventListener('click', openFilter);
+
+  closeBtn && closeBtn.addEventListener('click', closeFilter);
+
+  /* 點擊黑色背景關閉 */
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) {
+      closeFilter();
     }
-}
+  });
 
-// 2. 監聽整個頁面的點擊事件 (自動套用篩選)
-document.addEventListener('click', function(e) {
-    const item = e.target.closest('.filter-item');
-    if (item) {
-        setTimeout(() => {
-            if (typeof applyFilters === "function") {
-                applyFilters();
-            }
-        }, 50);
+  /* ESC 關閉（加分） */
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') {
+      closeFilter();
     }
-});
+  });
 
-// 3. 頁面載入後的其他修正
-document.addEventListener('DOMContentLoaded', function() {
-    // 強制把 X 按鈕搬到面板內部最上方
-    const closeBtn = document.querySelector('.filter-close');
-    const panel = document.querySelector('.filter-panel');
-    if (closeBtn && panel) {
-        panel.prepend(closeBtn);
+  /* 螢幕變大時自動 reset（避免影響電腦版） */
+  window.addEventListener('resize', function () {
+    if (window.innerWidth > 1024) {
+      closeFilter();
     }
-    
-    // 額外確保手機版按鈕點擊有效 (即便 onclick 失效也能補償)
-    const tagBtn = document.querySelector('.tag-filter-btn');
-    if (tagBtn) {
-        tagBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            toggleFilter();
-        });
-    }
-});
-// --- 修正後的程式碼 ---
+  });
 
-// 1. 定義切換函數（對應 HTML 中的 onclick="toggleFilter()"）
-function toggleFilter() {
-    const overlay = document.querySelector('.filter-overlay');
-    if (overlay) {
-        overlay.classList.toggle('open');
-        console.log("切換選單狀態");
-    }
-}
-
-// 2. 確保頁面載入後，按鈕與關閉功能正常
-document.addEventListener('DOMContentLoaded', function() {
-    // 修正：原本你的程式碼在找 .mobile-filter-trigger，但 HTML 裡是 .tag-filter-btn
-    const mobileBtn = document.querySelector('.tag-filter-btn');
-    const filterOverlay = document.querySelector('.filter-overlay');
-    const closeBtn = document.querySelector('.filter-close');
-
-    // 強制綁定點擊事件 (雙重保險)
-    if (mobileBtn && filterOverlay) {
-        mobileBtn.onclick = function(e) {
-            e.preventDefault();
-            filterOverlay.classList.add('open');
-        };
-    }
-
-    // 點擊 X 關閉
-    if (closeBtn && filterOverlay) {
-        closeBtn.onclick = function() {
-            filterOverlay.classList.remove('open');
-        };
-    }
-    
-    // 點擊遮罩空白處也關閉 (增加體驗)
-    if (filterOverlay) {
-        filterOverlay.addEventListener('click', function(e) {
-            if (e.target === filterOverlay) {
-                filterOverlay.classList.remove('open');
-            }
-        });
-    }
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-    const overlay = document.getElementById('filterOverlay');
-
-    // 左上 ≡
-    document.getElementById('openFilterBtn')?.addEventListener('click', () => {
-        overlay.classList.add('open');
-    });
-
-    // 右上「分類」
-    document.getElementById('openTagFilterBtn')?.addEventListener('click', () => {
-        overlay.classList.add('open');
-    });
-
-    // 關閉 X
-    document.getElementById('closeFilterBtn')?.addEventListener('click', () => {
-        overlay.classList.remove('open');
-    });
-
-    // 點黑色遮罩關閉
-    overlay?.addEventListener('click', e => {
-        if (e.target === overlay) overlay.classList.remove('open');
-    });
-});
-
-
+})();
 </script>
+
 
 </body>
 
