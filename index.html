@@ -1454,6 +1454,35 @@ body {
         transition: margin-top 0.3s ease;
     }
 }
+@media (max-width: 1024px) {
+    /* 預設隱藏，但不使用 absolute 浮動 */
+    .filter-overlay {
+        display: none !important; 
+        position: relative !important; /* 改為相對定位，這樣展開時會推擠下方商品 */
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        background: #fff !important; /* 移除黑色遮罩背景 */
+        z-index: 10;
+        border-bottom: 1px solid #f0f0f0; /* 下方加一條裝飾線 */
+    }
+
+    /* 當 class 含有 open 時顯示 */
+    .filter-overlay.open {
+        display: block !important;
+    }
+
+    /* 內部的面板取消滑出動畫 */
+    .filter-panel {
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        box-shadow: none !important;
+        padding: 10px 15px !important;
+    }
+}
+
     </style>
 </head>
 <body>
@@ -2460,6 +2489,26 @@ if (mobileFilterBtn) {
         }
     });
 }
+document.addEventListener('DOMContentLoaded', function() {
+    // 1. 自動尋找可能的分類按鈕（請確認您的 HTML 裡按鈕是否有這些 class）
+    const filterBtn = document.querySelector('.mobile-filter-trigger, .btn-filter, .filter-toggle');
+    const filterOverlay = document.querySelector('.filter-overlay');
+
+    if (filterBtn && filterOverlay) {
+        filterBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation(); // 防止事件冒泡
+            
+            // 切換開啟狀態
+            filterOverlay.classList.toggle('open');
+            
+            // 如果打開了，把畫面平滑捲動到分類面板位置
+            if (filterOverlay.classList.contains('open')) {
+                filterOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    }
+});
 </script>
 </body>
 
