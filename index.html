@@ -715,6 +715,36 @@ body {
   }
 }
 
+@media (max-width: 1024px) {
+  .countdown-content {
+    flex-direction: column;     /* 改成上下排列 */
+    align-items: flex-start;    /* 靠左對齊 */
+    gap: 6px;                   /* 每一行的間距 */
+  }
+
+  .countdown-left {
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  .countdown-right {
+    display: flex;
+    flex-direction: column;     /* 商品名 + 倒數再往下排 */
+    align-items: flex-start;
+    gap: 4px;
+  }
+
+  .banner-name {
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  .banner-timer {
+    font-size: 13px;
+    font-weight: 600;
+  }
+}
+
 
     </style>
 </head>
