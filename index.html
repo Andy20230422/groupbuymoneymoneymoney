@@ -598,106 +598,60 @@
         }
 
         /* Responsive */
-        /* ===============================
-   MOBILE FILTER — FIXED VERSION
-   =============================== */
-@media (max-width: 1024px) {
+        @media (max-width: 1024px) {
+            .filter-tabs {
+                flex-wrap: nowrap;
+                gap: 6px;
+            }
 
-  .filter-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 3000;
-    display: none;
-    justify-content: flex-end;
-  }
+            .filter-tab {
+                font-size: 12px;
+                padding: 6px 8px;
+                white-space: nowrap;
+                flex: 1;
+                text-align: center;
+            }
 
-  .filter-overlay.open {
-    display: flex;
-  }
+            .countdown-content {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 6px;
+            }
 
-  /* ★ 關鍵修正在這裡 */
-  .filter-panel {
-    width: 75%;              /* 原 85% → 75% */
-    max-width: 360px;        /* 原 420px → 360px */
-    height: 100%;
-    background: #ffffff;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 50px 16px 20px;
-    overflow-y: auto;        /* ★ 改成可以滾動 */
-    -webkit-overflow-scrolling: touch;
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-  }
+            .countdown-left {
+                justify-content: center;
+                font-size: 13px;
+                font-weight: 600;
+            }
 
-  .filter-overlay.open .filter-panel {
-    transform: translateX(0);
-  }
+            .countdown-right {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+            }
 
-  .filter-panel h3 {
-    position: sticky;
-    top: 0;
-    background: #ffffff;
-    padding: 12px 0;
-    font-size: 18px;
-    z-index: 2;
-  }
+            .banner-name {
+                font-size: 14px;
+                font-weight: 700;
+            }
 
-  .filter-close {
-    position: sticky;
-    top: 10px;
-    margin-left: auto;
-    width: 36px;
-    height: 36px;
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #888;
-    z-index: 3;
-  }
+            .banner-timer {
+                font-size: 13px;
+                font-weight: 600;
+            }
 
-  .filter-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-bottom: 24px;
-  }
+            .tag-filter-btn {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+            }
 
-  .filter-item {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 12px;
-    background: #f7f7f7;
-    border: 1px solid #eeeeee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 15px;
-    cursor: pointer;
-  }
-
-  .filter-item.selected {
-    background: #c9a876;
-    color: #ffffff;
-    border-color: transparent;
-  }
-
-  /* 手機版本來就不需要 */
-  .filter-actions {
-    display: none;
-  }
-
-  .filter-section .section-title {
-    display: none;
-  }
-}
-
+            .menu-icon {
+                display: none;
+            }
+        }
 
         @media (max-width: 768px) {
             .coupon-row {
@@ -917,30 +871,6 @@
             display: none;
           }
         }
-		/* ===============================
-   MOBILE: FIX FILTER TABS LAYOUT
-   =============================== */
-@media (max-width: 768px) {
-    .filter-tabs {
-        flex-wrap: nowrap !important;
-    }
-
-    .filter-tab {
-        flex: 1 1 0 !important;
-        white-space: nowrap;
-        text-align: center;
-    }
-}
-/* ===============================
-   DESKTOP: HIDE FILTER ACTIONS
-   =============================== */
-@media (min-width: 1025px) {
-    .filter-actions {
-        display: none !important;
-    }
-}
-
-		
     </style>
 </head>
 <body>
@@ -1878,157 +1808,236 @@ function copyCoupon(id, btn) {
     </div>
 </footer>
 
-<script>
-// 1. 定義切換篩選面板的函數 (供 HTML 中的 onclick="toggleFilter()" 使用)
-function toggleFilter() {
-    const overlay = document.querySelector('.filter-overlay');
-    if (overlay) {
-        overlay.classList.toggle('open'); // 你的 CSS 使用 .open 來控制顯示
-    }
-}
+    <script>
+(function () {
+    'use strict';
 
-// 2. 監聽整個頁面的點擊事件 (自動套用篩選)
-document.addEventListener('click', function(e) {
-    const item = e.target.closest('.filter-item');
-    if (item) {
-        setTimeout(() => {
-            if (typeof applyFilters === "function") {
-                applyFilters();
-            }
-        }, 50);
-    }
-});
+    let showOnlyEnded = false;
 
-// 3. 頁面載入後的其他修正
-document.addEventListener('DOMContentLoaded', function() {
-    // 強制把 X 按鈕搬到面板內部最上方
-    const closeBtn = document.querySelector('.filter-close');
-    const panel = document.querySelector('.filter-panel');
-    if (closeBtn && panel) {
-        panel.prepend(closeBtn);
-    }
-    
-    // 額外確保手機版按鈕點擊有效 (即便 onclick 失效也能補償)
-    const tagBtn = document.querySelector('.tag-filter-btn');
-    if (tagBtn) {
-        tagBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            toggleFilter();
-        });
-    }
-});
-// --- 修正後的程式碼 ---
-
-// 1. 定義切換函數（對應 HTML 中的 onclick="toggleFilter()"）
-function toggleFilter() {
-    const overlay = document.querySelector('.filter-overlay');
-    if (overlay) {
-        overlay.classList.toggle('open');
-        console.log("切換選單狀態");
-    }
-}
-
-// 2. 確保頁面載入後，按鈕與關閉功能正常
-document.addEventListener('DOMContentLoaded', function() {
-    // 修正：原本你的程式碼在找 .mobile-filter-trigger，但 HTML 裡是 .tag-filter-btn
-    const mobileBtn = document.querySelector('.tag-filter-btn');
-    const filterOverlay = document.querySelector('.filter-overlay');
-    const closeBtn = document.querySelector('.filter-close');
-
-    // 強制綁定點擊事件 (雙重保險)
-    if (mobileBtn && filterOverlay) {
-        mobileBtn.onclick = function(e) {
-            e.preventDefault();
-            filterOverlay.classList.add('open');
-        };
+    // --- 1. 日期工具 ---
+    function normalizeToISO(dateStr) {
+        if (!dateStr) return null;
+        dateStr = dateStr.trim();
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+        var m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
+        if (m) {
+            var mon = String(m[1]).padStart(2, '0');
+            var day = String(m[2]).padStart(2, '0');
+            var year = m[3] ? m[3] : (new Date()).getFullYear();
+            return year + '-' + mon + '-' + day;
+        }
+        return null;
     }
 
-    // 點擊 X 關閉
-    if (closeBtn && filterOverlay) {
-        closeBtn.onclick = function() {
-            filterOverlay.classList.remove('open');
-        };
+    function daysLeftTo(endISO) {
+        try {
+            var end = new Date(endISO + 'T23:59:59');
+            var now = new Date();
+            var diff = end - now;
+            var days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+            return { days: days, diffMs: diff };
+        } catch (e) { return null; }
     }
-    
-    // 點擊遮罩空白處也關閉 (增加體驗)
-    if (filterOverlay) {
-        filterOverlay.addEventListener('click', function(e) {
-            if (e.target === filterOverlay) {
-                filterOverlay.classList.remove('open');
+
+    // --- 2. 更新狀態 ---
+    function updateElement(el) {
+        var endAttr = el.getAttribute('data-end');
+        var endISO = normalizeToISO(endAttr);
+        var outSpan = el.querySelector('.days-left');
+        var card = el.closest('.product-card');
+        if (!endISO || !outSpan) return;
+        var result = daysLeftTo(endISO);
+        if (!result) return;
+
+        if (result.diffMs < 0) {
+            outSpan.textContent = '已結束';
+            if (card) card.classList.add('ended');
+        } else {
+            if (card) card.classList.remove('ended');
+            outSpan.textContent = (result.days <= 1) ? '今日截止' : '剩 ' + result.days + ' 天';
+        }
+    }
+
+    function updateBanner() {
+        var bannerName = document.getElementById('bannerName');
+        var bannerTimer = document.getElementById('bannerTimer');
+        var metas = document.querySelectorAll('.product-meta');
+        var now = new Date();
+        var nearest = null;
+
+        metas.forEach(function (meta) {
+            var endISO = normalizeToISO(meta.getAttribute('data-end'));
+            if (!endISO) return;
+            var diff = new Date(endISO + 'T23:59:59') - now;
+            if (diff > 0 && (!nearest || diff < nearest.diff)) {
+                var card = meta.closest('.product-card');
+                nearest = { name: card.querySelector('.product-name').textContent, diff: diff };
             }
         });
+
+        if (bannerName && bannerTimer) {
+            if (!nearest) {
+                bannerName.textContent = '目前無即將截止項目';
+                bannerTimer.style.display = 'none';
+            } else {
+                bannerName.textContent = nearest.name;
+                bannerTimer.style.display = 'inline-block';
+                var s = Math.floor(nearest.diff / 1000);
+                var d = Math.floor(s / 86400);
+                var r = s % 86400;
+                var h = String(Math.floor(r / 3600)).padStart(2, '0');
+                var m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
+                var sec = String(r % 60).padStart(2, '0');
+                bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + h + ':' + m + ':' + sec;
+            }
+        }
     }
-});
 
-document.addEventListener('DOMContentLoaded', function () {
-    const overlay = document.getElementById('filterOverlay');
+    // --- 3. 側欄分類產生 ---
+    function renderCategoryList() {
+        var categoryList = document.getElementById('categoryList');
+        if (!categoryList) return;
+        var allTags = new Set();
+        document.querySelectorAll('.product-tag').forEach(tag => allTags.add(tag.textContent.trim()));
+        
+        categoryList.innerHTML = '<div class="filter-item selected" data-tag="全部">全部</div>';
+        Array.from(allTags).sort().forEach(tag => {
+            var div = document.createElement('div');
+            div.className = 'filter-item';
+            div.setAttribute('data-tag', tag);
+            div.textContent = tag;
+            categoryList.appendChild(div);
+        });
 
-    // 左上 ≡
-    document.getElementById('openFilterBtn')?.addEventListener('click', () => {
-        overlay.classList.add('open');
-    });
-
-    // 右上「分類」
-    document.getElementById('openTagFilterBtn')?.addEventListener('click', () => {
-        overlay.classList.add('open');
-    });
-
-    // 關閉 X
-    document.getElementById('closeFilterBtn')?.addEventListener('click', () => {
-        overlay.classList.remove('open');
-    });
-
-    // 點黑色遮罩關閉
-    overlay?.addEventListener('click', e => {
-        if (e.target === overlay) overlay.classList.remove('open');
-    });
-});
-// ===============================
-// Mobile Filter – Native App UX
-// ===============================
-document.addEventListener("DOMContentLoaded", () => {
-
-  const overlay = document.querySelector(".filter-overlay");
-  const panel = document.querySelector(".filter-panel");
-  const closeBtn = document.querySelector(".filter-close");
-
-  if (!overlay || !panel) return;
-
-  // 點 X 關閉
-  if (closeBtn) {
-    closeBtn.addEventListener("click", () => {
-      overlay.classList.remove("open");
-      document.body.style.overflow = "";
-    });
-  }
-
-  // 點黑色背景關閉
-  overlay.addEventListener("click", (e) => {
-    if (e.target === overlay) {
-      overlay.classList.remove("open");
-      document.body.style.overflow = "";
+        // 點擊分類項目
+        categoryList.addEventListener('click', function(e) {
+            if (e.target.classList.contains('filter-item')) {
+                categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
+                e.target.classList.add('selected');
+                filterCards(); // 即時預覽
+                
+                // 手機版：點擊後自動關閉選單
+                if (window.innerWidth <= 1024) {
+                    document.getElementById('filterOverlay')?.classList.remove('open');
+                }
+            }
+        });
     }
-  });
 
-  // 點任一分類 → 套用並關閉
-  panel.querySelectorAll(".filter-item").forEach(item => {
-    item.addEventListener("click", () => {
+    // --- 4. 篩選邏輯 ---
+    function filterCards() {
+        const searchInput = document.getElementById('searchInput');
+        const keyword = (searchInput?.value || '').trim().toLowerCase();
+        
+        const selected = document.querySelector('#categoryList .filter-item.selected');
+        const catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
 
-      // 標記選中狀態
-      panel.querySelectorAll(".filter-item").forEach(i => i.classList.remove("selected"));
-      item.classList.add("selected");
+        document.querySelectorAll('.product-card').forEach(function (card) {
+            const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
+            const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase();
+            const tags = (card.dataset.tags || '').split('|');
+            const isEnded = card.classList.contains('ended');
+            
+            const matchCat = !catTag || tags.some(t => t.includes(catTag));
+            const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
+            
+            const shouldShow = showOnlyEnded ? 
+                (matchCat && matchSearch && isEnded) : 
+                (matchCat && matchSearch && !isEnded);
+                
+            card.style.display = shouldShow ? '' : 'none';
+        });
 
-      // 關閉抽屜
-      overlay.classList.remove("open");
-      document.body.style.overflow = "";
+        const toggleBtn = document.getElementById('toggleEndedBtn');
+        if (toggleBtn) {
+            const count = document.querySelectorAll('.product-card.ended').length;
+            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
+        }
+    }
+
+    // --- 5. 初始化與按鈕綁定 ---
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.product-card').forEach(function(card) {
+            var tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim());
+            card.dataset.tags = tags.join('|');
+            card.querySelectorAll('.product-meta').forEach(updateElement);
+        });
+
+        renderCategoryList();
+
+        // 側欄開關
+        const overlay = document.getElementById('filterOverlay');
+        document.getElementById('openFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
+        document.getElementById('openTagFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
+        document.getElementById('closeFilterBtn')?.addEventListener('click', () => overlay.classList.remove('open'));
+        overlay?.addEventListener('click', e => {
+            if (e.target === overlay) overlay.classList.remove('open');
+        });
+
+        // 「清除」按鈕
+        document.getElementById('filterClearBtn')?.addEventListener('click', function() {
+            if (document.getElementById('searchInput')) document.getElementById('searchInput').value = '';
+            var items = document.querySelectorAll('#categoryList .filter-item');
+            items.forEach(i => i.classList.remove('selected'));
+            if (items[0]) items[0].classList.add('selected');
+            filterCards();
+        });
+
+        // 「套用」按鈕
+        document.getElementById('filterApplyBtn')?.addEventListener('click', function() {
+            filterCards();
+            overlay.classList.remove('open');
+        });
+
+        // 搜尋框
+        const searchBox = document.getElementById('searchInput');
+        if (searchBox) {
+            searchBox.addEventListener('input', filterCards);
+        }
+
+        // 搜尋下拉選單開關
+        const searchToggle = document.getElementById('searchToggle');
+        const searchDropdown = document.getElementById('headerSearchDropdown');
+        
+        searchToggle?.addEventListener('click', function(e) {
+            e.stopPropagation();
+            searchDropdown.classList.toggle('open');
+            if (searchDropdown.classList.contains('open')) {
+                searchBox.focus();
+            }
+        });
+
+        document.addEventListener('click', function() {
+            searchDropdown.classList.remove('open');
+        });
+        searchDropdown?.addEventListener('click', (e) => e.stopPropagation());
+
+        // 結束切換
+        document.getElementById('toggleEndedBtn')?.addEventListener('click', function() {
+            showOnlyEnded = !showOnlyEnded;
+            filterCards();
+        });
+
+        filterCards();
+        updateBanner();
+        setInterval(updateBanner, 1000);
     });
-  });
+})();
 
-});
+// 全域函式
+function goToSection(id) { 
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+}
 
-
-</script>
-
+function copyCoupon(id, btn) {
+    const code = document.getElementById(id)?.textContent.trim();
+    if (!code) return;
+    navigator.clipboard.writeText(code).then(() => {
+        const t = btn.textContent; 
+        btn.textContent = "已複製 ✓";
+        setTimeout(() => btn.textContent = t, 2000);
+    });
+}
+    </script>
 </body>
-
 </html>
