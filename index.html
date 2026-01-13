@@ -1454,6 +1454,41 @@ body {
         transition: margin-top 0.3s ease;
     }
 }
+
+/* 專門針對手機版的修正 (螢幕寬度小於 768px 時生效) */
+@media (max-width: 768px) {
+    /* 1. 確保折扣碼容器在空間不足時能換行，並增加間距 */
+    .coupon-row {
+        flex-wrap: wrap !important; 
+        justify-content: center !important;
+        gap: 8px !important;
+    }
+
+    /* 2. 防止「複製」按鈕被擠壓變形 */
+    .copy-btn {
+        flex-shrink: 0 !important; /* 強制按鈕不縮小 */
+        white-space: nowrap !important; /* 文字不換行 */
+        padding: 6px 16px !important; /* 稍微調整手機版按鈕大小 */
+        min-width: 70px !important; /* 設定最小寬度保證形狀 */
+        height: auto !important;
+    }
+
+    /* 3. 折扣碼文字在手機版稍微縮小，避免佔據太多空間 */
+    .coupon-code {
+        font-size: 16px !important;
+        letter-spacing: 0.5px !important;
+    }
+
+    /* 4. 如果是極窄手機（寬度小於 350px），改為上下排列 */
+    @media (max-width: 350px) {
+        .coupon-row {
+            flex-direction: column !important;
+        }
+        .copy-btn {
+            width: 100% !important; /* 按鈕佔滿寬度 */
+        }
+    }
+}
     </style>
 </head>
 <body>
