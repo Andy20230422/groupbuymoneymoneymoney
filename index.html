@@ -148,8 +148,25 @@
         .product-card { background: white; border: 3px solid #f5d5a0; border-radius: 20px; overflow: hidden; transition: all 0.3s; }
         .product-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
 
-        .product-image { width:100%; height:250px; linear-gradient(135deg, #f5f5f5 0%, #e8e8e8 100%); display:flex; align-items:center; justify-content:center; overflow:hidden; }
-        .product-image img { width:100%; height:100%; object-fit: contain; }
+.product-image {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    background: #f5f5f5;
+    overflow: hidden;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+/* hover 微放大（質感加分，可留可不留） */
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
         .product-content { padding: 20px; }
         .product-name { font-size:18px; font-weight:700; color:#5a4a3a; margin-bottom:15px; min-height:50px; }
         .product-desc { font-size:14px; color:#999; margin-bottom:15px; line-height:1.5; }
@@ -844,6 +861,40 @@ body {
         border-radius: 999px;
         font-size: 14px;
     }
+}
+
+/* === 商品卡片：整排齊高關鍵 === */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;   /* 撐滿剩餘高度 */
+}
+.product-name {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* 最多兩行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    line-height: 1.4;
+    min-height: calc(1.4em * 2); /* 強制佔兩行高度 */
+}
+.product-desc {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;   /* 描述最多兩行 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    line-height: 1.4;
+    min-height: calc(1.4em * 2);
+}
+.product-buttons {
+    margin-top: auto;   /* 關鍵：把按鈕推到最底 */
 }
 
 
