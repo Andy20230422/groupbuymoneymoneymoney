@@ -706,8 +706,15 @@ body {
         font-size: 24px; /* 調小一點適合手機 */
     }
     
-    .left-area {
-        gap: 8px !important;
+.left-area {
+        gap: 8px !important; /* 縮小按鈕與 Logo 之間的間距 */
+        min-width: auto !important;
+    }
+	/* 確保手機版雙欄排版不跑位 */
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+        gap: 12px !important;
+        padding: 10px !important;
     }
 }
 
@@ -1482,6 +1489,33 @@ body {
         max-width: 100% !important;
         box-shadow: none !important;
         padding: 10px 15px !important;
+    }
+}
+/* 3. 側欄濾鏡手機版樣式修復 */
+@media (max-width: 1024px) {
+    .filter-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.45);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 2000;
+        display: none; /* 預設隱藏，由 JS 控制 open class */
+        align-items: flex-start;
+        justify-content: flex-start;
+    }
+
+    .filter-overlay.open {
+        display: flex !important;
+    }
+
+    .filter-panel {
+        width: 280px !important; /* 恢復側邊欄寬度 */
+        height: 100%;
+        background: #fff;
+        padding: 20px;
+        overflow-y: auto;
+        box-shadow: 5px 0 15px rgba(0,0,0,0.1);
     }
 }
 
@@ -2487,6 +2521,35 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // 點擊黑色遮罩區域也能關閉
+        filterOverlay.addEventListener('click', function(e) {
+            if (e.target === filterOverlay) {
+                filterOverlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+    }
+});
+document.addEventListener('DOMContentLoaded', function() {
+    // 抓取電腦與手機版的選單按鈕
+    const menuBtn = document.querySelector('.menu-icon');
+    const filterOverlay = document.querySelector('.filter-overlay');
+    const closeBtn = document.querySelector('.filter-close');
+
+    if (menuBtn && filterOverlay) {
+        menuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            filterOverlay.classList.add('open');
+            document.body.style.overflow = 'hidden'; // 開啟時防止底層滾動
+        });
+    }
+
+    if (closeBtn && filterOverlay) {
+        closeBtn.addEventListener('click', function() {
+            filterOverlay.classList.remove('open');
+            document.body.style.overflow = ''; // 關閉時恢復滾動
+        });
+
+        // 點擊遮罩空白處也可關閉
         filterOverlay.addEventListener('click', function(e) {
             if (e.target === filterOverlay) {
                 filterOverlay.classList.remove('open');
