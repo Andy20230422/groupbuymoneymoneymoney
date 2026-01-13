@@ -1076,6 +1076,186 @@ body {
     }
 }
 
+/* ===============================
+   Mobile Filter Action - FIX BOTTOM
+   =============================== */
+@media (max-width: 1024px) {
+
+    /* 分類面板高度撐滿 */
+    .filter-panel {
+        position: relative;
+        padding-bottom: 110px; /* 預留給底部按鈕 */
+        max-height: calc(100vh - 80px);
+        overflow-y: auto;
+    }
+
+    /* 清除 / 套用：固定在螢幕最底 */
+    .filter-actions {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+        background: rgba(255, 255, 255, 0.96);
+        backdrop-filter: blur(8px);
+
+        z-index: 9999;
+        border-top: 1px solid #eee;
+    }
+}
+
+/* =====================================
+   Mobile Filter - FINAL VERSION (Stable)
+   ===================================== */
+@media (max-width: 1024px) {
+
+    /* 半透明背景 */
+    .filter-overlay {
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        padding-top: 70px;
+        z-index: 9998;
+    }
+
+    /* 分類面板（像 App 底部面板） */
+    .filter-panel {
+        position: relative;
+        width: 100%;
+        max-width: 100%;
+        max-height: calc(100vh - 70px);
+
+        background: #fff;
+        border-radius: 24px 24px 0 0;
+
+        padding: 20px 16px 140px; /* ⬅ 預留底部按鈕高度 */
+        overflow-y: auto;
+
+        box-shadow: 0 -10px 30px rgba(0,0,0,.25);
+        animation: slideUp 0.35s ease;
+    }
+
+    /* 上方拖曳提示條 */
+    .filter-panel::before {
+        content: '';
+        width: 40px;
+        height: 5px;
+        background: #ddd;
+        border-radius: 999px;
+        margin: 0 auto 14px;
+        display: block;
+    }
+
+    /* 標題 */
+    .filter-panel h3 {
+        text-align: center;
+        font-size: 18px;
+        margin-bottom: 16px;
+    }
+
+    /* 關閉按鈕 */
+    .filter-close {
+        position: absolute;
+        top: 14px;
+        right: 16px;
+        font-size: 22px;
+    }
+
+    /* 分類區塊 */
+    .filter-section {
+        margin-bottom: 22px;
+    }
+
+    /* 分類 Tag 橫向滑動 */
+    .filter-list {
+        display: flex;
+        gap: 10px;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .filter-list::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Tag 樣式 */
+    .filter-item {
+        flex-shrink: 0;
+        padding: 8px 16px;
+        border-radius: 999px;
+
+        font-size: 14px;
+        font-weight: 600;
+
+        background: #f5f5f5;
+        border: 1px solid #eee;
+        color: #555;
+
+        transition: all .25s ease;
+    }
+
+    .filter-item.selected {
+        background: #c9a876;
+        color: #fff;
+        border-color: transparent;
+    }
+
+    /* === 關鍵：底部操作區 === */
+    .filter-actions {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        padding: 14px 16px calc(14px + env(safe-area-inset-bottom));
+        background: rgba(255,255,255,.96);
+        backdrop-filter: blur(8px);
+
+        display: flex;
+        gap: 12px;
+
+        border-top: 1px solid #eee;
+        z-index: 9999;
+    }
+
+    .btn-filter-clear,
+    .btn-filter-apply {
+        flex: 1;
+        padding: 14px 0;
+        border-radius: 14px;
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    .btn-filter-clear {
+        background: #f5f5f5;
+        color: #666;
+    }
+
+    .btn-filter-apply {
+        background: #c9a876;
+        color: #fff;
+    }
+
+    /* 上滑動畫 */
+    @keyframes slideUp {
+        from {
+            transform: translateY(100%);
+            opacity: 0;
+        }
+        to {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+}
+
     </style>
 </head>
 <body>
@@ -1188,7 +1368,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">南田牧野家-抹茶甜點專賣店</h3>
-                        <p class="product-desc">👍新品禮盒9折</p>
+                        <p class="product-desc">✅新品禮盒9折<br>✅滿2,500元贈雪球一包（口味隨機）</p>
                         <div class="product-tags">
                             <span class="product-tag">🥯 食品</span>
                             
@@ -1214,7 +1394,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">THOMSON 石墨烯壁掛暖風機</h3>
-                        <p class="product-desc">👍原開團價2990$現在只要2880$現省100$</p>
+                        <p class="product-desc">🚚原開團價$2990，現在只要$2880<br>✅首次消費，使用【JOIN88】88折</p>
                         <div class="product-tags">
                             <span class="product-tag">🏠 居家</span>
                             
@@ -1239,7 +1419,7 @@ body {
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">朵妮朵絲 - 天然植萃精油</h3>
-                        <p class="product-desc">👍台灣輔助醫學會推薦｜天然植萃精油</p>
+                        <p class="product-desc">✅台灣輔助醫學會推薦<br>✅團購專屬組合最低54折起</p>
                         <div class="product-tags">
                             <span class="product-tag">🏠 居家</span>
                             
@@ -1368,7 +1548,7 @@ body {
                     <div class="product-image"><img src="folding-dryer.jpg" alt="折疊高速負離子吹風機"></div>
                     <div class="product-content">
                         <h3 class="product-name">折疊高速負離子吹風機</h3>
-                        <p class="product-desc">✅90度好摺疊收納<br>
+                        <p class="product-desc">🚚1台就免運，90度好摺疊收納<br>
 						✅可帶出國，100~240國際電壓</p>
                         <div class="product-tags">
                             <span class="product-tag">📺 家電</span>
@@ -1435,7 +1615,7 @@ body {
 						<span class="product-tag">✈️ 旅遊</span>
 						</div>
                         <div class="product-buttons">
-                        
+                        <a class="btn btn-video" href="https://www.facebook.com/share/p/17kFMYeFx1/" target="_blank" rel="noopener noreferrer">📙 2A的貼文分享</a>
 
                             <a class="btn btn-primary" href="https://s.shopee.tw/4LCvyBBQBN" target="_blank">🛍️ 立即購買 →</a>
 							
@@ -1526,7 +1706,7 @@ body {
                         </div>
 
                         <div class="product-buttons">
-                            <a class="btn btn-primary" href="https://reurl.cc/GNalm3" target="_blank" rel="noopener noreferrer">🎫立即領取 →</a>
+                            <a class="btn btn-primary" href="https://reurl.cc/GNalm3" target="_blank" rel="noopener noreferrer">🎫 立即領取 →</a>
 							
                         </div>
                     </div>
@@ -1561,7 +1741,7 @@ body {
        
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://reurl.cc/VmerpN" target="_blank">✈️前往 KKday →</a>
+            <a class="btn btn-primary" href="https://reurl.cc/VmerpN" target="_blank">✈️ 前往 KKday →</a>
         </div>
     </div>
 </div>
@@ -1593,7 +1773,7 @@ body {
 
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://2acouple.pse.is/7n7mjf" target="_blank">✈️前往 Klook →</a>
+            <a class="btn btn-primary" href="https://2acouple.pse.is/7n7mjf" target="_blank">✈️ 前往 Klook →</a>
         </div>
     </div>
 </div>
@@ -1616,7 +1796,7 @@ body {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://agoda.tp.st/VwJBDinr" target="_blank">✈️前往 Agoda →</a>
+            <a class="btn btn-primary" href="https://agoda.tp.st/VwJBDinr" target="_blank">✈️ 前往 Agoda →</a>
         </div>
     </div>
 </div>
@@ -1638,7 +1818,7 @@ body {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://holafly.sjv.io/aORJqY" target="_blank">✈️前往 Holafly →</a>
+            <a class="btn btn-primary" href="https://holafly.sjv.io/aORJqY" target="_blank">✈️ 前往 Holafly →</a>
         </div>
     </div>
 </div>
@@ -1661,7 +1841,7 @@ body {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://nordvpn.com/2acouple" target="_blank">✈️前往 NordVPN →</a>
+            <a class="btn btn-primary" href="https://nordvpn.com/2acouple" target="_blank">✈️ 前往 NordVPN →</a>
         </div>
     </div>
 </div>
@@ -1683,7 +1863,7 @@ body {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://eztravel.tw/7sjpex" target="_blank">✈️前往 易遊網 →</a>
+            <a class="btn btn-primary" href="https://eztravel.tw/7sjpex" target="_blank">✈️ 前往 易遊網 →</a>
         </div>
     </div>
 </div>
@@ -1705,7 +1885,7 @@ body {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://reurl.cc/pKXzn4" target="_blank">✈️前往 LINE旅遊 →</a>
+            <a class="btn btn-primary" href="https://reurl.cc/pKXzn4" target="_blank">✈️ 前往 LINE旅遊 →</a>
         </div>
     </div>
 </div>
