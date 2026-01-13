@@ -1524,39 +1524,41 @@ body {
     }
 }
 
-/* 專門針對手機版 (螢幕寬度小於 768px) 的強制修正 */
+/* 針對手機版徹底修正折扣碼排列 */
 @media (max-width: 768px) {
-    /* 1. 強制容器不換行，並調整對齊 */
-    .coupon-row {
+    /* 1. 找到放折扣碼的最外層容器，確保它是橫向排列且不換行 */
+    .promo-code-box {
         display: flex !important;
-        flex-wrap: nowrap !important; /* 絕對禁止換行 */
+        flex-direction: row !important; /* 強制橫向 */
+        flex-wrap: nowrap !important;  /* 強制不換行 */
         align-items: center !important;
-        justify-content: space-between !important;
-        gap: 5px !important; /* 縮小間距 */
         width: 100% !important;
+        padding: 8px 10px !important;
+        box-sizing: border-box !important;
     }
 
-    /* 2. 限制文字寬度，防止推開按鈕 */
-    .coupon-code {
-        font-size: 14px !important; /* 14px 在手機上清晰且適中 */
-        white-space: nowrap !important; /* 文字禁止換行 */
+    /* 2. 折扣碼文字：讓它縮小並吸收剩餘空間 */
+    .promo-code-text {
+        flex: 1 !important;        /* 關鍵：自動吃掉左邊剩餘空間 */
+        min-width: 0 !important;    /* 讓 ellipsis 生效 */
+        font-size: 13px !important;
+        white-space: nowrap !important;
         overflow: hidden !important;
-        text-overflow: ellipsis !important; /* 萬一真的太長，末尾顯示... */
-        flex-shrink: 1 !important; /* 允許文字區域縮小 */
-        min-width: 0 !important;
+        text-overflow: ellipsis !important; /* 太長會變點點點，不換行 */
+        margin-right: 8px !important;
     }
 
-    /* 3. 固定按鈕形狀，防止變形 */
+    /* 3. 複製按鈕：強制固定形狀，不准變形 */
     .copy-btn {
-        flex-shrink: 0 !important; /* 關鍵：絕對禁止按鈕被壓縮 */
-        white-space: nowrap !important; /* 按鈕文字不換行 */
-        padding: 6px 10px !important; /* 調整手機版按鈕內距 */
+        flex: 0 0 auto !important; /* 絕對不縮小也不放大 */
+        width: 65px !important;    /* 固定寬度 */
+        height: 30px !important;   /* 固定高度 */
+        padding: 0 !important;
         font-size: 12px !important;
-        width: 65px !important; /* 給予固定寬度確保不變形 */
-        height: 32px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        line-height: 30px !important;
+        text-align: center !important;
+        border-radius: 4px !important;
+        display: block !important;
     }
 }
     </style>
