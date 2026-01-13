@@ -698,14 +698,16 @@ body {
 }
 
 /* 2. 當螢幕寬度小於 480px (手機) 時才觸發 */
+/* 找到這一段並修改 */
 @media (max-width: 480px) {
     .menu-icon {
-        display: none !important; /* 只有手機版會隱藏 */
+        /* 原本是 display: none !important; 請改為 block 或 flex */
+        display: flex !important; 
+        font-size: 24px; /* 調小一點適合手機 */
     }
     
-    /* 讓 Logo 在按鈕隱藏後稍微靠左一點，不會空出一塊 */
     .left-area {
-        gap: 0 !important;
+        gap: 8px !important;
     }
 }
 
@@ -2457,21 +2459,38 @@ if (mobileFilterBtn) {
     });
 }
 document.addEventListener('DOMContentLoaded', function() {
-    // 1. 自動尋找可能的分類按鈕（請確認您的 HTML 裡按鈕是否有這些 class）
-    const filterBtn = document.querySelector('.mobile-filter-trigger, .btn-filter, .filter-toggle');
+    // 抓取所有可能的按鈕（menu-icon 是您右上角那個，tag-filter-btn 是您後來新增的）
+    const mobileFilterBtn = document.querySelectorAll('.menu-icon, .tag-filter-btn, .mobile-filter-trigger');
     const filterOverlay = document.querySelector('.filter-overlay');
+    const closeBtn = document.querySelector('.filter-close');
 
-    if (filterBtn && filterOverlay) {
-        filterBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation(); // 防止事件冒泡
-            
-            // 切換開啟狀態
-            filterOverlay.classList.toggle('open');
-            
-            // 如果打開了，把畫面平滑捲動到分類面板位置
-            if (filterOverlay.classList.contains('open')) {
-                filterOverlay.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    // 點擊按鈕開啟選單
+    mobileFilterBtn.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            // 只有在手機/平板寬度下才執行這個邏輯，確保網頁版功能不被干擾
+            if (window.innerWidth <= 1024) {
+                e.preventDefault();
+                e.stopPropagation();
+                if (filterOverlay) {
+                    filterOverlay.classList.add('open');
+                    document.body.style.overflow = 'hidden'; // 防止底層頁面滾動
+                }
+            }
+        });
+    });
+
+    // 點擊 X 或 遮罩關閉
+    if (closeBtn && filterOverlay) {
+        closeBtn.addEventListener('click', function() {
+            filterOverlay.classList.remove('open');
+            document.body.style.overflow = '';
+        });
+
+        // 點擊黑色遮罩區域也能關閉
+        filterOverlay.addEventListener('click', function(e) {
+            if (e.target === filterOverlay) {
+                filterOverlay.classList.remove('open');
+                document.body.style.overflow = '';
             }
         });
     }
