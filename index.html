@@ -1117,38 +1117,44 @@ body {
     }
 }
 
-/* --------------------------------------------------
-   手機版分類面板：按鈕固定在底部，且選單可滑動
-   -------------------------------------------------- */
+/* --- 最終修正：手機版分類選單「可上下滑動」且「按鈕固定底部」 --- */
 @media (max-width: 1024px) {
-    /* 1. 設定面板本體為 Flex 佈局 */
+    /* 1. 修正面板：確保高度不超過螢幕，並改為垂直 Flex 佈局 */
     .filter-panel {
         display: flex !important;
-        flex-direction: column !important; /* 內容垂直排列 */
-        height: 80vh !important;           /* 強制給面板一個固定高度 */
+        flex-direction: column !important;
+        height: 80vh !important;           /* 限制面板高度為螢幕的 80% */
         position: relative !important;
-        overflow: hidden !important;       /* 面板本身不捲動，交給內部捲動 */
-        padding-bottom: 0 !important;      /* 移除內距 */
+        padding: 20px 16px 0 !important;   /* 底部 padding 交給按鈕處理 */
+        overflow: hidden !important;        /* 防止面板本身出現雙重捲軸 */
     }
 
-    /* 2. 讓頂部的標題固定 (如果有標題) */
-    .filter-header {
-        flex-shrink: 0 !important;         /* 標題不要縮小 */
+    /* 2. 修正列表：讓 Tag 恢復垂直排列，並開啟滑動 */
+    .filter-list {
+        display: flex !important;
+        flex-direction: column !important; /* 強制垂直排列，這樣才能看到所有標籤 */
+        gap: 10px !important;
+        flex: 1 !important;                /* 自動佔滿剩餘空間 */
+        overflow-y: auto !important;       /* 開啟垂直滑動 */
+        overflow-x: hidden !important;     /* 關閉橫向滑動 */
+        padding-bottom: 100px !important;  /* 關鍵：在底部預留空間，避免 Tag 被按鈕擋住 */
+        -webkit-overflow-scrolling: touch; /* 讓手機滑動更順暢 */
     }
 
-    /* 3. 關鍵：讓分類內容區塊可以滑動 */
-    .filter-content {
-        flex: 1 !important;                /* 佔滿剩餘的所有空間 */
-        overflow-y: auto !important;       /* 內容過長時出現捲軸 */
-        -webkit-overflow-scrolling: touch; /* 讓 iOS 滑動更順暢 */
-        padding: 20px !important;
-        padding-bottom: 100px !important;  /* 預留空間給底部的按鈕，防止最後一個分類被擋住 */
+    /* 3. 修正標籤樣式：確保每個標籤佔滿寬度，不會縮成一團 */
+    .filter-item {
+        width: 100% !important;
+        flex-shrink: 0 !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        white-space: normal !important;    /* 允許文字過長時換行 */
     }
 
-    /* 4. 將按鈕固定在 filter-panel 的最底部 */
+    /* 4. 按鈕固定：釘在螢幕最底部的容器內 */
     .filter-actions {
-        position: absolute !important;     /* 絕對定位 */
-        bottom: 0 !important;             /* 釘在最下面 */
+        position: absolute !important;     /* 相對於 filter-panel 定位 */
+        bottom: 0 !important;
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
@@ -1156,18 +1162,17 @@ body {
         padding: 15px 20px !important;
         margin: 0 !important;
         border-top: 1px solid #eee !important;
-        box-shadow: 0 -5px 10px rgba(0,0,0,0.05) !important; /* 加一點陰影區隔感 */
-        z-index: 100 !important;
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.08) !important;
+        z-index: 1000 !important;
         display: flex !important;
         gap: 12px !important;
     }
 
-    /* 5. 按鈕平分寬度 */
     .btn-filter-clear, 
     .btn-filter-apply {
         flex: 1 !important;
-        margin: 0 !important;
         height: 48px !important;
+        margin: 0 !important;
     }
 }
     </style>
