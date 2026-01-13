@@ -717,20 +717,22 @@ body {
 
 @media (max-width: 1024px) {
   .countdown-content {
-    flex-direction: column;     /* 改成上下排列 */
-    align-items: flex-start;    /* 靠左對齊 */
-    gap: 6px;                   /* 每一行的間距 */
+    flex-direction: column;     
+    align-items: center;        /* ← 整個區塊置中 */
+    text-align: center;         /* ← 文字置中 */
+    gap: 6px;
   }
 
   .countdown-left {
+    justify-content: center;    /* ⏰ + 文字 置中 */
     font-size: 13px;
     font-weight: 600;
   }
 
   .countdown-right {
     display: flex;
-    flex-direction: column;     /* 商品名 + 倒數再往下排 */
-    align-items: flex-start;
+    flex-direction: column;
+    align-items: center;        /* 商品名、倒數置中 */
     gap: 4px;
   }
 
