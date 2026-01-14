@@ -1671,13 +1671,22 @@ document.querySelectorAll('.category-btn').forEach(btn => {
         });
 
         // 點擊分類項目
-        categoryList.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-item')) {
-                categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
-                e.target.classList.add('selected');
-                filterCards(); // 即時預覽
-            }
-        });
+categoryList.addEventListener('click', function(e) {
+    if (e.target.classList.contains('filter-item')) {
+        categoryList.querySelectorAll('.filter-item')
+            .forEach(i => i.classList.remove('selected'));
+        e.target.classList.add('selected');
+
+        filterCards();
+
+        // ⭐ 手機板：篩選後自動捲到第一個商品
+        if (window.innerWidth <= 1024) {
+            scrollToFirstVisibleProduct();
+            document.getElementById('filterOverlay')?.classList.remove('open');
+        }
+    }
+});
+
     }
 
     // --- 4. 篩選邏輯 ---
@@ -2094,16 +2103,14 @@ function scrollToFirstVisibleProduct() {
   }
 }
     </script>
-	<script>
+<script>
 function scrollToFirstVisibleProduct() {
-    // 找出目前畫面中「可見」的第一個商品
-    const firstVisible = document.querySelector(
-        '.product-card:not(.hidden):not(.hidden-ended)'
-    );
+    const firstVisible = Array.from(
+        document.querySelectorAll('.product-card')
+    ).find(card => card.style.display !== 'none');
 
     if (!firstVisible) return;
 
-    // 延遲一點點，確保 filter panel 關閉動畫跑完
     setTimeout(() => {
         firstVisible.scrollIntoView({
             behavior: 'smooth',
@@ -2112,6 +2119,7 @@ function scrollToFirstVisibleProduct() {
     }, 300);
 }
 </script>
+
 
 </body>
 </html>
