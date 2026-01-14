@@ -922,6 +922,38 @@
 @media (max-width: 1024px) {
 
     /* =========================
+       通用：所有按鈕「單行、不爆版」
+       ========================= */
+    button,
+    .btn,
+    .button,
+    a.btn,
+    a.button {
+        white-space: nowrap;
+        line-height: 1.2;
+    }
+
+    /* =========================
+       次要 / 資訊型按鈕
+       ☎️ 聯絡客服
+       🎥 影片介紹
+       ✈️ 前往 KKday / Holafly
+       ========================= */
+    .btn-secondary,
+    .btn-info,
+    .contact-btn,
+    .video-btn,
+    .go-btn,
+    a[href*="kkday"],
+    a[href*="klook"],
+    a[href*="holafly"] {
+        font-size: 13px;
+        font-weight: 500;
+        padding: 8px 12px;
+        white-space: nowrap;
+    }
+
+    /* =========================
        折扣碼區塊（你圈起來的）
        ========================= */
     .coupon-box,
@@ -932,7 +964,6 @@
         white-space: nowrap;
     }
 
-    /* 折扣碼本身（像 KK2ACOUPLE） */
     .coupon-code {
         font-size: 14px;
         font-weight: 600;
@@ -940,26 +971,17 @@
     }
 
     /* =========================
-       資訊型按鈕（字太大的）
+       主要 CTA（🛍️ 立即購買）
        ========================= */
-    .btn-contact,
-    .btn-video,
-    .info-button {
-        font-size: 13px;
-        line-height: 1.2;
-        white-space: nowrap;
-        padding: 8px 10px;
-    }
-
-    /* =========================
-       主要 CTA（立即購買）
-       ========================= */
+    .btn-primary,
     .btn-buy,
-    .btn-primary {
+    .buy-btn,
+    .cta-btn {
         font-size: 15px;
         font-weight: 600;
+        padding: 12px 16px;
         line-height: 1.2;
-        padding: 12px 14px;
+        white-space: nowrap;
     }
 
 }
