@@ -2078,6 +2078,36 @@ function copyCoupon(id, btn) {
         setTimeout(() => btn.textContent = t, 2000);
     });
 }
+ // 搜尋下拉選單開關TAg商品點擊後自動跳到第一個
+function scrollToFirstVisibleProduct() {
+  const products = document.querySelectorAll('.product-item');
+
+  for (let product of products) {
+    // 只找「目前有顯示的商品」
+    if (product.offsetParent !== null) {
+      product.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+      break;
+    }
+  }
+}
+
+function scrollToFirstVisibleProduct() {
+  const products = document.querySelectorAll('.product-card');
+
+  for (let product of products) {
+    if (product.offsetParent !== null) {
+      product.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+      break;
+    }
+  }
+}
+
     </script>
 </body>
 </html>
