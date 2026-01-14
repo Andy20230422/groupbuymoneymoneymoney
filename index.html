@@ -987,87 +987,6 @@
 }
 
 
-/* =========================
-   📱 Mobile 空白強制修正
-   不影響桌機
-   ========================= */
-/* =========================
-   📱 Mobile 空白修正（不破壞分類跳轉）
-   ========================= */
-@media (max-width: 768px) {
-
-  /* ✅ 只處理區塊層級，不動 JS 錨點 */
-  section,
-  section:empty {
-    min-height: 0 !important;
-    height: auto !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* ✅ before / after 只限制 section */
-  section::before,
-  section::after {
-    display: none !important;
-    content: none !important;
-  }
-
-  /* iOS vh 修正 */
-  .hero,
-  .banner,
-  .top-banner,
-  .section,
-  .container,
-  .wrapper {
-    min-height: auto !important;
-    height: auto !important;
-  }
-
-  footer {
-    margin-top: 24px !important;
-  }
-
-  footer::before {
-    display: none !important;
-    content: none !important;
-  }
-
-}
-
-/* =========================
-   📱 iOS Safari vh 修正
-   ========================= */
-@media (max-width: 768px) {
-
-  .hero,
-  .banner,
-  .top-banner,
-  .section,
-  .container,
-  .wrapper {
-    min-height: auto !important;
-    height: auto !important;
-  }
-
-}
-@media (max-width: 768px) {
-
-  .footer,
-  footer {
-    margin-top: 24px !important;
-  }
-
-  /* 🔥 footer 上方多餘空白砍掉 */
-  footer::before {
-    display: none !important;
-    content: none !important;
-  }
-
-}
-
-
     </style>
 </head>
 <body>
@@ -1502,7 +1421,7 @@
                         <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
                         <p class="product-desc">✅唐吉訶德、Bic Camera、藥妝</p>
                         <div class="product-tags">
-                            <span class="product-tag">💳 日本優惠券</span>
+                            <span class="product-tag">💳 優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
                         </div>
 
@@ -2078,7 +1997,7 @@ function copyCoupon(id, btn) {
     });
 
     const orderedTags = [
-        '💳 日本優惠券',
+        '💳 優惠券',
         '✈️ 旅遊',
         '📱 3C',
         '📺 家電',
