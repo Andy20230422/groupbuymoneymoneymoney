@@ -1011,8 +1011,8 @@
   .category-title,
   h2,
   h3 {
-    margin-top: 12px !important;
-    margin-bottom: 8px !important;
+    margin-top: 8px !important;
+    margin-bottom: 4px !important;
     padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
@@ -1039,6 +1039,40 @@
   }
 }
 
+/* ===============================
+   手機版：壓縮「商品 → 常態團購」之間的巨大空白
+   只動第一張圖的來源
+================================ */
+@media (max-width: 768px) {
+
+  /* 常態團購標題「上方」空白極限壓縮 */
+  .group-title,
+  .section-title {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* 如果標題是包在一個 section 裡，直接砍 section 的上 padding */
+  .group-title::before,
+  .section-title::before {
+    content: none !important;
+    display: none !important;
+  }
+
+  /* 緊貼前一個商品區塊 */
+  .product-section + .product-section,
+  .product-list + .section,
+  .products + .section {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+  }
+
+  /* 防止手機版被 min-height 撐開 */
+  .section,
+  .product-section {
+    min-height: auto !important;
+  }
+}
 
     </style>
 </head>
