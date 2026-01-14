@@ -986,6 +986,92 @@
 
 }
 
+/* =========================
+   📱 Mobile 空白強制修正
+   不影響桌機
+   ========================= */
+@media (max-width: 768px) {
+
+  /* 🔥 移除所有 section / div 的假高度 */
+  section,
+  section:empty,
+  div:empty {
+    min-height: 0 !important;
+    height: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* 🔥 防止殘留背景區塊撐高 */
+  section::before,
+  section::after,
+  div::before,
+  div::after {
+    display: none !important;
+    content: none !important;
+  }
+
+}
+/* =========================
+   📱 Mobile 空白強制修正
+   不影響桌機
+   ========================= */
+@media (max-width: 768px) {
+
+  /* 🔥 移除所有 section / div 的假高度 */
+  section,
+  section:empty,
+  div:empty {
+    min-height: 0 !important;
+    height: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* 🔥 防止殘留背景區塊撐高 */
+  section::before,
+  section::after,
+  div::before,
+  div::after {
+    display: none !important;
+    content: none !important;
+  }
+
+}
+/* =========================
+   📱 iOS Safari vh 修正
+   ========================= */
+@media (max-width: 768px) {
+
+  .hero,
+  .banner,
+  .top-banner,
+  .section,
+  .container,
+  .wrapper {
+    min-height: auto !important;
+    height: auto !important;
+  }
+
+}
+@media (max-width: 768px) {
+
+  .footer,
+  footer {
+    margin-top: 24px !important;
+  }
+
+  /* 🔥 footer 上方多餘空白砍掉 */
+  footer::before {
+    display: none !important;
+    content: none !important;
+  }
+
+}
 
 
     </style>
@@ -2251,25 +2337,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function (e) {
         if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
             dropdown.classList.remove('open');
-        }
-    });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    if (window.innerWidth > 1024) return; // 只處理手機
-
-    document.querySelectorAll('section, div').forEach(el => {
-        const hasVisibleContent = el.textContent.trim().length > 0;
-        const hasImages = el.querySelector('img');
-        const hasButtons = el.querySelector('button, a');
-
-        // 如果元素「沒有任何可見內容」，直接移除
-        if (!hasVisibleContent && !hasImages && !hasButtons) {
-            const rect = el.getBoundingClientRect();
-            if (rect.height > 80) {   // 只殺「真的很大的空白」
-                el.remove();
-            }
         }
     });
 });
