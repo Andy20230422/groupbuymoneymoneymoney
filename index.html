@@ -1188,7 +1188,7 @@
                             <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
 
                             <a class="btn btn-primary" href="https://reurl.cc/vKXLqA" target="_blank">🛍️ 立即購買 →</a>
-							<a class="btn btn-service" href="http://bit.ly/2PnUsgH" target="_blank">☎️ 聯絡客服 →</a>
+							<a class="btn btn-service" href="https://line.me/R/ti/p/@egm3252c" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -1214,7 +1214,7 @@
                         <div class="product-buttons">
                             <a class="btn btn-video" href="https://reurl.cc/qKXXpq" target="_blank" rel="noopener noreferrer">🎬 2A的影片介紹</a>
                             <a class="btn btn-primary" href="https://reurl.cc/0anWjM" target="_blank">🛍️ 立即購買 →</a>
-							<a class="btn btn-service" href="http://bit.ly/2PnUsgH" target="_blank">☎️ 聯絡客服 →</a>
+							<a class="btn btn-service" href="https://line.me/R/ti/p/@egm3252c" target="_blank">☎️ 聯絡客服 →</a>
                         </div>
                     </div>
                 </div>
@@ -2221,6 +2221,32 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     // 點外面自動關閉
+    document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
+            dropdown.classList.remove('open');
+        }
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('searchToggle');
+    const dropdown = document.getElementById('headerSearchDropdown');
+    const input = document.getElementById('searchInput');
+
+    if (!toggleBtn || !dropdown) return;
+
+    // 點擊放大鏡：開 / 關
+    toggleBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+
+        if (dropdown.classList.contains('open')) {
+            setTimeout(() => input && input.focus(), 50);
+        }
+    });
+
+    // 點外面關閉
     document.addEventListener('click', function (e) {
         if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
             dropdown.classList.remove('open');
