@@ -1122,7 +1122,7 @@
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">THOMSON 石墨烯壁掛暖風機</h3>
-                        <p class="product-desc">✅首次消費，使用【JOIN88】88折</p>
+                        <p class="product-desc">✅首次消費，輸入【JOIN88】88折</p>
                         <div class="product-tags">
                             <span class="product-tag">🏠 居家</span>
                             
@@ -1331,7 +1331,7 @@
 			                <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="萬用裝備袋.jpg" alt="萬用裝備袋-可託運"></div>
                     <div class="product-content">
-                        <h3 class="product-name">出國萬用裝備帶-要托運</h3>
+                        <h3 class="product-name">出國萬用裝備袋-要托運</h3>
                         <p class="product-desc">✅可託運買太多的急救袋</p>
                         <div class="product-tags">
 						<span class="product-tag">🦐 蝦皮好物</span>
@@ -1419,7 +1419,7 @@
                     </div>
                     <div class="product-content">
                         <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
-                        <p class="product-desc">唐吉訶德、Bic Camera、藥妝</p>
+                        <p class="product-desc">✅唐吉訶德、Bic Camera、藥妝</p>
                         <div class="product-tags">
                             <span class="product-tag">💳 優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
@@ -1728,36 +1728,7 @@ document.querySelectorAll('.category-btn').forEach(btn => {
     }
 
     // --- 3. 側欄分類產生 ---
-    function renderCategoryList() {
-        var categoryList = document.getElementById('categoryList');
-        if (!categoryList) return;
-        var allTags = new Set();
-        document.querySelectorAll('.product-tag').forEach(tag => allTags.add(tag.textContent.trim()));
-        
-        categoryList.innerHTML = '<div class="filter-item selected" data-tag="全部">全部</div>';
-        Array.from(allTags).sort().forEach(tag => {
-            var div = document.createElement('div');
-            div.className = 'filter-item';
-            div.setAttribute('data-tag', tag);
-            div.textContent = tag;
-            categoryList.appendChild(div);
-        });
-
-        // 點擊分類項目
-categoryList.addEventListener('click', function(e) {
-    if (e.target.classList.contains('filter-item')) {
-        categoryList.querySelectorAll('.filter-item')
-            .forEach(i => i.classList.remove('selected'));
-        e.target.classList.add('selected');
-
-        filterCards();
-
-        // ⭐ 手機板：篩選後自動捲到第一個商品
-        if (window.innerWidth <= 1024) {
-            scrollToFirstVisibleProduct();
-            document.getElementById('filterOverlay')?.classList.remove('open');
-        }
-    }
+    
 });
 
     }
@@ -2017,34 +1988,72 @@ function copyCoupon(id, btn) {
 
     // --- 3. 側欄分類產生 ---
     function renderCategoryList() {
-        var categoryList = document.getElementById('categoryList');
-        if (!categoryList) return;
-        var allTags = new Set();
-        document.querySelectorAll('.product-tag').forEach(tag => allTags.add(tag.textContent.trim()));
-        
-        categoryList.innerHTML = '<div class="filter-item selected" data-tag="全部">全部</div>';
-        Array.from(allTags).sort().forEach(tag => {
-            var div = document.createElement('div');
+    const categoryList = document.getElementById('categoryList');
+    if (!categoryList) return;
+
+    const allTags = new Set();
+    document.querySelectorAll('.product-tag').forEach(tag => {
+        allTags.add(tag.textContent.trim());
+    });
+
+    const orderedTags = [
+        '💳 優惠券',
+        '✈️ 旅遊',
+        '📱 3C',
+        '📺 家電',
+        '🏠 居家',
+        '🥯 食品',
+        '🦐 蝦皮好物',
+        '🏨 訂房',
+        '📶 eSIM',
+        '🔐 VPN',
+        '🎟️ 折扣碼',
+        '💳 優惠連結',
+        '💰 回饋'
+    ];
+
+    categoryList.innerHTML = '';
+
+    const allItem = document.createElement('div');
+    allItem.className = 'filter-item selected';
+    allItem.dataset.tag = '全部';
+    allItem.textContent = '全部';
+    categoryList.appendChild(allItem);
+
+    orderedTags.forEach(tag => {
+        if (allTags.has(tag)) {
+            const div = document.createElement('div');
             div.className = 'filter-item';
-            div.setAttribute('data-tag', tag);
+            div.dataset.tag = tag;
             div.textContent = tag;
             categoryList.appendChild(div);
-        });
+            allTags.delete(tag);
+        }
+    });
 
-        // 點擊分類項目
-        categoryList.addEventListener('click', function(e) {
-            if (e.target.classList.contains('filter-item')) {
-                categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
-                e.target.classList.add('selected');
-                filterCards(); // 即時預覽
-                
-                // 手機版：點擊後自動關閉選單
-                if (window.innerWidth <= 1024) {
-                    document.getElementById('filterOverlay')?.classList.remove('open');
-                }
+    Array.from(allTags).sort().forEach(tag => {
+        const div = document.createElement('div');
+        div.className = 'filter-item';
+        div.dataset.tag = tag;
+        div.textContent = tag;
+        categoryList.appendChild(div);
+    });
+
+    categoryList.addEventListener('click', function (e) {
+        if (e.target.classList.contains('filter-item')) {
+            categoryList.querySelectorAll('.filter-item')
+                .forEach(i => i.classList.remove('selected'));
+            e.target.classList.add('selected');
+
+            filterCards();
+
+            if (window.innerWidth <= 1024) {
+                document.getElementById('filterOverlay')?.classList.remove('open');
             }
-        });
-    }
+        }
+    });
+}
+
 
     // --- 4. 篩選邏輯 ---
     function filterCards() {
@@ -2193,6 +2202,32 @@ function scrollToFirstVisibleProduct() {
 }
 </script>
 
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const toggleBtn = document.getElementById('searchToggle');
+    const dropdown = document.getElementById('headerSearchDropdown');
+    const input = document.getElementById('searchInput');
+
+    if (!toggleBtn || !dropdown) return;
+
+    // 點擊放大鏡：開 / 關搜尋框
+    toggleBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dropdown.classList.toggle('open');
+
+        if (dropdown.classList.contains('open')) {
+            setTimeout(() => input && input.focus(), 50);
+        }
+    });
+
+    // 點外面自動關閉
+    document.addEventListener('click', function (e) {
+        if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
+            dropdown.classList.remove('open');
+        }
+    });
+});
+</script>
 
 </body>
 </html>
