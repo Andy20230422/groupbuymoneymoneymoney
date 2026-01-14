@@ -986,6 +986,45 @@
 
 }
 
+/* =========================
+   手機版：移除多餘空白
+   不影響電腦版
+========================= */
+@media (max-width: 1024px) {
+
+  /* 1️⃣ 分類 Tab 區塊下面的空白 */
+  .category-section,
+  .filter-section,
+  .filter-area {
+    margin-bottom: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* 2️⃣ 商品區塊結束後的大空白 */
+  .products-wrapper,
+  .products-section,
+  .section-gap {
+    margin-bottom: 16px !important;
+    padding-bottom: 0 !important;
+  }
+
+  /* 3️⃣ 隱藏區塊但保留高度的容器（關鍵） */
+  .hidden,
+  .mobile-hidden {
+    display: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: 0 !important;
+  }
+
+  /* 4️⃣ 社群區塊往上貼一點 */
+  .social-section,
+  .community-section {
+    margin-top: 16px !important;
+    padding-top: 0 !important;
+  }
+}
+
 
     </style>
 </head>
@@ -1421,7 +1460,7 @@
                         <h3 class="product-name">日本藥妝、電器、百貨優惠券</h3>
                         <p class="product-desc">✅唐吉訶德、Bic Camera、藥妝</p>
                         <div class="product-tags">
-                            <span class="product-tag">💳 優惠券</span>
+                            <span class="product-tag">💳 日本優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
                         </div>
 
@@ -1997,7 +2036,7 @@ function copyCoupon(id, btn) {
     });
 
     const orderedTags = [
-        '💳 優惠券',
+        '💳 日本優惠券',
         '✈️ 旅遊',
         '📱 3C',
         '📺 家電',
