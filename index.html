@@ -2046,6 +2046,7 @@ function copyCoupon(id, btn) {
             e.target.classList.add('selected');
 
             filterCards();
+			scrollToFirstVisibleProduct();
 
             if (window.innerWidth <= 1024) {
                 document.getElementById('filterOverlay')?.classList.remove('open');
@@ -2112,6 +2113,7 @@ function copyCoupon(id, btn) {
             items.forEach(i => i.classList.remove('selected'));
             if (items[0]) items[0].classList.add('selected');
             filterCards();
+			
         });
 
         // 「套用」按鈕
@@ -2253,6 +2255,28 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function scrollToFirstVisibleProduct() {
+    if (window.innerWidth > 1024) return;
+
+    requestAnimationFrame(() => {
+        const cards = document.querySelectorAll('.product-card');
+        const firstVisible = Array.from(cards).find(card => card.offsetParent !== null);
+
+        if (!firstVisible) return;
+
+        const top =
+            firstVisible.getBoundingClientRect().top +
+            window.pageYOffset -
+            160;
+
+        window.scrollTo({
+            top: top,
+            behavior: 'smooth'
+        });
+    });
+}
+
 </script>
 
 </body>
