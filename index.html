@@ -985,35 +985,6 @@
     }
 
 }
-/* =========================
-   手機版：修正章節之間的巨大空白
-   不影響電腦版
-========================= */
-@media (max-width: 1024px) {
-
-  /* 所有主要章節，手機版不要留那麼大 */
-  section {
-    padding-top: 24px !important;
-    padding-bottom: 24px !important;
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* 章節標題本身（例如 📍常態團購） */
-  .section-title,
-  h2,
-  h3 {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  /* 如果標題前有錨點用的空 div */
-  .anchor,
-  .section-anchor {
-    display: none !important;
-    height: 0 !important;
-  }
-}
 
 
 
@@ -2280,6 +2251,25 @@ document.addEventListener('DOMContentLoaded', function () {
     document.addEventListener('click', function (e) {
         if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
             dropdown.classList.remove('open');
+        }
+    });
+});
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    if (window.innerWidth > 1024) return; // 只處理手機
+
+    document.querySelectorAll('section, div').forEach(el => {
+        const hasVisibleContent = el.textContent.trim().length > 0;
+        const hasImages = el.querySelector('img');
+        const hasButtons = el.querySelector('button, a');
+
+        // 如果元素「沒有任何可見內容」，直接移除
+        if (!hasVisibleContent && !hasImages && !hasButtons) {
+            const rect = el.getBoundingClientRect();
+            if (rect.height > 80) {   // 只殺「真的很大的空白」
+                el.remove();
+            }
         }
     });
 });
