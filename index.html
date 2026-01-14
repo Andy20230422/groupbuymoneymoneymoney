@@ -1073,6 +1073,43 @@
     min-height: auto !important;
   }
 }
+/* =================================
+   手機版：砍掉「頂部功能區塊」撐出來的巨大空白
+   專門解第一張圖
+================================= */
+@media (max-width: 768px) {
+
+  /* 上方功能卡片整個區塊 */
+  .top-section,
+  .hero,
+  .hero-section,
+  .intro-section,
+  .action-section {
+    height: auto !important;
+    min-height: 0 !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+  }
+
+  /* 裡面的卡片容器 */
+  .top-section > *,
+  .hero > *,
+  .hero-section > *,
+  .intro-section > *,
+  .action-section > * {
+    margin-bottom: 0 !important;
+  }
+
+  /* 防止最後一個元素撐高整塊 */
+  .top-section::after,
+  .hero::after,
+  .hero-section::after,
+  .intro-section::after,
+  .action-section::after {
+    content: none !important;
+    display: none !important;
+  }
+}
 
     </style>
 </head>
