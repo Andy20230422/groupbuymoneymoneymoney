@@ -1147,29 +1147,30 @@
   }
 }
 
-/* =========================
-   手機版：縮小商品區塊上方空白
-   不影響任何功能
-========================= */
 @media (max-width: 768px) {
 
-  /* 分類 / 篩選區塊下面的空白 */
-  .filter-area {
-    margin-bottom: 8px !important;
+  .filter-tabs {
+    margin: 6px auto !important;
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
+  }
+
+  .results-info {
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+    padding-top: 0 !important;
     padding-bottom: 0 !important;
   }
 
-  /* 商品列表整體 */
-  .products-grid,
-  .product-grid {
+  .section-header {
+    margin-top: 8px !important;
+    margin-bottom: 6px !important;
     padding-top: 0 !important;
-    margin-top: 0 !important;
   }
 
-  /* 第一張商品卡片 */
-  .products-grid > .product-card:first-child,
-  .product-grid > .product-card:first-child {
+  #limitedSection .products-container {
     margin-top: 0 !important;
+    padding-top: 0 !important;
   }
 }
 
