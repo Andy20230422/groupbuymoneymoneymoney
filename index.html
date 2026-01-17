@@ -1314,6 +1314,15 @@ section[id], div[id] {
         font-size: 14px;
     }
 }
+/* 桌機：避免 header + filter-tabs 吃掉內容 */
+@media (min-width: 1025px) {
+  #limitedSection,
+  #regularSection,
+  #discountSection {
+    scroll-margin-top: 220px; /* header + filter-tabs + 安全距離 */
+  }
+}
+
     </style>
 </head>
 <body>
@@ -2027,7 +2036,7 @@ section[id], div[id] {
 
 <script>
 /* =====================================================
-   主程式(最終穩定版)
+   主程式(最終穩定版 v2)
    ===================================================== */
 (function () {
   'use strict';
@@ -2167,11 +2176,45 @@ section[id], div[id] {
 
     categoryList.addEventListener('click', e => {
       if (!e.target.classList.contains('filter-item')) return;
-      categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
+
+      categoryList.querySelectorAll('.filter-item')
+        .forEach(i => i.classList.remove('selected'));
+
       e.target.classList.add('selected');
+
+      // 1. 先篩選商品
       filterCards();
-      scrollToFirstVisibleProduct();
+
+      // 2. 延遲一點點再滾動，確保篩選完成
+      setTimeout(() => {
+        scrollToFirstVisibleCard();
+      }, 100);
+
       document.getElementById('filterOverlay')?.classList.remove('open');
+    });
+  }
+
+  /* ---------- 滾動到第一個可見商品 (統一函數) ---------- */
+  function scrollToFirstVisibleCard() {
+    const firstVisibleCard = [...document.querySelectorAll('.product-card')]
+      .find(card => card.offsetParent !== null);
+
+    if (!firstVisibleCard) return;
+
+    // 計算需要扣除的高度 (header + filter-tabs + 安全距離)
+    const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+    const filterTabsHeight = document.querySelector('.filter-tabs')?.offsetHeight || 0;
+    const extraPadding = 20; // 額外安全距離
+    const totalOffset = headerHeight + filterTabsHeight + extraPadding;
+
+    // 計算目標位置
+    const cardTop = firstVisibleCard.getBoundingClientRect().top + window.pageYOffset;
+    const targetPosition = cardTop - totalOffset;
+
+    // 滾動到目標位置
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
     });
   }
 
@@ -2237,7 +2280,11 @@ section[id], div[id] {
       
       filterCards();
       dropdown.classList.remove('open');
-      scrollToFirstVisibleProduct();
+      
+      // 延遲滾動
+      setTimeout(() => {
+        scrollToFirstVisibleCard();
+      }, 100);
     });
   }
 
@@ -2272,7 +2319,7 @@ section[id], div[id] {
     });
 
     renderCategoryList();
-    renderMobileTagDropdown(); // 新增：渲染手機版下拉選單
+    renderMobileTagDropdown();
     filterCards();
     updateBanner();
     setInterval(updateBanner, 1000);
@@ -2353,32 +2400,35 @@ section[id], div[id] {
       });
     });
 
-/* ---------- 顯示 / 隱藏已結束商品 ---------- */
-const toggleEndedBtn = document.getElementById('toggleEndedBtn');
+    /* ---------- 顯示 / 隱藏已結束商品 ---------- */
+    const toggleEndedBtn = document.getElementById('toggleEndedBtn');
 
-if (toggleEndedBtn) {
+    if (toggleEndedBtn) {
 
-  function updateEndedBtnText() {
-    const endedCount = document.querySelectorAll('.product-card.ended').length;
-    const activeCount = document.querySelectorAll('.product-card:not(.ended)').length;
+      function updateEndedBtnText() {
+        const endedCount = document.querySelectorAll('.product-card.ended').length;
+        const activeCount = document.querySelectorAll('.product-card:not(.ended)').length;
 
-    toggleEndedBtn.textContent = showOnlyEnded
-      ? `顯示進行中 (${activeCount})`
-      : `顯示已結束 (${endedCount})`;
-  }
+        toggleEndedBtn.textContent = showOnlyEnded
+          ? `顯示進行中 (${activeCount})`
+          : `顯示已結束 (${endedCount})`;
+      }
 
-  toggleEndedBtn.addEventListener('click', () => {
-    showOnlyEnded = !showOnlyEnded;
-    toggleEndedBtn.dataset.state = showOnlyEnded ? 'showing' : 'hiding';
-    updateEndedBtnText();
-    filterCards();
-    scrollToFirstVisibleProduct();
-  });
+      toggleEndedBtn.addEventListener('click', () => {
+        showOnlyEnded = !showOnlyEnded;
+        toggleEndedBtn.dataset.state = showOnlyEnded ? 'showing' : 'hiding';
+        updateEndedBtnText();
+        filterCards();
+        
+        // 延遲滾動
+        setTimeout(() => {
+          scrollToFirstVisibleCard();
+        }, 100);
+      });
 
-  // 初始化顯示數量
-  updateEndedBtnText();
-}
-
+      // 初始化顯示數量
+      updateEndedBtnText();
+    }
 
   });
 })();
@@ -2398,14 +2448,20 @@ function copyCoupon(id, btn) {
   });
 }
 
+// 保留這個函數以防其他地方使用
 function scrollToFirstVisibleProduct() {
-  if (window.innerWidth > 1024) return;
   const first = [...document.querySelectorAll('.product-card')].find(c => c.offsetParent !== null);
   if (!first) return;
-  const top = first.getBoundingClientRect().top + window.pageYOffset - 160;
+  
+  const headerHeight = document.querySelector('.header')?.offsetHeight || 0;
+  const filterTabsHeight = document.querySelector('.filter-tabs')?.offsetHeight || 0;
+  const totalOffset = headerHeight + filterTabsHeight + 20;
+  
+  const top = first.getBoundingClientRect().top + window.pageYOffset - totalOffset;
   window.scrollTo({ top, behavior: 'smooth' });
 }
 </script>
+
 <footer class="footer">
     <div class="footer-content">
 
