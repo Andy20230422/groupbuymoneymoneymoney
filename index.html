@@ -2376,6 +2376,22 @@ function scrollToFirstVisibleProduct() {
   window.scrollTo({ top, behavior: 'smooth' });
 }
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  document.querySelectorAll('.product-card').forEach(card => {
+    const buyBtn = card.querySelector('.btn-primary');
+    if (!buyBtn) return;
+
+    const link = buyBtn.getAttribute('href');
+
+    card.querySelectorAll('.product-image, .product-name').forEach(el => {
+      el.addEventListener('click', function () {
+        window.open(link, '_blank');
+      });
+    });
+  });
+});
+</script>
 
 
 </body>
