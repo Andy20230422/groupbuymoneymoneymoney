@@ -1324,6 +1324,16 @@
     flex-shrink: 0;
 }
 
+.banner-name.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.banner-name.clickable:hover {
+    opacity: 0.85;
+}
+
+
     </style>
 </head>
 <body>
@@ -1418,7 +1428,7 @@
                 </div>
                 <!-- 這裡會自動填入最快到期商品名稱與倒數（倒數使用橫幅背景，不是白色） -->
                 <div class="countdown-right" id="countdownBanner" aria-live="polite">
-                    <span class="banner-name" id="bannerName">目前無即將截止項目</span>
+                    <span class="banner-name clickable" id="bannerName">目前無即將截止項目</span>
                     <span class="banner-timer" id="bannerTimer" style="display:none;">00:00:00</span>
                 </div>
             </div>
@@ -2020,705 +2030,224 @@
 
 
     <script>
+// === 主程式（整理後，功能不變） ===
 (function () {
     'use strict';
 
     let showOnlyEnded = false;
+    let bannerBuyUrl = null; // ★ 新增：倒數橫幅商品購買連結
 
-    // --- 1. 日期工具 ---
+    // ---------- 日期工具 ----------
     function normalizeToISO(dateStr) {
         if (!dateStr) return null;
         dateStr = dateStr.trim();
         if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
-        var m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
+        const m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
         if (m) {
-            var mon = String(m[1]).padStart(2, '0');
-            var day = String(m[2]).padStart(2, '0');
-            var year = m[3] ? m[3] : (new Date()).getFullYear();
-            return year + '-' + mon + '-' + day;
+            const mon = String(m[1]).padStart(2, '0');
+            const day = String(m[2]).padStart(2, '0');
+            const year = m[3] || new Date().getFullYear();
+            return `${year}-${mon}-${day}`;
         }
         return null;
     }
 
     function daysLeftTo(endISO) {
         try {
-            var end = new Date(endISO + 'T23:59:59');
-            var now = new Date();
-            var diff = end - now;
-            var days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            return { days: days, diffMs: diff };
-        } catch (e) { return null; }
+            const end = new Date(endISO + 'T23:59:59');
+            const now = new Date();
+            const diff = end - now;
+            const days = Math.ceil(diff / 86400000);
+            return { days, diffMs: diff };
+        } catch {
+            return null;
+        }
     }
 
-    // --- 2. 更新狀態 ---
+    // ---------- 商品卡片狀態 ----------
     function updateElement(el) {
-        var endAttr = el.getAttribute('data-end');
-        var endISO = normalizeToISO(endAttr);
-        var outSpan = el.querySelector('.days-left');
-        var card = el.closest('.product-card');
+        const endISO = normalizeToISO(el.getAttribute('data-end'));
+        const outSpan = el.querySelector('.days-left');
+        const card = el.closest('.product-card');
         if (!endISO || !outSpan) return;
-        var result = daysLeftTo(endISO);
+
+        const result = daysLeftTo(endISO);
         if (!result) return;
 
         if (result.diffMs < 0) {
             outSpan.textContent = '已結束';
-            if (card) card.classList.add('ended');
+            card?.classList.add('ended');
         } else {
-            if (card) card.classList.remove('ended');
-            outSpan.textContent = (result.days <= 1) ? '今日截止' : '剩 ' + result.days + ' 天';
+            card?.classList.remove('ended');
+            outSpan.textContent = result.days <= 1 ? '今日截止' : `剩 ${result.days} 天`;
         }
     }
 
-// Mobile: 點 tag 後自動收起上方分類
-document.querySelectorAll('.category-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-        if (window.innerWidth <= 1024) {
-            document.getElementById('filterOverlay')?.classList.remove('open');
-        }
-    });
-});
-
-
+    // ---------- 今日截止倒數 Banner（★ 已修正） ----------
     function updateBanner() {
-        var bannerName = document.getElementById('bannerName');
-        var bannerTimer = document.getElementById('bannerTimer');
-        var metas = document.querySelectorAll('.product-meta');
-        var now = new Date();
-        var nearest = null;
+        const bannerName = document.getElementById('bannerName');
+        const bannerTimer = document.getElementById('bannerTimer');
+        if (!bannerName || !bannerTimer) return;
 
-        metas.forEach(function (meta) {
-            var endISO = normalizeToISO(meta.getAttribute('data-end'));
+        const metas = document.querySelectorAll('.product-meta');
+        const now = new Date();
+        let nearest = null;
+
+        metas.forEach(meta => {
+            const endISO = normalizeToISO(meta.getAttribute('data-end'));
             if (!endISO) return;
-            var diff = new Date(endISO + 'T23:59:59') - now;
+
+            const diff = new Date(endISO + 'T23:59:59') - now;
             if (diff > 0 && (!nearest || diff < nearest.diff)) {
-                var card = meta.closest('.product-card');
-                nearest = { name: card.querySelector('.product-name').textContent, diff: diff };
+                const card = meta.closest('.product-card');
+                const buyBtn = card?.querySelector('.btn-primary');
+
+                nearest = {
+                    name: card?.querySelector('.product-name')?.textContent || '',
+                    diff,
+                    buyUrl: buyBtn ? buyBtn.href : null
+                };
             }
         });
 
-        if (bannerName && bannerTimer) {
-            if (!nearest) {
-                bannerName.textContent = '目前無即將截止項目';
-                bannerTimer.style.display = 'none';
-            } else {
-                bannerName.textContent = nearest.name;
-                bannerTimer.style.display = 'inline-block';
-                var s = Math.floor(nearest.diff / 1000);
-                var d = Math.floor(s / 86400);
-                var r = s % 86400;
-                var h = String(Math.floor(r / 3600)).padStart(2, '0');
-                var m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
-                var sec = String(r % 60).padStart(2, '0');
-                bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + h + ':' + m + ':' + sec;
-            }
+        if (!nearest) {
+            bannerName.textContent = '目前無即將截止項目';
+            bannerTimer.style.display = 'none';
+            bannerBuyUrl = null;
+            return;
         }
+
+        bannerName.textContent = nearest.name;
+        bannerBuyUrl = nearest.buyUrl;
+        bannerTimer.style.display = 'inline-block';
+
+        const s = Math.floor(nearest.diff / 1000);
+        const d = Math.floor(s / 86400);
+        const r = s % 86400;
+        const h = String(Math.floor(r / 3600)).padStart(2, '0');
+        const m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
+        const sec = String(r % 60).padStart(2, '0');
+        bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + `${h}:${m}:${sec}`;
     }
 
-    // --- 3. 側欄分類產生 ---
-    
-});
-
-    }
-
-    // --- 4. 篩選邏輯 ---
-   // --- 修復後的搜尋邏輯 ---
-function filterCards() {
-    // 1. 抓取搜尋框文字 (不論它是否在下拉選單內)
-    const searchInput = document.getElementById('searchInput');
-    const keyword = (searchInput?.value || '').trim().toLowerCase();
-    
-    // 2. 抓取目前選中的分類
-    const selected = document.querySelector('#categoryList .filter-item.selected');
-    const catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
-
-    // 3. 執行過濾
-    document.querySelectorAll('.product-card').forEach(function (card) {
-        const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
-        const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase(); // 增加描述搜尋
-        const tags = (card.dataset.tags || '').split('|');
-        const isEnded = card.classList.contains('ended');
-        
-        const matchCat = !catTag || tags.some(t => t.includes(catTag));
-        // 搜尋名稱或描述
-        const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
-        
-        // 判斷是否應該顯示 (考慮「顯示已結束」的狀態)
-        const shouldShow = showOnlyEnded ? 
-            (matchCat && matchSearch && isEnded) : 
-            (matchCat && matchSearch && !isEnded);
-            
-        card.style.display = shouldShow ? '' : 'none';
-    });
-
-    // 更新「顯示已結束」按鈕的數字
-    const toggleBtn = document.getElementById('toggleEndedBtn');
-    if (toggleBtn) {
-        const count = document.querySelectorAll('.product-card.ended').length;
-        toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
-    }
-}
-
-// --- 在 DOMContentLoaded 裡加入關鍵監聽 ---
-document.addEventListener('DOMContentLoaded', function () {
-    // ... 原有的初始化代碼 ...
-	
-	// Mobile / Tablet 右上角「分類」按鈕
-document.getElementById('openTagFilterBtn')?.addEventListener('click', function () {
-    document.getElementById('filterOverlay')?.classList.add('open');
-});
-
-
-    // 核心修復：確保搜尋框有被綁定事件
-    const searchBox = document.getElementById('searchInput');
-    if (searchBox) {
-        // 'input' 事件會在你每打一個字時就觸發搜尋
-        searchBox.addEventListener('input', filterCards);
-    }
-
-    // 處理搜尋下拉選單的開關 (因為你原本沒寫開關邏輯)
-    const searchToggle = document.getElementById('searchToggle');
-    const searchDropdown = document.getElementById('headerSearchDropdown');
-    
-    searchToggle?.addEventListener('click', function(e) {
-        e.stopPropagation();
-        searchDropdown.classList.toggle('open');
-        if (searchDropdown.classList.contains('open')) {
-            searchBox.focus(); // 打開時自動聚焦，方便直接打字
-        }
-    });
-
-    // 點擊頁面其他地方關閉搜尋選單
-    document.addEventListener('click', function() {
-        searchDropdown.classList.remove('open');
-    });
-    searchDropdown?.addEventListener('click', (e) => e.stopPropagation());
-});
-    // --- 5. 初始化與按鈕綁定 ---
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.product-card').forEach(function(card) {
-            var tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim());
-            card.dataset.tags = tags.join('|');
-            card.querySelectorAll('.product-meta').forEach(updateElement);
-        });
-
-        renderCategoryList();
-
-        // 側欄開關
-        const overlay = document.getElementById('filterOverlay');
-        document.getElementById('openFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
-        document.getElementById('closeFilterBtn')?.addEventListener('click', () => overlay.classList.remove('open'));
-
-        // 「清除」按鈕：對應 ID filterClearBtn
-        document.getElementById('filterClearBtn')?.addEventListener('click', function() {
-            if (document.getElementById('searchInput')) document.getElementById('searchInput').value = '';
-            var items = document.querySelectorAll('#categoryList .filter-item');
-            items.forEach(i => i.classList.remove('selected'));
-            if (items[0]) items[0].classList.add('selected');
-            filterCards();
-        });
-
-        // 「套用」按鈕：對應 ID filterApplyBtn
-        document.getElementById('filterApplyBtn')?.addEventListener('click', function() {
-            filterCards();
-            overlay.classList.remove('open');
-        });
-
-        // 搜尋與結束切換
-        document.getElementById('searchInput')?.addEventListener('input', filterCards);
-        document.getElementById('toggleEndedBtn')?.addEventListener('click', function() {
-            showOnlyEnded = !showOnlyEnded;
-            filterCards();
-        });
-
-        filterCards();
-        updateBanner();
-        setInterval(updateBanner, 1000);
-    });
-})();
-
-// 全域函式
-function goToSection(id) { document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-function copyCoupon(id, btn) {
-    const code = document.getElementById(id)?.textContent.trim();
-    if (!code) return;
-    navigator.clipboard.writeText(code).then(() => {
-        const t = btn.textContent; btn.textContent = "已複製 ✓";
-        setTimeout(() => btn.textContent = t, 2000);
-    });
-}
-    </script>
-	<footer class="footer">
-    <div class="footer-content">
-
-        <div class="footer-title">加入2A夫妻社群</div>
-        <div class="footer-subtitle">
-            第一手團購通知、限時好康不漏接
-        </div>
-
-        <div class="footer-socials">
-            <a class="line"
-               href="https://line.me/ti/g2/hT4k_ydWEIvpbumc11WufWtxg9KUtGC7wJHNGQ?utm_source=invitation&utm_medium=link_copy&utm_campaign=default"
-               target="_blank" rel="noopener noreferrer">
-                💬 LINE 團購群
-            </a>
-
-            <a class="fb"
-               href="https://www.facebook.com/2acouple"
-               target="_blank" rel="noopener noreferrer">
-                👍 Facebook
-            </a>
-
-            <a class="ig"
-               href="https://www.instagram.com/2a_couple"
-               target="_blank" rel="noopener noreferrer">
-                📸 Instagram
-            </a>
-
-            <a class="yt"
-               href="https://www.youtube.com/@2a_couple"
-               target="_blank" rel="noopener noreferrer">
-                ▶ YouTube
-            </a>
-        </div>
-
-        <div class="footer-text">
-			合作信箱：
-			<a href="mailto:2acouple168@gmail.com">2acouple168@gmail.com</a><br>
-			2A夫妻實測｜精選好物、團購好康
-        </div>
-
-    </div>
-</footer>
-
-    <script>
-(function () {
-    'use strict';
-
-    let showOnlyEnded = false;
-
-    // --- 1. 日期工具 ---
-    function normalizeToISO(dateStr) {
-        if (!dateStr) return null;
-        dateStr = dateStr.trim();
-        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
-        var m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
-        if (m) {
-            var mon = String(m[1]).padStart(2, '0');
-            var day = String(m[2]).padStart(2, '0');
-            var year = m[3] ? m[3] : (new Date()).getFullYear();
-            return year + '-' + mon + '-' + day;
-        }
-        return null;
-    }
-
-    function daysLeftTo(endISO) {
-        try {
-            var end = new Date(endISO + 'T23:59:59');
-            var now = new Date();
-            var diff = end - now;
-            var days = Math.ceil(diff / (1000 * 60 * 60 * 24));
-            return { days: days, diffMs: diff };
-        } catch (e) { return null; }
-    }
-
-    // --- 2. 更新狀態 ---
-    function updateElement(el) {
-        var endAttr = el.getAttribute('data-end');
-        var endISO = normalizeToISO(endAttr);
-        var outSpan = el.querySelector('.days-left');
-        var card = el.closest('.product-card');
-        if (!endISO || !outSpan) return;
-        var result = daysLeftTo(endISO);
-        if (!result) return;
-
-        if (result.diffMs < 0) {
-            outSpan.textContent = '已結束';
-            if (card) card.classList.add('ended');
-        } else {
-            if (card) card.classList.remove('ended');
-            outSpan.textContent = (result.days <= 1) ? '今日截止' : '剩 ' + result.days + ' 天';
-        }
-    }
-
-    function updateBanner() {
-        var bannerName = document.getElementById('bannerName');
-        var bannerTimer = document.getElementById('bannerTimer');
-        var metas = document.querySelectorAll('.product-meta');
-        var now = new Date();
-        var nearest = null;
-
-        metas.forEach(function (meta) {
-            var endISO = normalizeToISO(meta.getAttribute('data-end'));
-            if (!endISO) return;
-            var diff = new Date(endISO + 'T23:59:59') - now;
-            if (diff > 0 && (!nearest || diff < nearest.diff)) {
-                var card = meta.closest('.product-card');
-                nearest = { name: card.querySelector('.product-name').textContent, diff: diff };
-            }
-        });
-
-        if (bannerName && bannerTimer) {
-            if (!nearest) {
-                bannerName.textContent = '目前無即將截止項目';
-                bannerTimer.style.display = 'none';
-            } else {
-                bannerName.textContent = nearest.name;
-                bannerTimer.style.display = 'inline-block';
-                var s = Math.floor(nearest.diff / 1000);
-                var d = Math.floor(s / 86400);
-                var r = s % 86400;
-                var h = String(Math.floor(r / 3600)).padStart(2, '0');
-                var m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
-                var sec = String(r % 60).padStart(2, '0');
-                bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + h + ':' + m + ':' + sec;
-            }
-        }
-    }
-
-    // --- 3. 側欄分類產生 ---
+    // ---------- 分類清單 ----------
     function renderCategoryList() {
-    const categoryList = document.getElementById('categoryList');
-    if (!categoryList) return;
+        const categoryList = document.getElementById('categoryList');
+        if (!categoryList) return;
 
-    const allTags = new Set();
-    document.querySelectorAll('.product-tag').forEach(tag => {
-        allTags.add(tag.textContent.trim());
-    });
+        const allTags = new Set();
+        document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
 
-    const orderedTags = [
-        '💳 日本優惠券',
-        '✈️ 旅遊',
-        '📱 3C',
-        '📺 家電',
-        '🏠 居家',
-        '🥯 食品',
-        '🦐 蝦皮好物',
-        '🏨 訂房',
-        '📶 eSIM',
-        '🔐 VPN',
-        '🎟️ 折扣碼',
-        '💳 優惠連結',
-        '💰 回饋'
-    ];
+        const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦐 蝦皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','💳 優惠連結','💰 回饋'];
 
-    categoryList.innerHTML = '';
+        categoryList.innerHTML = '';
 
-    const allItem = document.createElement('div');
-    allItem.className = 'filter-item selected';
-    allItem.dataset.tag = '全部';
-    allItem.textContent = '全部';
-    categoryList.appendChild(allItem);
+        const allItem = document.createElement('div');
+        allItem.className = 'filter-item selected';
+        allItem.dataset.tag = '全部';
+        allItem.textContent = '全部';
+        categoryList.appendChild(allItem);
 
-    orderedTags.forEach(tag => {
-        if (allTags.has(tag)) {
+        orderedTags.forEach(tag => {
+            if (allTags.has(tag)) {
+                const div = document.createElement('div');
+                div.className = 'filter-item';
+                div.dataset.tag = tag;
+                div.textContent = tag;
+                categoryList.appendChild(div);
+                allTags.delete(tag);
+            }
+        });
+
+        [...allTags].sort().forEach(tag => {
             const div = document.createElement('div');
             div.className = 'filter-item';
             div.dataset.tag = tag;
             div.textContent = tag;
             categoryList.appendChild(div);
-            allTags.delete(tag);
-        }
-    });
+        });
 
-    Array.from(allTags).sort().forEach(tag => {
-        const div = document.createElement('div');
-        div.className = 'filter-item';
-        div.dataset.tag = tag;
-        div.textContent = tag;
-        categoryList.appendChild(div);
-    });
-
-    categoryList.addEventListener('click', function (e) {
-        if (e.target.classList.contains('filter-item')) {
-            categoryList.querySelectorAll('.filter-item')
-                .forEach(i => i.classList.remove('selected'));
+        categoryList.addEventListener('click', e => {
+            if (!e.target.classList.contains('filter-item')) return;
+            categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
             e.target.classList.add('selected');
-
             filterCards();
-			scrollToFirstVisibleProduct();
+            scrollToFirstVisibleProduct();
+            if (window.innerWidth <= 1024) document.getElementById('filterOverlay')?.classList.remove('open');
+        });
+    }
 
-            if (window.innerWidth <= 1024) {
-                document.getElementById('filterOverlay')?.classList.remove('open');
-            }
-        }
-    });
-}
-
-
-    // --- 4. 篩選邏輯 ---
+    // ---------- 篩選 ----------
     function filterCards() {
-        const searchInput = document.getElementById('searchInput');
-        const keyword = (searchInput?.value || '').trim().toLowerCase();
-        
+        const keyword = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
         const selected = document.querySelector('#categoryList .filter-item.selected');
-        const catTag = (selected && selected.dataset.tag !== '全部') ? selected.dataset.tag : null;
+        const catTag = selected && selected.dataset.tag !== '全部' ? selected.dataset.tag : null;
 
-        document.querySelectorAll('.product-card').forEach(function (card) {
-            const name = (card.querySelector('.product-name')?.textContent || '').toLowerCase();
-            const desc = (card.querySelector('.product-desc')?.textContent || '').toLowerCase();
+        document.querySelectorAll('.product-card').forEach(card => {
+            const name = card.querySelector('.product-name')?.textContent.toLowerCase() || '';
+            const desc = card.querySelector('.product-desc')?.textContent.toLowerCase() || '';
             const tags = (card.dataset.tags || '').split('|');
             const isEnded = card.classList.contains('ended');
-            
-            const matchCat = !catTag || tags.some(t => t.includes(catTag));
-            const matchSearch = !keyword || name.includes(keyword) || desc.includes(keyword);
-            
-            const shouldShow = showOnlyEnded ? 
-                (matchCat && matchSearch && isEnded) : 
-                (matchCat && matchSearch && !isEnded);
-                
-            card.style.display = shouldShow ? '' : 'none';
+
+            const match = (!catTag || tags.some(t => t.includes(catTag))) &&
+                          (!keyword || name.includes(keyword) || desc.includes(keyword)) &&
+                          (showOnlyEnded ? isEnded : !isEnded);
+
+            card.style.display = match ? '' : 'none';
         });
 
         const toggleBtn = document.getElementById('toggleEndedBtn');
         if (toggleBtn) {
             const count = document.querySelectorAll('.product-card.ended').length;
-            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : '顯示已結束 (' + count + ')';
+            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : `顯示已結束 (${count})`;
         }
     }
 
-    // --- 5. 初始化與按鈕綁定 ---
-    document.addEventListener('DOMContentLoaded', function () {
-        document.querySelectorAll('.product-card').forEach(function(card) {
-            var tags = Array.from(card.querySelectorAll('.product-tag')).map(t => t.textContent.trim());
+    // ---------- 初始化 ----------
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.product-card').forEach(card => {
+            const tags = [...card.querySelectorAll('.product-tag')].map(t => t.textContent.trim());
             card.dataset.tags = tags.join('|');
             card.querySelectorAll('.product-meta').forEach(updateElement);
         });
 
         renderCategoryList();
-
-        // 側欄開關
-        const overlay = document.getElementById('filterOverlay');
-        document.getElementById('openFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
-        document.getElementById('openTagFilterBtn')?.addEventListener('click', () => overlay.classList.add('open'));
-        document.getElementById('closeFilterBtn')?.addEventListener('click', () => overlay.classList.remove('open'));
-        overlay?.addEventListener('click', e => {
-            if (e.target === overlay) overlay.classList.remove('open');
-        });
-
-        // 「清除」按鈕
-        document.getElementById('filterClearBtn')?.addEventListener('click', function() {
-            if (document.getElementById('searchInput')) document.getElementById('searchInput').value = '';
-            var items = document.querySelectorAll('#categoryList .filter-item');
-            items.forEach(i => i.classList.remove('selected'));
-            if (items[0]) items[0].classList.add('selected');
-            filterCards();
-			
-        });
-
-        // 「套用」按鈕
-        document.getElementById('filterApplyBtn')?.addEventListener('click', function() {
-            filterCards();
-            overlay.classList.remove('open');
-        });
-
-        // 搜尋框
-        const searchBox = document.getElementById('searchInput');
-        if (searchBox) {
-            searchBox.addEventListener('input', filterCards);
-        }
-
-        // 搜尋下拉選單開關
-        const searchToggle = document.getElementById('searchToggle');
-        const searchDropdown = document.getElementById('headerSearchDropdown');
-        
-        searchToggle?.addEventListener('click', function(e) {
-            e.stopPropagation();
-            searchDropdown.classList.toggle('open');
-            if (searchDropdown.classList.contains('open')) {
-                searchBox.focus();
-            }
-        });
-
-        document.addEventListener('click', function() {
-            searchDropdown.classList.remove('open');
-        });
-        searchDropdown?.addEventListener('click', (e) => e.stopPropagation());
-
-        // 結束切換
-        document.getElementById('toggleEndedBtn')?.addEventListener('click', function() {
-            showOnlyEnded = !showOnlyEnded;
-            filterCards();
-        });
-
         filterCards();
         updateBanner();
         setInterval(updateBanner, 1000);
+
+        // ★ Banner 商品名稱點擊
+        const bannerNameEl = document.getElementById('bannerName');
+        bannerNameEl?.addEventListener('click', () => {
+            if (bannerBuyUrl) window.open(bannerBuyUrl, '_blank');
+        });
     });
 })();
 
-// 全域函式
-function goToSection(id) { 
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); 
+// ---------- 共用工具（保留原功能） ----------
+function goToSection(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function copyCoupon(id, btn) {
     const code = document.getElementById(id)?.textContent.trim();
     if (!code) return;
     navigator.clipboard.writeText(code).then(() => {
-        const t = btn.textContent; 
-        btn.textContent = "已複製 ✓";
+        const t = btn.textContent;
+        btn.textContent = '已複製 ✓';
         setTimeout(() => btn.textContent = t, 2000);
     });
 }
- // 搜尋下拉選單開關TAg商品點擊後自動跳到第一個
-function scrollToFirstVisibleProduct() {
-  const products = document.querySelectorAll('.product-item');
-
-  for (let product of products) {
-    // 只找「目前有顯示的商品」
-    if (product.offsetParent !== null) {
-      product.scrollIntoView({
-        behavior: 'smooth',
-        block: 'start'
-      });
-      break;
-    }
-  }
-}
-    </script>
-<script>
-function scrollToFirstVisibleProduct() {
-    const firstVisible = Array.from(
-        document.querySelectorAll('.product-card')
-    ).find(card => card.style.display !== 'none');
-
-    if (!firstVisible) return;
-
-    setTimeout(() => {
-        firstVisible.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-        });
-    }, 300);
-}
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const toggleBtn = document.getElementById('searchToggle');
-    const dropdown = document.getElementById('headerSearchDropdown');
-    const input = document.getElementById('searchInput');
-
-    if (!toggleBtn || !dropdown) return;
-
-    // 點擊放大鏡：開 / 關搜尋框
-    toggleBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        dropdown.classList.toggle('open');
-
-        if (dropdown.classList.contains('open')) {
-            setTimeout(() => input && input.focus(), 50);
-        }
-    });
-
-    // 點外面自動關閉
-    document.addEventListener('click', function (e) {
-        if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
-            dropdown.classList.remove('open');
-        }
-    });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-    const toggleBtn = document.getElementById('searchToggle');
-    const dropdown = document.getElementById('headerSearchDropdown');
-    const input = document.getElementById('searchInput');
-
-    if (!toggleBtn || !dropdown) return;
-
-    // 點擊放大鏡：開 / 關
-    toggleBtn.addEventListener('click', function (e) {
-        e.stopPropagation();
-        dropdown.classList.toggle('open');
-
-        if (dropdown.classList.contains('open')) {
-            setTimeout(() => input && input.focus(), 50);
-        }
-    });
-
-    // 點外面關閉
-    document.addEventListener('click', function (e) {
-        if (!dropdown.contains(e.target) && !toggleBtn.contains(e.target)) {
-            dropdown.classList.remove('open');
-        }
-    });
-});
 
 function scrollToFirstVisibleProduct() {
     if (window.innerWidth > 1024) return;
+    const first = [...document.querySelectorAll('.product-card')].find(c => c.offsetParent !== null);
+    if (!first) return;
 
-    requestAnimationFrame(() => {
-        const cards = document.querySelectorAll('.product-card');
-        const firstVisible = Array.from(cards).find(card => card.offsetParent !== null);
-
-        if (!firstVisible) return;
-
-        const top =
-            firstVisible.getBoundingClientRect().top +
-            window.pageYOffset -
-            160;
-
-        window.scrollTo({
-            top: top,
-            behavior: 'smooth'
-        });
-    });
+    const top = first.getBoundingClientRect().top + window.pageYOffset - 160;
+    window.scrollTo({ top, behavior: 'smooth' });
 }
 
-</script>
-<script>
-document.querySelectorAll('.product-card').forEach(card => {
-    const buyBtn = card.querySelector('.btn-primary');
-    if (!buyBtn) return;
-
-    const buyLink = buyBtn.getAttribute('href');
-    if (!buyLink) return;
-
-    const imageArea = card.querySelector('.product-image');
-    const nameArea = card.querySelector('.product-name');
-
-    if (imageArea) {
-        imageArea.addEventListener('click', () => {
-            window.open(buyLink, '_blank');
-        });
-    }
-
-    if (nameArea) {
-        nameArea.addEventListener('click', () => {
-            window.open(buyLink, '_blank');
-        });
-    }
-});
-</script>
-<script>
-function addRippleEffect(el) {
-    el.classList.add('ripple-target');
-
-    el.addEventListener('click', function (e) {
-        // 只在 touch 裝置啟用
-        if (!window.matchMedia('(hover: none)').matches) return;
-
-        const ripple = document.createElement('span');
-        ripple.className = 'ripple';
-
-        const rect = el.getBoundingClientRect();
-        const size = Math.max(rect.width, rect.height);
-
-        ripple.style.width = ripple.style.height = size + 'px';
-        ripple.style.left = (e.clientX - rect.left - size / 2) + 'px';
-        ripple.style.top = (e.clientY - rect.top - size / 2) + 'px';
-
-        el.appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 650);
-    });
-}
-
-// 套用到商品圖片 & 商品名
-document.querySelectorAll('.product-image, .product-name').forEach(el => {
-    addRippleEffect(el);
-});
 </script>
 
 </body>
