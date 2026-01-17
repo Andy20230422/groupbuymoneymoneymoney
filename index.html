@@ -2304,6 +2304,33 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 </script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const searchInput = document.getElementById('searchInput');
+  if (!searchInput) return;
+
+  const productCards = document.querySelectorAll('.product-card');
+
+  searchInput.addEventListener('input', () => {
+    const keyword = searchInput.value.trim().toLowerCase();
+
+    productCards.forEach(card => {
+      const name = card.querySelector('.product-name')?.innerText.toLowerCase() || '';
+      const desc = card.querySelector('.product-desc')?.innerText.toLowerCase() || '';
+      const tags = Array.from(card.querySelectorAll('.product-tag'))
+        .map(t => t.innerText.toLowerCase())
+        .join(' ');
+
+      const match =
+        name.includes(keyword) ||
+        desc.includes(keyword) ||
+        tags.includes(keyword);
+
+      card.style.display = match ? '' : 'none';
+    });
+  });
+});
+</script>
 
 </body>
 </html>
