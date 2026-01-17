@@ -1184,6 +1184,15 @@
 
 }
 
+/* 商品圖片 & 品名可點擊提示 */
+.product-image,
+.product-name {
+    cursor: pointer;
+}
+
+.product-name:hover {
+    text-decoration: underline;
+}
 
     </style>
 </head>
@@ -2527,6 +2536,30 @@ function scrollToFirstVisibleProduct() {
     });
 }
 
+</script>
+<script>
+document.querySelectorAll('.product-card').forEach(card => {
+    const buyBtn = card.querySelector('.btn-primary');
+    if (!buyBtn) return;
+
+    const buyLink = buyBtn.getAttribute('href');
+    if (!buyLink) return;
+
+    const imageArea = card.querySelector('.product-image');
+    const nameArea = card.querySelector('.product-name');
+
+    if (imageArea) {
+        imageArea.addEventListener('click', () => {
+            window.open(buyLink, '_blank');
+        });
+    }
+
+    if (nameArea) {
+        nameArea.addEventListener('click', () => {
+            window.open(buyLink, '_blank');
+        });
+    }
+});
 </script>
 
 </body>
