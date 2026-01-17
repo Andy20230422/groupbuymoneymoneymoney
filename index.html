@@ -1265,6 +1265,64 @@
 .tag-filter-btn:hover {
     background: linear-gradient(135deg, #e9dcc9, #d8c7bb);
 }
+/* 完全移除左上角三條線按鈕（所有尺寸） */
+.menu-icon {
+    display: none !important;
+}
+/* =========================
+   分類按鈕（手機＋電腦）極簡版
+   ========================= */
+.tag-filter-btn {
+    font-size: 13px;          /* 字再小一點 */
+    font-weight: 600;
+    padding: 4px 10px;        /* 🔥 關鍵：縮小上下左右空白 */
+    min-width: auto;
+    height: 28px;             /* 整體高度變小 */
+
+    border-radius: 6px;
+    background: transparent;
+    color: #5a4a3a;
+
+    border: 1px solid rgba(90, 74, 58, 0.3);
+    box-shadow: none;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    letter-spacing: 0.5px;    /* 字距縮小 */
+    line-height: 1;
+}
+
+/* 點擊回饋 */
+.tag-filter-btn:active {
+    transform: scale(0.95);
+    background: rgba(90, 74, 58, 0.08);
+}
+
+/* hover（桌機用） */
+.tag-filter-btn:hover {
+    background: rgba(90, 74, 58, 0.06);
+}
+.tag-filter-btn {
+    white-space: nowrap;
+    word-break: keep-all;
+    flex-shrink: 0;
+    min-width: max-content; /* 🔒 寬度至少等於文字 */
+}
+/* =========================
+   Header 右側按鈕靠右貼齊
+   ========================= */
+.header-actions {
+    margin-left: auto;        /* 🔥 整組推到最右 */
+    gap: 4px;                 /* 🔥 縮小分類與搜尋間距 */
+}
+
+/* 分類按鈕不被壓縮、不換行 */
+.tag-filter-btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
 
     </style>
 </head>
