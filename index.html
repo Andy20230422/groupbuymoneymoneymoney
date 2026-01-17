@@ -7,923 +7,921 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>2A夫妻｜嚴選團購・日本優惠券・旅遊折扣碼</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
-            background: #faf8f5;
-            color: #333;
-        }
-
-        /* Header */
-        .header {
-            background: #fdfdfc;
-            padding: 12px 20px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-content {
-            max-width: 1400px;
-            margin: 0 auto;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .left-area { display:flex; align-items:center; gap:12px; min-width:0; }
-
-        .menu-icon { 
-            font-size: 28px; 
-            cursor: pointer; 
-            color: #666; 
-            padding: 6px; 
-            border-radius: 6px; 
-            background: transparent; 
-        }
-        .menu-icon:hover { background: rgba(0,0,0,0.02); }
-
-        .logo { display: flex; align-items: center; gap: 10px; justify-content:center; flex:1; min-width:0; }
-        .logo-icon { width: 50px; height: 50px; }
-        .logo-icon img { width: 100%; height: 100%; object-fit: contain; }
-
-        .logo-text h1 { font-size: 20px; color: #5a4a3a; font-weight: 700; }
-        .logo-text p { font-size: 12px; color: #999; }
-
-        .header-actions { display:flex; align-items:center; gap:8px; justify-content:flex-end; }
-
-        .icon-btn {
-            display:inline-flex;
-            align-items:center;
-            justify-content:center;
-            width:40px;
-            height:40px;
-            border-radius:10px;
-            background:transparent;
-            border:1px solid transparent;
-            cursor:pointer;
-            color:#8b7355;
-            transition: background 0.15s, color 0.15s;
-        }
-        .icon-btn:hover { background: rgba(0,0,0,0.03); }
-
-        .header-search-dropdown {
-            position: absolute;
-            right: 20px;
-            top: 62px;
-            z-index: 1200;
-            width: 360px;
-            max-width: calc(100% - 40px);
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
-            padding: 10px;
-            display: none;
-        }
-        .header-search-dropdown.open { display: block; }
-
-        .search-box {
-            width: 100%; 
-            padding: 10px 14px; 
-            border: 1px solid #ddd;
-            border-radius: 8px; 
-            font-size: 15px; 
-            background: white;
-        }
-
-        /* Filter Tabs */
-        .filter-tabs { 
-            max-width: 1400px; 
-            margin: 20px auto; 
-            padding: 0 20px; 
-            display:flex; 
-            gap:10px; 
-            flex-wrap:wrap; 
-            position: sticky; 
-            top: 76px; 
-            z-index: 900; 
-            background: #faf8f5; 
-            padding-top: 10px; 
-            padding-bottom: 10px;
-        }
-        
-        .filter-tab {
-            padding: 10px 25px; 
-            border-radius: 25px; 
-            border: none; 
-            cursor: pointer;
-            font-size: 15px; 
-            transition: all 0.3s; 
-            font-weight: 500;
-        }
-        .filter-tab.active { background: #f5e6d3; color: #8b7355; }
-        .filter-tab:not(.active) { background: #f0f0f0; color: #999; }
-        .filter-tab:hover { background: #f5e6d3; color: #8b7355; }
-
-        .results-info { 
-            max-width: 1400px; 
-            margin: 20px auto; 
-            padding: 0 20px; 
-            color: #999; 
-            font-size: 14px; 
-        }
-
-        .section-header { 
-            max-width: 1400px; 
-            margin: 40px auto 20px; 
-            padding: 0 20px; 
-            text-align: center; 
-        }
-        
-        .section-title {
-            display: inline-flex; 
-            align-items: center; 
-            gap: 10px;
-            font-size: 28px; 
-            font-weight: 700; 
-            color: #5a4a3a;
-        }
-
-        /* Countdown Banner */
-        .countdown-banner { max-width: 1400px; margin: 20px auto; padding: 0 20px; }
-        .countdown-content {
-            background: #fff4e6; 
-            border: 2px solid #f5d5a0; 
-            border-radius: 12px;
-            padding: 15px 20px; 
-            display:flex; 
-            align-items:center; 
-            justify-content:space-between;
-        }
-        .countdown-left { 
-            display:flex; 
-            align-items:center; 
-            gap:10px; 
-            font-size:16px; 
-            color:#8b7355; 
-        }
-        .countdown-right {
-            color: #8b7355; 
-            font-size: 16px; 
-            font-weight:700; 
-            display:flex; 
-            align-items:center; 
-            gap:10px;
-        }
-        .banner-name { color: #8b7355; font-weight:700; }
-        .banner-timer {
-            background: transparent; 
-            border: none; 
-            padding: 0 6px; 
-            border-radius: 6px; 
-            color: #5a4a3a; 
-            font-weight: 800; 
-            font-family: monospace; 
-            box-shadow:none;
-            display:inline-block; 
-            line-height:1;
-        }
-
-        /* Products Grid */
-        .products-container { max-width: 1400px; margin: 0 auto; padding: 0 20px 40px; }
-        .products-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); 
-            gap: 20px; 
-        }
-
-        /* Product Card */
-        .product-card { 
-            background: white; 
-            border: 3px solid #f5d5a0; 
-            border-radius: 20px; 
-            overflow: hidden; 
-            transition: all 0.3s;
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-        .product-card:hover { 
-            transform: translateY(-5px); 
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15); 
-        }
-
-        .product-image {
-            aspect-ratio: 1 / 1;
-            width: 100%;
-            background: #f5f5f5;
-            overflow: hidden;
-        }
-
-        .product-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .product-card:hover .product-image img {
-            transform: scale(1.05);
-        }
-
-        .product-content { 
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            flex: 1;
-        }
-        
-        .product-name { 
-            font-size:18px; 
-            font-weight:700; 
-            color:#5a4a3a; 
-            margin-bottom:8px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            line-height: 1.4;
-            min-height: calc(1.4em * 2);
-        }
-        
-        .product-desc { 
-            font-size:14px; 
-            color:#999; 
-            margin-bottom:10px; 
-            line-height:1.5;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-            min-height: calc(1.4em * 2);
-        }
-
-        .product-tags { 
-            display:flex; 
-            flex-wrap:wrap; 
-            gap:8px; 
-            margin-bottom:12px; 
-        }
-        
-        .product-tag { 
-            display:flex; 
-            align-items:center; 
-            gap:5px; 
-            padding:5px 12px; 
-            border-radius:15px; 
-            font-size:13px; 
-            border:1px solid #e0e0e0; 
-            background:white; 
-        }
-
-        .product-meta {
-            display:flex; 
-            align-items:center; 
-            gap:8px; 
-            margin-bottom:15px;
-            padding:10px; 
-            background:#f6f4f1; 
-            border-radius:8px; 
-            font-size:14px; 
-            color:#666;
-            position: relative;
-        }
-
-        .product-meta .groupbuy-time { display: none; }
-
-        .days-left {
-            color: #8b7355; 
-            font-weight: 700; 
-            margin-left: 0;
-            background: transparent; 
-            padding: 4px 8px; 
-            border-radius: 6px; 
-            font-family: inherit; 
-            display:inline-block;
-        }
-
-        .product-meta.ended { opacity: 0.6; }
-
-        .product-buttons { 
-            display:flex; 
-            flex-direction:column; 
-            gap:10px;
-            margin-top: auto;
-        }
-
-        .btn { 
-            padding:12px 20px; 
-            border:none; 
-            border-radius:8px; 
-            cursor:pointer; 
-            font-size:15px; 
-            font-weight:600; 
-            text-align:center; 
-            transition:all 0.3s; 
-            text-decoration:none; 
-            display:flex; 
-            align-items:center; 
-            justify-content:center; 
-            gap:8px; 
-        }
-        
-        .btn-calendar { background:white; color:#8b7355; border:2px solid #e0e0e0; }
-        .btn-calendar:hover { background:#f5f5f5; }
-        .btn-video { background:white; color:#8b7355; border:2px solid #e0e0e0; }
-        .btn-video:hover { background:#f5f5f5; }
-        .btn-primary { background:#d5bdaf; color:white; }
-        .btn-primary:hover { background:#e3d5ca; }
-        .btn.btn-service {background: #aec3b0;color: #ffffff;}
-        .btn.btn-service:hover {background: #ccd5ae;}
-
-        .coupon-box {
-            background: #f6f4f1;
-            border: 2px dashed #d5bdaf;
-            border-radius: 10px;
-            padding: 10px 14px;
-            margin-top: 12px;
-        }
-
-        .coupon-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-        }
-
-        .coupon-code {
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            color: #5a4a3a;
-        }
-
-        .copy-btn {
-            background: #d5bdaf;
-            color: #fff;
-            border: none;
-            border-radius: 8px;
-            padding: 8px 14px;
-            font-weight: 700;
-            cursor: pointer;
-        }
-
-        .copy-btn:hover {
-            background: #e3d5ca;
-        }
-
-        .coupon-label {
-            font-size: 12px;
-            font-weight: 700;
-            color: #8b7355;
-            margin-bottom: 4px;
-        }
-
-        .product-card.ended {
-            opacity: 0.6;
-            filter: grayscale(0.8);
-        }
-
-        .product-card.hidden-ended {
-            display: none !important;
-        }
-
-        /* FILTER PANEL */
-        .filter-overlay {
-            position: fixed; 
-            inset: 0; 
-            background: rgba(0,0,0,0.35); 
-            z-index: 2000;
-            display: none; 
-            align-items: stretch; 
-            justify-content: flex-start;
-        }
-        .filter-overlay.open { display: flex; }
-        
-        .filter-panel {
-            width: 360px; 
-            max-width: 92%; 
-            background: #fff; 
-            padding: 22px; 
-            overflow-y: auto;
-            box-shadow: 8px 0 24px rgba(0,0,0,0.15); 
-            border-right: 1px solid #eee;
-        }
-        
-        .filter-panel h3 { 
-            font-size: 20px; 
-            margin-bottom: 12px; 
-            color: #333; 
-        }
-        
-        .filter-close { 
-            position: absolute; 
-            right: 18px; 
-            top: 18px; 
-            font-size: 20px; 
-            cursor: pointer; 
-            color: #888; 
-        }
-        
-        .filter-section { margin-bottom: 18px; }
-        
-        .filter-section .section-title { 
-            font-weight:700; 
-            margin-bottom: 8px; 
-            color: #5a4a3a; 
-            display:flex; 
-            align-items:center; 
-            gap:8px; 
-        }
-        
-        .filter-list { 
-            display:flex; 
-            flex-direction:column; 
-            gap:8px; 
-        }
-        
-        .filter-item {
-            padding: 10px 12px; 
-            border-radius: 10px; 
-            background: #faf7f3; 
-            color: #3e2f22; 
-            cursor: pointer; 
-            border: 1px solid transparent;
-        }
-        
-        .filter-item.count { 
-            display:flex; 
-            justify-content:space-between; 
-            align-items:center; 
-        }
-        
-        .filter-item.selected { 
-            background: #c9a876; 
-            color: white; 
-            border-color: rgba(0,0,0,0.05); 
-        }
-        
-        .filter-item .tag-name { font-weight:600; }
-        .filter-item .tag-count { color: rgba(0,0,0,0.5); font-weight:600; }
-
-        .filter-actions { 
-            display:flex; 
-            gap:8px; 
-            margin-top: 12px; 
-        }
-        
-        .btn-filter-clear { 
-            flex:1; 
-            padding:10px; 
-            border-radius:8px; 
-            border:1px solid #e0e0e0; 
-            background:white; 
-            cursor:pointer; 
-        }
-        
-        .btn-filter-apply { 
-            flex:1; 
-            padding:10px; 
-            border-radius:8px; 
-            background:#c9a876; 
-            color:white; 
-            border:none; 
-            cursor:pointer; 
-        }
-
-       /* Footer */
-        .footer {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)), 
-                              url('團購下方底圖ppt.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            padding: 60px 20px;
-            margin-top: 80px;
-            border-top: 1px solid #eee;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .footer-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: #5a4a3a;
-            margin-bottom: 12px;
-        }
-
-        .footer-subtitle {
-            font-size: 14px;
-            color: #999;
-            margin-bottom: 30px;
-        }
-
-        .footer-socials {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            flex-wrap: wrap;
-            margin-bottom: 40px;
-        }
-
-        .footer-socials a {
-            padding: 12px 28px;
-            border-radius: 999px;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            transition: all 0.25s ease;
-            border: 2px solid transparent;
-        }
-
-        .footer-socials .line {
-            background: #06c755;
-            color: #fff;
-        }
-        .footer-socials .line:hover {
-            background: #05b44c;
-        }
-
-        .footer-socials .fb {
-            background: #1877f2;
-            color: #fff;
-        }
-        .footer-socials .fb:hover {
-            background: #166fe0;
-        }
-
-        .footer-socials .ig {
-            background: linear-gradient(45deg,
-                #feda75,
-                #fa7e1e,
-                #d62976,
-                #962fbf,
-                #4f5bd5
-            );
-            background-size: 120% 120%;
-            background-position: center;
-            color: white;
-            padding: 12px 24px;
-            border-radius: 999px;
-            text-decoration: none;
-        }
-
-        .footer-socials .yt {
-            background: #ff0000;
-            color: #fff;
-        }
-        .footer-socials .yt:hover {
-            background: #e60000;
-        }
-
-        .footer-text {
-            font-size: 14px;
-            color: #aaa;
-            line-height: 1.8;
-        }
-
-        section[id], div[id] {
-            scroll-margin-top: 140px; 
-        }
-
-        /* Mobile Tag Filter Button */
-        .tag-filter-btn {
-            display: none;
-        }
-
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .filter-tabs {
-                flex-wrap: nowrap;
-                gap: 6px;
-            }
-
-            .filter-tab {
-                font-size: 12px;
-                padding: 6px 8px;
-                white-space: nowrap;
-                flex: 1;
-                text-align: center;
-            }
-
-            .countdown-content {
-                flex-direction: column;
-                align-items: center;
-                text-align: center;
-                gap: 6px;
-            }
-
-            .countdown-left {
-                justify-content: center;
-                font-size: 13px;
-                font-weight: 600;
-            }
-
-            .countdown-right {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 4px;
-            }
-
-            .banner-name {
-                font-size: 14px;
-                font-weight: 700;
-            }
-
-            .banner-timer {
-                font-size: 13px;
-                font-weight: 600;
-            }
-
-            .tag-filter-btn {
-                display: inline-flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-            .menu-icon {
-                display: none;
-            }
-        }
-
-        @media (max-width: 768px) {
-            .coupon-row {
-                flex-wrap: wrap;
-                justify-content: center;
-                gap: 8px;
-            }
-
-            .copy-btn {
-                flex-shrink: 0;
-                white-space: nowrap;
-                padding: 6px 16px;
-                min-width: 70px;
-                height: auto;
-            }
-
-            .coupon-code {
-                font-size: 16px;
-                letter-spacing: 0.5px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .top-banner { font-size: 13px; padding: 6px; }
-            .header { padding: 8px 12px; }
-            .logo-img { height: 32px; }
-
-            .products-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-                padding: 12px;
-            }
-
-            .product-card {
-                border-radius: 12px;
-                border: none;
-                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
-                background: #fff;
-                overflow: hidden;
-                transition: box-shadow 0.3s ease;
-            }
-
-            .product-name {
-                font-size: 14px;
-                margin-bottom: 5px;
-            }
-
-            .product-desc {
-                margin-bottom: 6px;
-            }
-
-            .product-tags {
-                margin-bottom: 8px;
-            }
-
-            .product-content {
-                padding: 10px;
-            }
-
-            .btn-primary, .btn-secondary {
-                min-height: 40px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 8px 4px;
-                font-size: 12px;
-                letter-spacing: -0.5px;
-            }
-
-            .filter-item {
-                border-radius: 10px;
-                margin-bottom: 4px;
-                background: #f9f9f9;
-                border: 1px solid #f0f0f0;
-            }
-
-            .header-search-dropdown { 
-                right: 10px; 
-                left: 10px; 
-                top: 64px; 
-                width: auto; 
-            }
-
-            .header-content { padding: 6px 8px; }
-            .logo-text h1 { font-size: 18px; }
-
-            #searchInput {
-                font-size: 16px;
-                border-radius: 20px;
-                padding: 8px 15px;
-                border: 1px solid #eee;
-                -webkit-appearance: none;
-            }
-
-            .coupon-row {
-                flex-direction: column;
-            }
-            .copy-btn {
-                width: 100%;
-            }
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        .header-search-dropdown {
-            z-index: 1500;
-        }
-
-        .filter-tabs {
-            z-index: 900;
-        }
-
-        /* ===============================
-           MOBILE FILTER â€" FINAL VERSION
-           ===================================== */
-        /* ===============================
-   MOBILE FILTER – FINAL CLEAN VERSION
-   =============================== */
-@media (max-width: 1024px) {
-
-  /* Overlay */
-  .filter-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.45);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    z-index: 3000;
-    display: none;
-    justify-content: flex-end;
-  }
-
-  .filter-overlay.open {
-    display: flex;
-  }
-
-  /* Panel */
-  .filter-panel {
-    width: auto;
-    min-width: 220px;
-    max-width: 80vw;
-    height: 100%;
-    background: #ffffff;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    padding: 50px 16px 20px;
-    overflow: visible;                 /* 🔥 解鎖滑動 */
-    transform: translateX(100%);
-    transition: transform 0.3s ease;
-  }
-
-  .filter-overlay.open .filter-panel {
-    transform: translateX(0);
-  }
-
-  /* Title */
-  .filter-panel h3 {
-    position: absolute;
-    top: 12px;
-    left: 16px;
-    font-size: 18px;
-    margin: 0;
-  }
-
-  /* Close Button */
-  .filter-close {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    width: 36px;
-    height: 36px;
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    color: #888;
-    z-index: 10;
-  }
-
-  /* Tag List (Scrollable Area) */
-  .filter-list {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    overflow-y: auto;                  /* ✅ 真正負責滑動 */
-    overflow-x: hidden;
-    -webkit-overflow-scrolling: touch;
-    max-height: calc(100vh - 120px);
-    padding-bottom: 20px;
-  }
-
-  /* Tag Item */
-  .filter-item {
-    width: 100%;
-    padding: 12px 14px;
-    border-radius: 12px;
-    background: #f7f7f7;
-    border: 1px solid #eeeeee;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 15px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .filter-item.selected {
-    background: #c9a876;
-    color: #ffffff;
-    border-color: transparent;
-  }
-
-  /* Hide Desktop-only Elements */
-  .filter-actions {
-    display: none;
-  }
-
-  .filter-section .section-title {
-    display: none;
-  }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", sans-serif;
+    background: #faf8f5;
+    color: #333;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
+html {
+    scroll-behavior: smooth;
+}
 
-        }
-		
+section[id], div[id] {
+    scroll-margin-top: 140px;
+}
+
+/* Header */
+.header {
+    background: #fdfdfc;
+    padding: 12px 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    position: relative;
+}
+
+.left-area { 
+    display: flex; 
+    align-items: center; 
+    gap: 12px; 
+    min-width: 0; 
+}
+
+.menu-icon {
+    display: none !important;
+}
+
+.logo { 
+    display: flex; 
+    align-items: center; 
+    gap: 10px; 
+    justify-content: center; 
+    flex: 1; 
+    min-width: 0; 
+}
+
+.logo-icon { 
+    width: 50px; 
+    height: 50px; 
+}
+
+.logo-icon img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: contain; 
+}
+
+.logo-text h1 { 
+    font-size: 20px; 
+    color: #5a4a3a; 
+    font-weight: 700; 
+}
+
+.logo-text p { 
+    font-size: 12px; 
+    color: #999; 
+}
+
+.header-actions { 
+    display: flex; 
+    align-items: center; 
+    gap: 4px;
+    justify-content: flex-end; 
+    margin-left: auto;
+}
+
+.icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    color: #8b7355;
+    transition: background 0.15s, color 0.15s;
+}
+
+.icon-btn:hover { 
+    background: rgba(0,0,0,0.03); 
+}
+
 .tag-filter-btn {
-    font-size: 22px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 4px 10px;
+    min-width: max-content;
+    height: 28px;
+    border-radius: 6px;
+    background: transparent;
+    color: #5a4a3a;
+    border: 1px solid rgba(90, 74, 58, 0.3);
+    box-shadow: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    white-space: nowrap;
+    word-break: keep-all;
+    flex-shrink: 0;
+}
+
+.tag-filter-btn:active {
+    transform: scale(0.95);
+    background: rgba(90, 74, 58, 0.08);
+}
+
+.tag-filter-btn:hover {
+    background: rgba(90, 74, 58, 0.06);
+}
+
+.header-search-dropdown {
+    position: absolute;
+    right: 20px;
+    top: 62px;
+    z-index: 1500;
+    width: 360px;
+    max-width: calc(100% - 40px);
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    padding: 10px;
+    display: none;
+}
+
+.header-search-dropdown.open { 
+    display: block; 
+}
+
+.search-input-wrap {
+    position: relative;
+    width: 100%;
+}
+
+.search-box {
+    width: 100%;
+    padding: 10px 40px 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 15px;
+    background: white;
+}
+
+.search-clear-btn {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: #ddd;
+    color: #666;
+    font-size: 16px;
+    line-height: 1;
     font-weight: 700;
+    cursor: pointer;
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-clear-btn:hover {
+    background: #ccc;
+}
+
+/* Filter Tabs */
+.filter-tabs {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    position: sticky;
+    top: 76px;
+    z-index: 900;
+    background: #faf8f5;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.filter-tab {
+    padding: 10px 25px;
+    border-radius: 25px;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s;
+    font-weight: 500;
+    white-space: nowrap;
+    line-height: 1.2;
+}
+
+.filter-tab.active { 
+    background: #f5e6d3; 
+    color: #8b7355; 
+}
+
+.filter-tab:not(.active) { 
+    background: #f0f0f0; 
+    color: #999; 
+}
+
+.filter-tab:hover { 
+    background: #f5e6d3; 
+    color: #8b7355; 
+}
+
+.results-info {
+    max-width: 1400px;
+    margin: 20px auto;
+    padding: 0 20px;
+    color: #999;
+    font-size: 14px;
+}
+
+.section-header {
+    max-width: 1400px;
+    margin: 40px auto 20px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.section-title {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #5a4a3a;
+}
+
+/* Countdown Banner */
+.countdown-banner { 
+    max-width: 1400px; 
+    margin: 20px auto; 
+    padding: 0 20px; 
+}
+
+.countdown-content {
+    background: #fff4e6;
+    border: 2px solid #f5d5a0;
+    border-radius: 12px;
+    padding: 15px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.countdown-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    color: #8b7355;
+}
+
+.countdown-right {
+    color: #8b7355;
+    font-size: 16px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.banner-name { 
+    color: #8b7355; 
+    font-weight: 700; 
+}
+
+.banner-name.clickable {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.banner-name.clickable:hover {
+    opacity: 0.85;
+}
+
+.banner-timer {
+    background: transparent;
+    border: none;
+    padding: 0 6px;
+    border-radius: 6px;
+    color: #5a4a3a;
+    font-weight: 800;
+    font-family: monospace;
+    box-shadow: none;
+    display: inline-block;
     line-height: 1;
 }
 
-/* ① 其他 mobile layout */
-@media (max-width: 1024px) {
-  .filter-tabs {
-    flex-wrap: nowrap;
-    gap: 6px;
-  }
+/* Products Grid */
+.products-container { 
+    max-width: 1400px; 
+    margin: 0 auto; 
+    padding: 0 20px 40px; 
 }
 
-/* ② Mobile Filter – FINAL */
-@media (max-width: 1024px) {
-  .filter-overlay { ... }
-  .filter-panel { ... }   /* 唯一定義 */
-  .filter-list { ... }
-    .filter-panel h3 {
-    display: none;
-  }
-
-  .filter-close {
-    display: none;
-  }
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
 }
+
+/* Product Card */
+.product-card {
+    background: white;
+    border: 3px solid #f5d5a0;
+    border-radius: 20px;
+    overflow: hidden;
+    transition: all 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+
+.product-card.ended {
+    opacity: 0.6;
+    filter: grayscale(0.8);
+}
+
+.product-card.hidden-ended {
+    display: none !important;
+}
+
+.product-image {
+    aspect-ratio: 1 / 1;
+    width: 100%;
+    background: #f5f5f5;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05);
+}
+
+.product-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.product-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #5a4a3a;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 1.4;
+    min-height: calc(1.4em * 2);
+    cursor: pointer;
+}
+
+.product-name:hover {
+    text-decoration: underline;
+}
+
+.product-desc {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 10px;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    min-height: calc(1.4em * 2);
+}
+
+.product-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.product-tag {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 12px;
+    border-radius: 15px;
+    font-size: 13px;
+    border: 1px solid #e0e0e0;
+    background: white;
+}
+
+.product-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background: #f6f4f1;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #666;
+    position: relative;
+}
+
+.product-meta .groupbuy-time { 
+    display: none; 
+}
+
+.days-left {
+    color: #8b7355;
+    font-weight: 700;
+    margin-left: 0;
+    background: transparent;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-family: inherit;
+    display: inline-block;
+}
+
+.product-meta.ended { 
+    opacity: 0.6; 
+}
+
+.product-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+}
+
+.btn {
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    text-align: center;
+    transition: all 0.3s;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-calendar { 
+    background: white; 
+    color: #8b7355; 
+    border: 2px solid #e0e0e0; 
+}
+
+.btn-calendar:hover { 
+    background: #f5f5f5; 
+}
+
+.btn-video { 
+    background: white; 
+    color: #8b7355; 
+    border: 2px solid #e0e0e0; 
+}
+
+.btn-video:hover { 
+    background: #f5f5f5; 
+}
+
+.btn-primary { 
+    background: #d5bdaf; 
+    color: white; 
+}
+
+.btn-primary:hover { 
+    background: #e3d5ca; 
+}
+
+.btn.btn-service {
+    background: #aec3b0;
+    color: #ffffff;
+}
+
+.btn.btn-service:hover {
+    background: #ccd5ae;
+}
+
+.coupon-box {
+    background: #f6f4f1;
+    border: 2px dashed #d5bdaf;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-top: 12px;
+}
+
+.coupon-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.coupon-code {
+    font-size: 18px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #5a4a3a;
+}
+
+.copy-btn {
+    background: #d5bdaf;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.copy-btn:hover {
+    background: #e3d5ca;
+}
+
+.coupon-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #8b7355;
+    margin-bottom: 4px;
+}
+
+/* FILTER PANEL */
+.filter-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.35);
+    z-index: 2000;
+    display: none;
+    align-items: stretch;
+    justify-content: flex-start;
+}
+
+.filter-overlay.open { 
+    display: flex; 
+}
+
+.filter-panel {
+    width: 360px;
+    max-width: 92%;
+    background: #fff;
+    padding: 22px;
+    overflow-y: auto;
+    box-shadow: 8px 0 24px rgba(0,0,0,0.15);
+    border-right: 1px solid #eee;
+}
+
+.filter-panel h3 {
+    font-size: 20px;
+    margin-bottom: 12px;
+    color: #333;
+}
+
+.filter-close {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    font-size: 20px;
+    cursor: pointer;
+    color: #888;
+}
+
+.filter-section { 
+    margin-bottom: 18px; 
+}
+
+.filter-section .section-title {
+    font-weight: 700;
+    margin-bottom: 8px;
+    color: #5a4a3a;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.filter-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-item {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #faf7f3;
+    color: #3e2f22;
+    cursor: pointer;
+    border: 1px solid transparent;
+}
+
+.filter-item.count {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.filter-item.selected {
+    background: #c9a876;
+    color: white;
+    border-color: rgba(0,0,0,0.05);
+}
+
+.filter-item .tag-name { 
+    font-weight: 600; 
+}
+
+.filter-item .tag-count { 
+    color: rgba(0,0,0,0.5); 
+    font-weight: 600; 
+}
+
+.filter-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.btn-filter-clear {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    background: white;
+    cursor: pointer;
+}
+
+.btn-filter-apply {
+    flex: 1;
+    padding: 10px;
+    border-radius: 8px;
+    background: #c9a876;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+/* Footer */
+.footer {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.7)),
+                      url('團購下方底圖ppt.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    padding: 60px 20px;
+    margin-top: 80px;
+    border-top: 1px solid #eee;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.footer-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #5a4a3a;
+    margin-bottom: 12px;
+}
+
+.footer-subtitle {
+    font-size: 14px;
+    color: #999;
+    margin-bottom: 30px;
+}
+
+.footer-socials {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 40px;
+}
+
+.footer-socials a {
+    padding: 12px 28px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.25s ease;
+    border: 2px solid transparent;
+}
+
+.footer-socials .line {
+    background: #06c755;
+    color: #fff;
+}
+
+.footer-socials .line:hover {
+    background: #05b44c;
+}
+
+.footer-socials .fb {
+    background: #1877f2;
+    color: #fff;
+}
+
+.footer-socials .fb:hover {
+    background: #166fe0;
+}
+
+.footer-socials .ig {
+    background: linear-gradient(45deg, #feda75, #fa7e1e, #d62976, #962fbf, #4f5bd5);
+    background-size: 120% 120%;
+    background-position: center;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 999px;
+    text-decoration: none;
+}
+
+.footer-socials .yt {
+    background: #ff0000;
+    color: #fff;
+}
+
+.footer-socials .yt:hover {
+    background: #e60000;
+}
+
+.footer-text {
+    font-size: 14px;
+    color: #aaa;
+    line-height: 1.8;
+}
+
+/* Mobile Ripple Effect */
+@media (hover: none) and (pointer: coarse) {
+    .ripple-target {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.5);
+        transform: scale(0);
+        animation: ripple-animation 600ms ease-out;
+        pointer-events: none;
+    }
+
+    @keyframes ripple-animation {
+        to {
+            transform: scale(4);
+            opacity: 0;
+        }
+    }
+}
+
+/* Mobile Tag Dropdown (below button) */
+.mobile-tag-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    padding: 12px;
+    z-index: 1100;
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.mobile-tag-dropdown.open {
+    display: block;
+}
+
+.mobile-tag-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: flex-start;
+}
+
+.mobile-tag-item {
+    padding: 8px 14px;
+    border-radius: 20px;
+    background: #f7f7f7;
+    border: 1.5px solid #e0e0e0;
+    font-size: 14px;
+    color: #5a4a3a;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.mobile-tag-item.selected {
+    background: #c9a876;
+    color: white;
+    border-color: #c9a876;
+}
+
+.mobile-tag-item:active {
+    transform: scale(0.95);
+}
+
+/* Tablet Responsive */
 @media (max-width: 1024px) {
+    .header-content {
+        position: relative;
+    }
+
+    /* Hide desktop filter overlay on mobile */
+    .filter-overlay {
+        display: none !important;
+    }
+
+    .filter-tabs {
+        flex-wrap: nowrap;
+        gap: 6px;
+    }
+
+    .filter-tab {
+        font-size: 12px;
+        padding: 6px 8px;
+        white-space: nowrap;
+        flex: 1;
+        text-align: center;
+    }
+
+    .countdown-content {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 6px;
+    }
+
+    .countdown-left {
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .countdown-right {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .banner-name {
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .banner-timer {
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .tag-filter-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
     .product-card {
         scroll-margin-top: 160px;
     }
-}
-@media (max-width: 1024px) {
 
-    /* =========================
-       通用：所有按鈕「單行、不爆版」
-       ========================= */
     button,
     .btn,
     .button,
@@ -933,12 +931,6 @@
         line-height: 1.2;
     }
 
-    /* =========================
-       次要 / 資訊型按鈕
-       ☎️ 聯絡客服
-       🎥 影片介紹
-       ✈️ 前往 KKday / Holafly
-       ========================= */
     .btn-secondary,
     .btn-info,
     .contact-btn,
@@ -953,9 +945,6 @@
         white-space: nowrap;
     }
 
-    /* =========================
-       折扣碼區塊（你圈起來的）
-       ========================= */
     .coupon-box,
     .coupon-code,
     .coupon-title {
@@ -970,9 +959,6 @@
         letter-spacing: 0.5px;
     }
 
-    /* =========================
-       主要 CTA（🛍️ 立即購買）
-       ========================= */
     .btn-primary,
     .btn-buy,
     .buy-btn,
@@ -984,419 +970,350 @@
         white-space: nowrap;
     }
 
-}
-
-/* ===============================
-   手機版：極限壓縮多餘留白
-   不影響功能、不影響桌機
-================================ */
-@media (max-width: 768px) {
-
-  /* 所有 section 類型的上下空白歸零 */
-  section,
-  .section,
-  .product-section,
-  .category-section,
-  .group-section {
-    margin-top: 0 !important;
-    margin-bottom: 0 !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    min-height: 0 !important;
-  }
-
-  /* 標題（如 📍常態團購）本身的留白 */
-  .section-title,
-  .group-title,
-  .category-title,
-  h2,
-  h3 {
-    margin-top: 8px !important;
-    margin-bottom: 4px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  /* 商品列表容器 */
-  .product-list,
-  .product-grid,
-  .products {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  /* 商品卡片與區塊之間 */
-  .product-card {
-    margin-bottom: 12px !important;
-  }
-
-  /* 最後一段（社群 / footer 上方） */
-  .social-section,
-  .footer,
-  footer {
-    margin-top: 12px !important;
-    padding-top: 12px !important;
-  }
-}
-
-/* ===============================
-   手機版：壓縮「商品 → 常態團購」之間的巨大空白
-   只動第一張圖的來源
-================================ */
-@media (max-width: 768px) {
-
-  /* 常態團購標題「上方」空白極限壓縮 */
-  .group-title,
-  .section-title {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  /* 如果標題是包在一個 section 裡，直接砍 section 的上 padding */
-  .group-title::before,
-  .section-title::before {
-    content: none !important;
-    display: none !important;
-  }
-
-  /* 緊貼前一個商品區塊 */
-  .product-section + .product-section,
-  .product-list + .section,
-  .products + .section {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-
-  /* 防止手機版被 min-height 撐開 */
-  .section,
-  .product-section {
-    min-height: auto !important;
-  }
-}
-/* =================================
-   手機版：砍掉「頂部功能區塊」撐出來的巨大空白
-   專門解第一張圖
-================================= */
-@media (max-width: 768px) {
-
-  /* 上方功能卡片整個區塊 */
-  .top-section,
-  .hero,
-  .hero-section,
-  .intro-section,
-  .action-section {
-    height: auto !important;
-    min-height: 0 !important;
-    padding-bottom: 0 !important;
-    margin-bottom: 0 !important;
-  }
-
-  /* 裡面的卡片容器 */
-  .top-section > *,
-  .hero > *,
-  .hero-section > *,
-  .intro-section > *,
-  .action-section > * {
-    margin-bottom: 0 !important;
-  }
-
-  /* 防止最後一個元素撐高整塊 */
-  .top-section::after,
-  .hero::after,
-  .hero-section::after,
-  .intro-section::after,
-  .action-section::after {
-    content: none !important;
-    display: none !important;
-  }
-}
-
-/* ===============================
-   手機版：縮小商品 tag
-   只影響商品卡片內，不動桌機
-================================ */
-@media (max-width: 480px) {
-
-  .product-tags {
-    gap: 4px;
-    margin-bottom: 6px;
-  }
-
-  .product-tag {
-    padding: 3px 8px;
-    font-size: 11px;
-    border-radius: 10px;
-    line-height: 1.2;
-  }
-}
-
-/* ===============================
-   手機版：移除倒數時間與按鈕間多餘空白
-   不影響桌機
-================================ */
-@media (max-width: 480px) {
-
-  .product-meta {
-    margin-bottom: 6px;
-    padding: 6px 8px;
-    font-size: 12px;
-  }
-
-  .product-buttons {
-    gap: 6px;
-  }
-}
-
-@media (max-width: 768px) {
-
-  .filter-tabs {
-    margin: 6px auto !important;
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
-  }
-
-  .results-info {
-    margin-top: 4px !important;
-    margin-bottom: 4px !important;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-  }
-
-  .section-header {
-    margin-top: 8px !important;
-    margin-bottom: 6px !important;
-    padding-top: 0 !important;
-  }
-
-  #limitedSection .products-container {
-    margin-top: 0 !important;
-    padding-top: 0 !important;
-  }
-}
-
-@media (max-width: 480px) {
-
-  .products-grid {
-    padding-left: 4px !important;
-    padding-right: 4px !important;
-    gap: 6px !important;
-  }
-
-}
-
-/* 商品圖片 & 品名可點擊提示 */
-.product-image,
-.product-name {
-    cursor: pointer;
-}
-
-.product-name:hover {
-    text-decoration: underline;
-}
-/* ========= Mobile Ripple Effect ========= */
-@media (hover: none) and (pointer: coarse) {
-
-  .ripple-target {
-    position: relative;
-    overflow: hidden;
-  }
-
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: scale(0);
-    animation: ripple-animation 600ms ease-out;
-    pointer-events: none;
-  }
-
-  @keyframes ripple-animation {
-    to {
-      transform: scale(4);
-      opacity: 0;
+    /* Mobile Filter Panel */
+    .filter-overlay {
+        background: rgba(0, 0, 0, 0.45);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: 3000;
+        justify-content: flex-end;
     }
-  }
-}
-/* =========================
-   手機版分類按鈕（透明底＋小長方形）
-   ✅ 不影響任何功能
-========================= */
-.tag-filter-btn {
-    font-size: 14px;
-    font-weight: 600;
-    padding: 6px 12px;
-    min-width: 58px;
-    height: 32px;
 
-    border-radius: 8px;              /* 四角圓弧 */
-    background: transparent;         /* ✅ 完全透明 */
-    color: #5a4a3a;
+    .filter-panel {
+        width: auto;
+        min-width: 220px;
+        max-width: 80vw;
+        height: 100%;
+        position: relative;
+        padding: 50px 16px 20px;
+        overflow: visible;
+        transform: translateX(100%);
+        transition: transform 0.3s ease;
+    }
 
-    border: 1px solid rgba(90, 74, 58, 0.35); /* 細邊框 */
-    box-shadow: none;
+    .filter-overlay.open .filter-panel {
+        transform: translateX(0);
+    }
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    .filter-panel h3 {
+        position: absolute;
+        top: 12px;
+        left: 16px;
+        font-size: 18px;
+        margin: 0;
+        display: none;
+    }
 
-    letter-spacing: 1px;
-}
+    .filter-close {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
+        font-size: 22px;
+        display: none;
+        align-items: center;
+        justify-content: center;
+    }
 
-/* 點擊回饋（不加底色，只給回饋） */
-.tag-filter-btn:active {
-    transform: scale(0.96);
-    background: rgba(90, 74, 58, 0.08);
-}
+    .filter-list {
+        flex: 1;
+        gap: 10px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        max-height: calc(100vh - 120px);
+        padding-bottom: 20px;
+    }
 
-/* hover（桌機用，手機幾乎不影響） */
-.tag-filter-btn:hover {
-    background: rgba(90, 74, 58, 0.06);
-}
+    .filter-item {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        background: #f7f7f7;
+        border: 1px solid #eeeeee;
+        font-size: 15px;
+        flex-shrink: 0;
+    }
 
+    .filter-actions {
+        display: none;
+    }
 
-/* 點擊回饋 */
-.tag-filter-btn:active {
-    transform: scale(0.96);
-    box-shadow:
-        0 1px 3px rgba(0,0,0,0.12);
-}
-
-/* hover（桌機幾乎看不到，不影響） */
-.tag-filter-btn:hover {
-    background: linear-gradient(135deg, #e9dcc9, #d8c7bb);
-}
-/* 完全移除左上角三條線按鈕（所有尺寸） */
-.menu-icon {
-    display: none !important;
-}
-/* =========================
-   分類按鈕（手機＋電腦）極簡版
-   ========================= */
-.tag-filter-btn {
-    font-size: 13px;          /* 字再小一點 */
-    font-weight: 600;
-    padding: 4px 10px;        /* 🔥 關鍵：縮小上下左右空白 */
-    min-width: auto;
-    height: 28px;             /* 整體高度變小 */
-
-    border-radius: 6px;
-    background: transparent;
-    color: #5a4a3a;
-
-    border: 1px solid rgba(90, 74, 58, 0.3);
-    box-shadow: none;
-
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-
-    letter-spacing: 0.5px;    /* 字距縮小 */
-    line-height: 1;
+    .filter-section .section-title {
+        display: none;
+    }
 }
 
-/* 點擊回饋 */
-.tag-filter-btn:active {
-    transform: scale(0.95);
-    background: rgba(90, 74, 58, 0.08);
-}
-
-/* hover（桌機用） */
-.tag-filter-btn:hover {
-    background: rgba(90, 74, 58, 0.06);
-}
-.tag-filter-btn {
-    white-space: nowrap;
-    word-break: keep-all;
-    flex-shrink: 0;
-    min-width: max-content; /* 🔒 寬度至少等於文字 */
-}
-/* =========================
-   Header 右側按鈕靠右貼齊
-   ========================= */
-.header-actions {
-    margin-left: auto;        /* 🔥 整組推到最右 */
-    gap: 4px;                 /* 🔥 縮小分類與搜尋間距 */
-}
-
-/* 分類按鈕不被壓縮、不換行 */
-.tag-filter-btn {
-    white-space: nowrap;
-    flex-shrink: 0;
-}
-
-.banner-name.clickable {
-    cursor: pointer;
-    text-decoration: underline;
-}
-
-.banner-name.clickable:hover {
-    opacity: 0.85;
-}
-/* ===============================
-   桌機版分類：行為改成跟手機一樣
-   =============================== */
+/* Desktop Filter Adjustments */
 @media (min-width: 1025px) {
-
-  /* 隱藏 X、清除、套用 */
-  .filter-close,
-  .filter-actions {
-    display: none !important;
-  }
-
-}
-/* =========================
-   Search Input with Clear X
-   ========================= */
-.search-input-wrap {
-  position: relative;
-  width: 100%;
+    .filter-close,
+    .filter-actions {
+        display: none !important;
+    }
 }
 
-.search-clear-btn {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .coupon-row {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
 
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+    .copy-btn {
+        flex-shrink: 0;
+        white-space: nowrap;
+        padding: 6px 16px;
+        min-width: 70px;
+        height: auto;
+    }
 
-  border: none;
-  background: #ddd;
-  color: #666;
+    .coupon-code {
+        font-size: 16px;
+        letter-spacing: 0.5px;
+    }
 
-  font-size: 16px;
-  line-height: 1;
-  font-weight: 700;
+    section,
+    .section,
+    .product-section,
+    .category-section,
+    .group-section {
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+        min-height: 0 !important;
+    }
 
-  cursor: pointer;
-  display: none; /* 預設隱藏 */
+    .section-title,
+    .group-title,
+    .category-title,
+    h2,
+    h3 {
+        margin-top: 8px !important;
+        margin-bottom: 4px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
 
-  align-items: center;
-  justify-content: center;
+    .product-list,
+    .product-grid,
+    .products {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .product-card {
+        margin-bottom: 12px !important;
+    }
+
+    .social-section,
+    .footer,
+    footer {
+        margin-top: 12px !important;
+        padding-top: 12px !important;
+    }
+
+    .group-title,
+    .section-title {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .group-title::before,
+    .section-title::before {
+        content: none !important;
+        display: none !important;
+    }
+
+    .product-section + .product-section,
+    .product-list + .section,
+    .products + .section {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .section,
+    .product-section {
+        min-height: auto !important;
+    }
+
+    .top-section,
+    .hero,
+    .hero-section,
+    .intro-section,
+    .action-section {
+        height: auto !important;
+        min-height: 0 !important;
+        padding-bottom: 0 !important;
+        margin-bottom: 0 !important;
+    }
+
+    .top-section > *,
+    .hero > *,
+    .hero-section > *,
+    .intro-section > *,
+    .action-section > * {
+        margin-bottom: 0 !important;
+    }
+
+    .top-section::after,
+    .hero::after,
+    .hero-section::after,
+    .intro-section::after,
+    .action-section::after {
+        content: none !important;
+        display: none !important;
+    }
+
+    .filter-tabs {
+        margin: 6px auto !important;
+        padding-top: 4px !important;
+        padding-bottom: 4px !important;
+    }
+
+    .results-info {
+        margin-top: 4px !important;
+        margin-bottom: 4px !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    .section-header {
+        margin-top: 8px !important;
+        margin-bottom: 6px !important;
+        padding-top: 0 !important;
+    }
+
+    #limitedSection .products-container {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
 }
 
-.search-clear-btn:hover {
-  background: #ccc;
-}
-
-/* 避免 X 擋到文字 */
-.search-box {
-  padding-right: 40px;
-}
-
-/* 手機版微調 */
 @media (max-width: 480px) {
-  .search-clear-btn {
-    right: 8px;
-    width: 20px;
-    height: 20px;
-    font-size: 14px;
-  }
+    .top-banner { 
+        font-size: 13px; 
+        padding: 6px; 
+    }
+
+    .header { 
+        padding: 8px 12px; 
+    }
+
+    .header-content { 
+        padding: 6px 8px; 
+    }
+
+    .logo-text h1 { 
+        font-size: 18px; 
+    }
+
+    .logo-img { 
+        height: 32px; 
+    }
+
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 6px !important;
+        padding: 12px;
+        padding-left: 4px !important;
+        padding-right: 4px !important;
+    }
+
+    .product-card {
+        border-radius: 12px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+        background: #fff;
+        overflow: hidden;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .product-name {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+
+    .product-desc {
+        margin-bottom: 6px;
+    }
+
+    .product-tags {
+        gap: 4px;
+        margin-bottom: 6px;
+    }
+
+    .product-tag {
+        padding: 3px 8px;
+        font-size: 11px;
+        border-radius: 10px;
+        line-height: 1.2;
+    }
+
+    .product-content {
+        padding: 10px;
+    }
+
+    .product-meta {
+        margin-bottom: 6px;
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+
+    .product-buttons {
+        gap: 6px;
+    }
+
+    .btn-primary, 
+    .btn-secondary {
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 4px;
+        font-size: 12px;
+        letter-spacing: -0.5px;
+    }
+
+    .filter-item {
+        border-radius: 10px;
+        margin-bottom: 4px;
+        background: #f9f9f9;
+        border: 1px solid #f0f0f0;
+    }
+
+    .header-search-dropdown {
+        right: 10px;
+        left: 10px;
+        top: 64px;
+        width: auto;
+    }
+
+    #searchInput {
+        font-size: 16px;
+        border-radius: 20px;
+        padding: 8px 15px;
+        border: 1px solid #eee;
+        -webkit-appearance: none;
+    }
+
+    .coupon-row {
+        flex-direction: column;
+    }
+
+    .copy-btn {
+        width: 100%;
+    }
+
+    .search-clear-btn {
+        right: 8px;
+        width: 20px;
+        height: 20px;
+        font-size: 14px;
+    }
 }
-
-
     </style>
 </head>
 <body>
@@ -2110,7 +2027,7 @@
 
 <script>
 /* =====================================================
-   主程式（最終穩定版）
+   主程式(最終穩定版)
    ===================================================== */
 (function () {
   'use strict';
@@ -2219,7 +2136,7 @@
     const allTags = new Set();
     document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
 
-    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦐 蝦皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','💳 優惠連結','💰 回饋'];
+    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦎 覺皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','💳 優惠連結','💰 回饋'];
 
     categoryList.innerHTML = '';
 
@@ -2258,7 +2175,73 @@
     });
   }
 
-  /* ---------- 核心篩選（唯一來源） ---------- */
+  /* ---------- 手機版分類下拉選單 ---------- */
+  function renderMobileTagDropdown() {
+    const allTags = new Set();
+    document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
+
+    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦎 覺皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','💳 優惠連結','💰 回饋'];
+
+    // 創建下拉容器
+    const dropdown = document.createElement('div');
+    dropdown.className = 'mobile-tag-dropdown';
+    dropdown.id = 'mobileTagDropdown';
+
+    const tagList = document.createElement('div');
+    tagList.className = 'mobile-tag-list';
+
+    // 全部標籤
+    const allItem = document.createElement('div');
+    allItem.className = 'mobile-tag-item selected';
+    allItem.dataset.tag = '全部';
+    allItem.textContent = '全部';
+    tagList.appendChild(allItem);
+
+    // 按順序添加標籤
+    orderedTags.forEach(tag => {
+      if (allTags.has(tag)) {
+        const div = document.createElement('div');
+        div.className = 'mobile-tag-item';
+        div.dataset.tag = tag;
+        div.textContent = tag;
+        tagList.appendChild(div);
+        allTags.delete(tag);
+      }
+    });
+
+    // 剩餘標籤
+    [...allTags].sort().forEach(tag => {
+      const div = document.createElement('div');
+      div.className = 'mobile-tag-item';
+      div.dataset.tag = tag;
+      div.textContent = tag;
+      tagList.appendChild(div);
+    });
+
+    dropdown.appendChild(tagList);
+    document.querySelector('.header-content').appendChild(dropdown);
+
+    // 點擊標籤事件
+    tagList.addEventListener('click', e => {
+      if (!e.target.classList.contains('mobile-tag-item')) return;
+      
+      tagList.querySelectorAll('.mobile-tag-item').forEach(i => i.classList.remove('selected'));
+      e.target.classList.add('selected');
+      
+      // 同步桌面版選擇
+      const desktopTag = document.querySelector(`#categoryList .filter-item[data-tag="${e.target.dataset.tag}"]`);
+      if (desktopTag) {
+        document.querySelectorAll('#categoryList .filter-item').forEach(i => i.classList.remove('selected'));
+        desktopTag.classList.add('selected');
+      }
+      
+      filterCards();
+      dropdown.classList.remove('open');
+      scrollToFirstVisibleProduct();
+    });
+  }
+
+  /* ---------- 核心篩選(唯一來源) ---------- */
   function filterCards() {
     const keyword = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
     const selected = document.querySelector('#categoryList .filter-item.selected');
@@ -2289,6 +2272,7 @@
     });
 
     renderCategoryList();
+    renderMobileTagDropdown(); // 新增：渲染手機版下拉選單
     filterCards();
     updateBanner();
     setInterval(updateBanner, 1000);
@@ -2334,21 +2318,40 @@
       });
     }
 
-    /* 分類 Overlay */
+    /* 手機版分類按鈕開關 */
     const openTagFilterBtn = document.getElementById('openTagFilterBtn');
-    const filterOverlay = document.querySelector('.filter-overlay');
+    const mobileTagDropdown = document.getElementById('mobileTagDropdown');
 
-    if (openTagFilterBtn && filterOverlay) {
-      openTagFilterBtn.addEventListener('click', () => {
-        filterOverlay.classList.add('open');
+    if (openTagFilterBtn && mobileTagDropdown) {
+      openTagFilterBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        mobileTagDropdown.classList.toggle('open');
+        
+        // 關閉搜尋下拉
+        searchDropdown?.classList.remove('open');
       });
 
-      filterOverlay.addEventListener('click', e => {
-        if (e.target === filterOverlay) {
-          filterOverlay.classList.remove('open');
+      // 點擊外部關閉
+      document.addEventListener('click', (e) => {
+        if (!mobileTagDropdown.contains(e.target) && !openTagFilterBtn.contains(e.target)) {
+          mobileTagDropdown.classList.remove('open');
         }
       });
     }
+
+    /* 商品圖片/名稱點擊 */
+    document.querySelectorAll('.product-card').forEach(card => {
+      const buyBtn = card.querySelector('.btn-primary');
+      if (!buyBtn) return;
+
+      const link = buyBtn.getAttribute('href');
+
+      card.querySelectorAll('.product-image, .product-name').forEach(el => {
+        el.addEventListener('click', function () {
+          window.open(link, '_blank');
+        });
+      });
+    });
 
   });
 })();
@@ -2375,22 +2378,6 @@ function scrollToFirstVisibleProduct() {
   const top = first.getBoundingClientRect().top + window.pageYOffset - 160;
   window.scrollTo({ top, behavior: 'smooth' });
 }
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function () {
-  document.querySelectorAll('.product-card').forEach(card => {
-    const buyBtn = card.querySelector('.btn-primary');
-    if (!buyBtn) return;
-
-    const link = buyBtn.getAttribute('href');
-
-    card.querySelectorAll('.product-image, .product-name').forEach(el => {
-      el.addEventListener('click', function () {
-        window.open(link, '_blank');
-      });
-    });
-  });
-});
 </script>
 <footer class="footer">
     <div class="footer-content">
