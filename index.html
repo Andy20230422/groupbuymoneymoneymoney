@@ -2353,6 +2353,33 @@ section[id], div[id] {
       });
     });
 
+/* ---------- 顯示 / 隱藏已結束商品 ---------- */
+const toggleEndedBtn = document.getElementById('toggleEndedBtn');
+
+if (toggleEndedBtn) {
+
+  function updateEndedBtnText() {
+    const endedCount = document.querySelectorAll('.product-card.ended').length;
+    const activeCount = document.querySelectorAll('.product-card:not(.ended)').length;
+
+    toggleEndedBtn.textContent = showOnlyEnded
+      ? `顯示進行中 (${activeCount})`
+      : `顯示已結束 (${endedCount})`;
+  }
+
+  toggleEndedBtn.addEventListener('click', () => {
+    showOnlyEnded = !showOnlyEnded;
+    toggleEndedBtn.dataset.state = showOnlyEnded ? 'showing' : 'hiding';
+    updateEndedBtnText();
+    filterCards();
+    scrollToFirstVisibleProduct();
+  });
+
+  // 初始化顯示數量
+  updateEndedBtnText();
+}
+
+
   });
 })();
 
