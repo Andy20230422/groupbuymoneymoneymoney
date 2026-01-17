@@ -1344,6 +1344,57 @@
   }
 
 }
+/* =========================
+   Search Input with Clear X
+   ========================= */
+.search-input-wrap {
+  position: relative;
+  width: 100%;
+}
+
+.search-clear-btn {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+
+  border: none;
+  background: #ddd;
+  color: #666;
+
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 700;
+
+  cursor: pointer;
+  display: none; /* 預設隱藏 */
+
+  align-items: center;
+  justify-content: center;
+}
+
+.search-clear-btn:hover {
+  background: #ccc;
+}
+
+/* 避免 X 擋到文字 */
+.search-box {
+  padding-right: 40px;
+}
+
+/* 手機版微調 */
+@media (max-width: 480px) {
+  .search-clear-btn {
+    right: 8px;
+    width: 20px;
+    height: 20px;
+    font-size: 14px;
+  }
+}
 
 
     </style>
@@ -1388,7 +1439,23 @@
             <!-- header search dropdown (hidden by default) -->
             <div class="header-search-dropdown" id="headerSearchDropdown" role="region" aria-label="搜尋品牌">
                 <!-- Reuse same id "searchInput" so existing filtering code continues to work -->
-                <input type="text" class="search-box" placeholder="搜尋品牌名稱..." id="searchInput" aria-label="搜尋品牌名稱">
+                <div class="search-input-wrap">
+  <input
+    type="text"
+    class="search-box"
+    placeholder="搜尋品牌名稱..."
+    id="searchInput"
+  >
+  <button
+    type="button"
+    class="search-clear-btn"
+    id="clearSearchBtn"
+    aria-label="清除搜尋"
+  >
+    ×
+  </button>
+</div>
+
             </div>
         </div>
     </header>
@@ -2041,296 +2108,275 @@
     </div>
 
 
-    <script>
-// === 主程式（整理後，功能不變） ===
+<script>
+/* =====================================================
+   主程式（最終穩定版）
+   ===================================================== */
 (function () {
-    'use strict';
+  'use strict';
 
-    let showOnlyEnded = false;
-    let bannerBuyUrl = null; // ★ 新增：倒數橫幅商品購買連結
+  let showOnlyEnded = false;
+  let bannerBuyUrl = null;
 
-    // ---------- 日期工具 ----------
-    function normalizeToISO(dateStr) {
-        if (!dateStr) return null;
-        dateStr = dateStr.trim();
-        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
-        const m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
-        if (m) {
-            const mon = String(m[1]).padStart(2, '0');
-            const day = String(m[2]).padStart(2, '0');
-            const year = m[3] || new Date().getFullYear();
-            return `${year}-${mon}-${day}`;
-        }
-        return null;
+  /* ---------- 日期工具 ---------- */
+  function normalizeToISO(dateStr) {
+    if (!dateStr) return null;
+    dateStr = dateStr.trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr;
+    const m = dateStr.match(/^(\d{1,2})[\/\-](\d{1,2})(?:[\/\-](\d{4}))?$/);
+    if (m) {
+      const mon = String(m[1]).padStart(2, '0');
+      const day = String(m[2]).padStart(2, '0');
+      const year = m[3] || new Date().getFullYear();
+      return `${year}-${mon}-${day}`;
     }
+    return null;
+  }
 
-    function daysLeftTo(endISO) {
-        try {
-            const end = new Date(endISO + 'T23:59:59');
-            const now = new Date();
-            const diff = end - now;
-            const days = Math.ceil(diff / 86400000);
-            return { days, diffMs: diff };
-        } catch {
-            return null;
-        }
+  function daysLeftTo(endISO) {
+    try {
+      const end = new Date(endISO + 'T23:59:59');
+      const now = new Date();
+      const diff = end - now;
+      const days = Math.ceil(diff / 86400000);
+      return { days, diffMs: diff };
+    } catch {
+      return null;
     }
+  }
 
-    // ---------- 商品卡片狀態 ----------
-    function updateElement(el) {
-        const endISO = normalizeToISO(el.getAttribute('data-end'));
-        const outSpan = el.querySelector('.days-left');
-        const card = el.closest('.product-card');
-        if (!endISO || !outSpan) return;
+  /* ---------- 商品狀態 ---------- */
+  function updateElement(el) {
+    const endISO = normalizeToISO(el.getAttribute('data-end'));
+    const outSpan = el.querySelector('.days-left');
+    const card = el.closest('.product-card');
+    if (!endISO || !outSpan) return;
 
-        const result = daysLeftTo(endISO);
-        if (!result) return;
+    const result = daysLeftTo(endISO);
+    if (!result) return;
 
-        if (result.diffMs < 0) {
-            outSpan.textContent = '已結束';
-            card?.classList.add('ended');
-        } else {
-            card?.classList.remove('ended');
-            outSpan.textContent = result.days <= 1 ? '今日截止' : `剩 ${result.days} 天`;
-        }
+    if (result.diffMs < 0) {
+      outSpan.textContent = '已結束';
+      card?.classList.add('ended');
+    } else {
+      card?.classList.remove('ended');
+      outSpan.textContent = result.days <= 1 ? '今日截止' : `剩 ${result.days} 天`;
     }
+  }
 
-    // ---------- 今日截止倒數 Banner（★ 已修正） ----------
-    function updateBanner() {
-        const bannerName = document.getElementById('bannerName');
-        const bannerTimer = document.getElementById('bannerTimer');
-        if (!bannerName || !bannerTimer) return;
+  /* ---------- 今日截止 Banner ---------- */
+  function updateBanner() {
+    const bannerName = document.getElementById('bannerName');
+    const bannerTimer = document.getElementById('bannerTimer');
+    if (!bannerName || !bannerTimer) return;
 
-        const metas = document.querySelectorAll('.product-meta');
-        const now = new Date();
-        let nearest = null;
+    const metas = document.querySelectorAll('.product-meta');
+    const now = new Date();
+    let nearest = null;
 
-        metas.forEach(meta => {
-            const endISO = normalizeToISO(meta.getAttribute('data-end'));
-            if (!endISO) return;
+    metas.forEach(meta => {
+      const endISO = normalizeToISO(meta.getAttribute('data-end'));
+      if (!endISO) return;
 
-            const diff = new Date(endISO + 'T23:59:59') - now;
-            if (diff > 0 && (!nearest || diff < nearest.diff)) {
-                const card = meta.closest('.product-card');
-                const buyBtn = card?.querySelector('.btn-primary');
+      const diff = new Date(endISO + 'T23:59:59') - now;
+      if (diff > 0 && (!nearest || diff < nearest.diff)) {
+        const card = meta.closest('.product-card');
+        const buyBtn = card?.querySelector('.btn-primary');
 
-                nearest = {
-                    name: card?.querySelector('.product-name')?.textContent || '',
-                    diff,
-                    buyUrl: buyBtn ? buyBtn.href : null
-                };
-            }
-        });
-
-        if (!nearest) {
-            bannerName.textContent = '目前無即將截止項目';
-            bannerTimer.style.display = 'none';
-            bannerBuyUrl = null;
-            return;
-        }
-
-        bannerName.textContent = nearest.name;
-        bannerBuyUrl = nearest.buyUrl;
-        bannerTimer.style.display = 'inline-block';
-
-        const s = Math.floor(nearest.diff / 1000);
-        const d = Math.floor(s / 86400);
-        const r = s % 86400;
-        const h = String(Math.floor(r / 3600)).padStart(2, '0');
-        const m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
-        const sec = String(r % 60).padStart(2, '0');
-        bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + `${h}:${m}:${sec}`;
-    }
-
-    // ---------- 分類清單 ----------
-    function renderCategoryList() {
-        const categoryList = document.getElementById('categoryList');
-        if (!categoryList) return;
-
-        const allTags = new Set();
-        document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
-
-        const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦐 蝦皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','💳 優惠連結','💰 回饋'];
-
-        categoryList.innerHTML = '';
-
-        const allItem = document.createElement('div');
-        allItem.className = 'filter-item selected';
-        allItem.dataset.tag = '全部';
-        allItem.textContent = '全部';
-        categoryList.appendChild(allItem);
-
-        orderedTags.forEach(tag => {
-            if (allTags.has(tag)) {
-                const div = document.createElement('div');
-                div.className = 'filter-item';
-                div.dataset.tag = tag;
-                div.textContent = tag;
-                categoryList.appendChild(div);
-                allTags.delete(tag);
-            }
-        });
-
-        [...allTags].sort().forEach(tag => {
-            const div = document.createElement('div');
-            div.className = 'filter-item';
-            div.dataset.tag = tag;
-            div.textContent = tag;
-            categoryList.appendChild(div);
-        });
-
-        categoryList.addEventListener('click', e => {
-            if (!e.target.classList.contains('filter-item')) return;
-            categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
-            e.target.classList.add('selected');
-            filterCards();
-            scrollToFirstVisibleProduct();
-            document.getElementById('filterOverlay')?.classList.remove('open');
-        });
-    }
-
-    // ---------- 篩選 ----------
-    function filterCards() {
-        const keyword = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
-        const selected = document.querySelector('#categoryList .filter-item.selected');
-        const catTag = selected && selected.dataset.tag !== '全部' ? selected.dataset.tag : null;
-
-        document.querySelectorAll('.product-card').forEach(card => {
-            const name = card.querySelector('.product-name')?.textContent.toLowerCase() || '';
-            const desc = card.querySelector('.product-desc')?.textContent.toLowerCase() || '';
-            const tags = (card.dataset.tags || '').split('|');
-            const isEnded = card.classList.contains('ended');
-
-            const match = (!catTag || tags.some(t => t.includes(catTag))) &&
-                          (!keyword || name.includes(keyword) || desc.includes(keyword)) &&
-                          (showOnlyEnded ? isEnded : !isEnded);
-
-            card.style.display = match ? '' : 'none';
-        });
-
-        const toggleBtn = document.getElementById('toggleEndedBtn');
-        if (toggleBtn) {
-            const count = document.querySelectorAll('.product-card.ended').length;
-            toggleBtn.textContent = showOnlyEnded ? '顯示進行中' : `顯示已結束 (${count})`;
-        }
-    }
-
-    // ---------- 初始化 ----------
-    document.addEventListener('DOMContentLoaded', () => {
-        document.querySelectorAll('.product-card').forEach(card => {
-            const tags = [...card.querySelectorAll('.product-tag')].map(t => t.textContent.trim());
-            card.dataset.tags = tags.join('|');
-            card.querySelectorAll('.product-meta').forEach(updateElement);
-        });
-
-        renderCategoryList();
-        filterCards();
-        updateBanner();
-        setInterval(updateBanner, 1000);
-
-        // ★ Banner 商品名稱點擊
-        const bannerNameEl = document.getElementById('bannerName');
-        bannerNameEl?.addEventListener('click', () => {
-            if (bannerBuyUrl) window.open(bannerBuyUrl, '_blank');
-        });
-    });
-})();
-
-// ---------- 共用工具（保留原功能） ----------
-function goToSection(id) {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-function copyCoupon(id, btn) {
-    const code = document.getElementById(id)?.textContent.trim();
-    if (!code) return;
-    navigator.clipboard.writeText(code).then(() => {
-        const t = btn.textContent;
-        btn.textContent = '已複製 ✓';
-        setTimeout(() => btn.textContent = t, 2000);
-    });
-}
-
-function scrollToFirstVisibleProduct() {
-    if (window.innerWidth > 1024) return;
-    const first = [...document.querySelectorAll('.product-card')].find(c => c.offsetParent !== null);
-    if (!first) return;
-
-    const top = first.getBoundingClientRect().top + window.pageYOffset - 160;
-    window.scrollTo({ top, behavior: 'smooth' });
-}
-
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-
-  /* ========= 搜尋按鈕 ========= */
-  const searchToggle = document.getElementById('searchToggle');
-  const searchDropdown = document.getElementById('headerSearchDropdown');
-  const searchInput = document.getElementById('searchInput');
-
-  if (searchToggle && searchDropdown) {
-    searchToggle.addEventListener('click', () => {
-      searchDropdown.classList.toggle('open');
-      if (searchDropdown.classList.contains('open')) {
-        setTimeout(() => searchInput?.focus(), 50);
+        nearest = {
+          name: card?.querySelector('.product-name')?.textContent || '',
+          diff,
+          buyUrl: buyBtn ? buyBtn.href : null
+        };
       }
     });
 
-    // 點擊外面關閉
-    document.addEventListener('click', (e) => {
-      if (!searchDropdown.contains(e.target) && !searchToggle.contains(e.target)) {
-        searchDropdown.classList.remove('open');
+    if (!nearest) {
+      bannerName.textContent = '目前無即將截止項目';
+      bannerTimer.style.display = 'none';
+      bannerBuyUrl = null;
+      return;
+    }
+
+    bannerName.textContent = nearest.name;
+    bannerBuyUrl = nearest.buyUrl;
+    bannerTimer.style.display = 'inline-block';
+
+    const s = Math.floor(nearest.diff / 1000);
+    const d = Math.floor(s / 86400);
+    const r = s % 86400;
+    const h = String(Math.floor(r / 3600)).padStart(2, '0');
+    const m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
+    const sec = String(r % 60).padStart(2, '0');
+    bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + `${h}:${m}:${sec}`;
+  }
+
+  /* ---------- 分類 ---------- */
+  function renderCategoryList() {
+    const categoryList = document.getElementById('categoryList');
+    if (!categoryList) return;
+
+    const allTags = new Set();
+    document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
+
+    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦐 蝦皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','💳 優惠連結','💰 回饋'];
+
+    categoryList.innerHTML = '';
+
+    const allItem = document.createElement('div');
+    allItem.className = 'filter-item selected';
+    allItem.dataset.tag = '全部';
+    allItem.textContent = '全部';
+    categoryList.appendChild(allItem);
+
+    orderedTags.forEach(tag => {
+      if (allTags.has(tag)) {
+        const div = document.createElement('div');
+        div.className = 'filter-item';
+        div.dataset.tag = tag;
+        div.textContent = tag;
+        categoryList.appendChild(div);
+        allTags.delete(tag);
       }
+    });
+
+    [...allTags].sort().forEach(tag => {
+      const div = document.createElement('div');
+      div.className = 'filter-item';
+      div.dataset.tag = tag;
+      div.textContent = tag;
+      categoryList.appendChild(div);
+    });
+
+    categoryList.addEventListener('click', e => {
+      if (!e.target.classList.contains('filter-item')) return;
+      categoryList.querySelectorAll('.filter-item').forEach(i => i.classList.remove('selected'));
+      e.target.classList.add('selected');
+      filterCards();
+      scrollToFirstVisibleProduct();
+      document.getElementById('filterOverlay')?.classList.remove('open');
     });
   }
 
-  /* ========= 分類按鈕 ========= */
-  const openTagFilterBtn = document.getElementById('openTagFilterBtn');
-  const filterOverlay = document.querySelector('.filter-overlay');
+  /* ---------- 核心篩選（唯一來源） ---------- */
+  function filterCards() {
+    const keyword = (document.getElementById('searchInput')?.value || '').toLowerCase().trim();
+    const selected = document.querySelector('#categoryList .filter-item.selected');
+    const catTag = selected && selected.dataset.tag !== '全部' ? selected.dataset.tag : null;
 
-  if (openTagFilterBtn && filterOverlay) {
-    openTagFilterBtn.addEventListener('click', () => {
-      filterOverlay.classList.add('open');
-    });
-
-    // 點背景關閉
-    filterOverlay.addEventListener('click', (e) => {
-      if (e.target === filterOverlay) {
-        filterOverlay.classList.remove('open');
-      }
-    });
-  }
-
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const searchInput = document.getElementById('searchInput');
-  if (!searchInput) return;
-
-  const productCards = document.querySelectorAll('.product-card');
-
-  searchInput.addEventListener('input', () => {
-    const keyword = searchInput.value.trim().toLowerCase();
-
-    productCards.forEach(card => {
-      const name = card.querySelector('.product-name')?.innerText.toLowerCase() || '';
-      const desc = card.querySelector('.product-desc')?.innerText.toLowerCase() || '';
-      const tags = Array.from(card.querySelectorAll('.product-tag'))
-        .map(t => t.innerText.toLowerCase())
-        .join(' ');
+    document.querySelectorAll('.product-card').forEach(card => {
+      const name = card.querySelector('.product-name')?.textContent.toLowerCase() || '';
+      const desc = card.querySelector('.product-desc')?.textContent.toLowerCase() || '';
+      const tags = (card.dataset.tags || '').split('|');
+      const isEnded = card.classList.contains('ended');
 
       const match =
-        name.includes(keyword) ||
-        desc.includes(keyword) ||
-        tags.includes(keyword);
+        (!catTag || tags.some(t => t.includes(catTag))) &&
+        (!keyword || name.includes(keyword) || desc.includes(keyword)) &&
+        (showOnlyEnded ? isEnded : !isEnded);
 
       card.style.display = match ? '' : 'none';
     });
+  }
+
+  /* ---------- 初始化 ---------- */
+  document.addEventListener('DOMContentLoaded', () => {
+
+    document.querySelectorAll('.product-card').forEach(card => {
+      const tags = [...card.querySelectorAll('.product-tag')].map(t => t.textContent.trim());
+      card.dataset.tags = tags.join('|');
+      card.querySelectorAll('.product-meta').forEach(updateElement);
+    });
+
+    renderCategoryList();
+    filterCards();
+    updateBanner();
+    setInterval(updateBanner, 1000);
+
+    /* Banner 點擊 */
+    document.getElementById('bannerName')?.addEventListener('click', () => {
+      if (bannerBuyUrl) window.open(bannerBuyUrl, '_blank');
+    });
+
+    /* 搜尋開關 */
+    const searchToggle = document.getElementById('searchToggle');
+    const searchDropdown = document.getElementById('headerSearchDropdown');
+    const searchInput = document.getElementById('searchInput');
+    const clearBtn = document.getElementById('clearSearchBtn');
+
+    if (searchToggle && searchDropdown) {
+      searchToggle.addEventListener('click', () => {
+        searchDropdown.classList.toggle('open');
+        if (searchDropdown.classList.contains('open')) {
+          setTimeout(() => searchInput?.focus(), 50);
+        }
+      });
+
+      document.addEventListener('click', e => {
+        if (!searchDropdown.contains(e.target) && !searchToggle.contains(e.target)) {
+          searchDropdown.classList.remove('open');
+        }
+      });
+    }
+
+    /* 搜尋 + 清除 X */
+    if (searchInput && clearBtn) {
+      searchInput.addEventListener('input', () => {
+        clearBtn.style.display = searchInput.value.trim() ? 'flex' : 'none';
+        filterCards();
+      });
+
+      clearBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        clearBtn.style.display = 'none';
+        filterCards();
+        searchInput.focus();
+      });
+    }
+
+    /* 分類 Overlay */
+    const openTagFilterBtn = document.getElementById('openTagFilterBtn');
+    const filterOverlay = document.querySelector('.filter-overlay');
+
+    if (openTagFilterBtn && filterOverlay) {
+      openTagFilterBtn.addEventListener('click', () => {
+        filterOverlay.classList.add('open');
+      });
+
+      filterOverlay.addEventListener('click', e => {
+        if (e.target === filterOverlay) {
+          filterOverlay.classList.remove('open');
+        }
+      });
+    }
+
   });
-});
+})();
+
+/* ---------- 共用工具 ---------- */
+function goToSection(id) {
+  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function copyCoupon(id, btn) {
+  const code = document.getElementById(id)?.textContent.trim();
+  if (!code) return;
+  navigator.clipboard.writeText(code).then(() => {
+    const t = btn.textContent;
+    btn.textContent = '已複製 ✓';
+    setTimeout(() => btn.textContent = t, 2000);
+  });
+}
+
+function scrollToFirstVisibleProduct() {
+  if (window.innerWidth > 1024) return;
+  const first = [...document.querySelectorAll('.product-card')].find(c => c.offsetParent !== null);
+  if (!first) return;
+  const top = first.getBoundingClientRect().top + window.pageYOffset - 160;
+  window.scrollTo({ top, behavior: 'smooth' });
+}
 </script>
+
 
 </body>
 </html>
