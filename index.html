@@ -1332,6 +1332,18 @@
 .banner-name.clickable:hover {
     opacity: 0.85;
 }
+/* ===============================
+   桌機版分類：行為改成跟手機一樣
+   =============================== */
+@media (min-width: 1025px) {
+
+  /* 隱藏 X、清除、套用 */
+  .filter-close,
+  .filter-actions {
+    display: none !important;
+  }
+
+}
 
 
     </style>
@@ -2173,7 +2185,7 @@
             e.target.classList.add('selected');
             filterCards();
             scrollToFirstVisibleProduct();
-            if (window.innerWidth <= 1024) document.getElementById('filterOverlay')?.classList.remove('open');
+            document.getElementById('filterOverlay')?.classList.remove('open');
         });
     }
 
@@ -2248,6 +2260,49 @@ function scrollToFirstVisibleProduct() {
     window.scrollTo({ top, behavior: 'smooth' });
 }
 
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+  /* ========= 搜尋按鈕 ========= */
+  const searchToggle = document.getElementById('searchToggle');
+  const searchDropdown = document.getElementById('headerSearchDropdown');
+  const searchInput = document.getElementById('searchInput');
+
+  if (searchToggle && searchDropdown) {
+    searchToggle.addEventListener('click', () => {
+      searchDropdown.classList.toggle('open');
+      if (searchDropdown.classList.contains('open')) {
+        setTimeout(() => searchInput?.focus(), 50);
+      }
+    });
+
+    // 點擊外面關閉
+    document.addEventListener('click', (e) => {
+      if (!searchDropdown.contains(e.target) && !searchToggle.contains(e.target)) {
+        searchDropdown.classList.remove('open');
+      }
+    });
+  }
+
+  /* ========= 分類按鈕 ========= */
+  const openTagFilterBtn = document.getElementById('openTagFilterBtn');
+  const filterOverlay = document.querySelector('.filter-overlay');
+
+  if (openTagFilterBtn && filterOverlay) {
+    openTagFilterBtn.addEventListener('click', () => {
+      filterOverlay.classList.add('open');
+    });
+
+    // 點背景關閉
+    filterOverlay.addEventListener('click', (e) => {
+      if (e.target === filterOverlay) {
+        filterOverlay.classList.remove('open');
+      }
+    });
+  }
+
+});
 </script>
 
 </body>
