@@ -1340,11 +1340,18 @@ section[id], div[id] {
 }
 @media (max-width: 768px) {
   .filter-tabs {
-    position: sticky;
-    top: 60px; /* 若你上方 header 高度不同可微調 */
-    z-index: 999;
-    background: #f5f3ef; /* 跟你目前頁面背景一致 */
-    padding: 6px 0;
+    position: fixed;
+    top: 56px; /* 可微調，對齊你 header 底部 */
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: #f5f3ef;
+    padding: 8px 0;
+  }
+
+  /* 防止內容被蓋住 */
+  body {
+    padding-top: 60px;
   }
 }
 
