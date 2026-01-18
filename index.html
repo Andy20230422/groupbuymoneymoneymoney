@@ -2008,7 +2008,7 @@ section[id], div[id] {
         <div class="section-header"><h2 class="section-title">📍 常態團購</h2></div>
         <div class="products-container">
             <div class="products-grid" id="regularProducts">
-			
+
 			                <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="萬用裝備袋ppt.jpg" alt="萬用裝備袋-可託運"></div>
                     <div class="product-content">
@@ -2026,8 +2026,26 @@ section[id], div[id] {
                         </div>
                     </div>
                 </div>	
-			
-			
+						<!-- 商品開頭 -->
+                <div class="product-card" data-type="regular">
+                    <div class="product-image"><img src="THOMSON快煮杯.jpg" alt="THOMSON快煮杯"></div>
+                    <div class="product-content">
+                        <h3 class="product-name">THOMSON快煮杯</h3>
+                        <p class="product-desc">✅支援全球電壓/可帶出國</p>
+                        <div class="product-tags">
+						
+						<span class="product-tag">✈️ 旅遊</span>
+						</div>
+                        <div class="product-buttons">
+                            <a class="btn btn-video" href="https://www.instagram.com/reel/DQmBy-ViXND/?igsh=MnBzcW42NjBuZzAw" target="_blank" rel="noopener noreferrer">🎬 2A影片介紹</a>
+
+                            <a class="btn btn-primary" href="https://citiesocial.co/zqPgM" target="_blank">🛍️ 立即購買</a>
+							<a class="btn btn-service" href="https://lin.ee/7eAhBDG" target="_blank">☎️ 聯絡客服</a>
+                        </div>
+                    </div>
+                </div>
+				<!-- 商品結尾 -->
+			<!-- 商品開頭 -->
                 <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="aspor-selfie.jpg" alt="ASPOR迷你自拍棒"></div>
                     <div class="product-content">
@@ -2045,7 +2063,8 @@ section[id], div[id] {
                         </div>
                     </div>
                 </div>
-
+				<!-- 商品結尾 -->
+				
                 <div class="product-card" data-type="regular">
                     <div class="product-image"><img src="yamada-heater.jpg" alt="銀粒子抑菌智慧温控陶瓷電暖器"></div>
                     <div class="product-content">
@@ -2424,7 +2443,7 @@ section[id], div[id] {
     const allTags = new Set();
     document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
 
-    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦎 覺皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','🔗 優惠連結','💰 回饋'];
+    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦐 蝦皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','🔗 優惠連結','💰 回饋'];
 
     categoryList.innerHTML = '';
 
