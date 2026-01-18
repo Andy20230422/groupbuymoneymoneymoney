@@ -1355,14 +1355,17 @@ section[id], div[id] {
   }
 }
 @media (max-width: 768px) {
-  .filter-tabs.is-fixed {
-    position: fixed;
-    left: 0;
-    right: 0;
-    z-index: 9999;
+  .filter-tabs {
+    position: sticky;
+    top: calc(var(--header-height, 56px));
+    z-index: 999;
     background: #f5f3ef;
-    padding: 8px 0;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    padding: 6px 0;
+  }
+
+  /* 解除 sticky 失效來源 */
+  body, html {
+    overflow-x: visible;
   }
 }
 
@@ -2504,6 +2507,16 @@ function scrollToFirstVisibleProduct() {
   window.scrollTo({ top, behavior: 'smooth' });
 }
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const header = document.querySelector("header");
+  if (!header) return;
+  document.documentElement.style.setProperty(
+    "--header-height",
+    header.offsetHeight + "px"
+  );
+});
+</script>
 
 <footer class="footer">
     <div class="footer-content">
@@ -2547,38 +2560,6 @@ function scrollToFirstVisibleProduct() {
 
     </div>
 </footer>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-  const tabs = document.querySelector(".filter-tabs");
-  const header = document.querySelector("header"); // 你的網站有 header
-  if (!tabs || !header) return;
-
-  const placeholder = document.createElement("div");
-  placeholder.style.height = tabs.offsetHeight + "px";
-
-  const originalTop = tabs.getBoundingClientRect().top + window.scrollY;
-
-  window.addEventListener("scroll", () => {
-    if (window.innerWidth > 768) return;
-
-    const headerHeight = header.offsetHeight;
-
-    if (window.scrollY + headerHeight >= originalTop) {
-      if (!tabs.classList.contains("is-fixed")) {
-        tabs.classList.add("is-fixed");
-        tabs.style.top = headerHeight + "px";
-        tabs.parentNode.insertBefore(placeholder, tabs);
-      }
-    } else {
-      if (tabs.classList.contains("is-fixed")) {
-        tabs.classList.remove("is-fixed");
-        tabs.style.top = "";
-        if (placeholder.parentNode) placeholder.parentNode.removeChild(placeholder);
-      }
-    }
-  });
-});
-</script>
 
 </body>
 </html>
