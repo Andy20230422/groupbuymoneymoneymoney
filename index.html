@@ -1492,6 +1492,114 @@ section[id], div[id] {
     transform: scale(0.98);
   }
 }
+/* ===============================
+   商品內互動元件｜高質感統一版（手機）
+   不影響功能，只改視覺
+   =============================== */
+@media (max-width: 768px) {
+
+  /* ---------- 所有商品內按鈕共用基礎 ---------- */
+  .product-buttons .btn,
+  .coupon-box,
+  .copy-btn {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0.03em;
+    border-radius: 12px;
+    transition: background-color 0.15s ease,
+                box-shadow 0.15s ease,
+                transform 0.12s ease;
+  }
+
+  /* ---------- 主要行動：立即購買 ---------- */
+  .product-buttons .btn-primary {
+    background: linear-gradient(180deg, #d9c4b7, #d5bdaf);
+    color: #ffffff;
+    font-weight: 700;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.14);
+  }
+
+  .product-buttons .btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.14);
+  }
+
+  /* ---------- 影片 / 資訊型按鈕 ---------- */
+  .product-buttons .btn-video {
+    background: #ffffff;
+    color: #8b7355;
+    border: 1.5px solid #e6e0da;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  .product-buttons .btn-video:active {
+    background: #f6f4f1;
+    transform: scale(0.98);
+  }
+
+  /* ---------- 客服 / 支援型 ---------- */
+  .product-buttons .btn-service {
+    background: linear-gradient(180deg, #f1f5f1, #e9efe9);
+    color: #5f6f64;
+    box-shadow: none;
+  }
+
+  .product-buttons .btn-service:active {
+    background: #e1e9e1;
+    transform: scale(0.98);
+  }
+
+  /* ---------- 折扣碼卡片（🎁 2A專屬折扣碼） ---------- */
+  .coupon-box {
+    background: linear-gradient(180deg, #faf8f5, #f6f4f1);
+    border: 1.5px dashed #d5bdaf;
+    padding: 12px 14px;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.6);
+  }
+
+  .coupon-label {
+    font-size: 12px;
+    font-weight: 700;
+    color: #8b7355;
+    letter-spacing: 0.05em;
+  }
+
+  .coupon-code {
+    font-size: 16px;
+    font-weight: 800;
+    color: #5a4a3a;
+    letter-spacing: 0.08em;
+  }
+
+  /* ---------- 一鍵複製 ---------- */
+  .copy-btn {
+    background: linear-gradient(180deg, #d9c4b7, #d5bdaf);
+    color: #ffffff;
+    font-weight: 700;
+    padding: 8px 16px;
+    border-radius: 10px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12);
+  }
+
+  .copy-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12);
+  }
+
+  /* ---------- 旅遊 / 前往 / 領取 類型 ---------- */
+  .product-buttons a.btn:not(.btn-primary):not(.btn-video):not(.btn-service) {
+    background: #ffffff;
+    color: #8b7355;
+    border: 1.5px solid #e6e0da;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+
+  .product-buttons a.btn:not(.btn-primary):active {
+    background: #f6f4f1;
+    transform: scale(0.98);
+  }
+}
 
     </style>
 </head>
