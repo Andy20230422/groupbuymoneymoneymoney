@@ -1338,6 +1338,15 @@ section[id], div[id] {
     scroll-margin-top: 220px; /* header + filter-tabs + 安全距離 */
   }
 }
+@media (max-width: 768px) {
+  .filter-tabs {
+    position: sticky;
+    top: 60px; /* 若你上方 header 高度不同可微調 */
+    z-index: 999;
+    background: #f5f3ef; /* 跟你目前頁面背景一致 */
+    padding: 6px 0;
+  }
+}
 
     </style>
 </head>
