@@ -1322,7 +1322,19 @@ section[id], div[id] {
     scroll-margin-top: 220px; /* header + filter-tabs + 安全距離 */
   }
 }
-
+/* ===============================
+   手機版：固定分類 Tabs，不被 Header 蓋到
+   =============================== */
+@media (max-width: 768px) {
+  .filter-tabs {
+    position: sticky;
+    top: 72px;              /* 關鍵：避開 header */
+    z-index: 950;
+    background: #faf8f5;
+    padding-top: 6px;
+    padding-bottom: 6px;
+  }
+}
     </style>
 </head>
 <body>
