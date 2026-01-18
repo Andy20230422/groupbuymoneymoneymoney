@@ -1413,7 +1413,23 @@ section[id], div[id] {
       justify-content: center;
   }
 }
+/* 手機版：統一三顆按鈕字級與質感 */
+@media (max-width: 480px) {
+  .product-buttons .btn {
+    font-size: 14px;          /* 三顆一致 */
+    font-weight: 600;         /* 清楚、有存在感 */
+    line-height: 1.45;        /* 撐出空氣感 */
+    letter-spacing: 0.03em;   /* 中文更好看 */
+    min-height: 44px;         /* 符合行動裝置點擊建議 */
+    padding: 10px 6px;
+  }
 
+  /* 移除 btn-primary 被壓小的設定 */
+  .btn-primary {
+    font-size: 14px;
+    letter-spacing: 0.03em;
+  }
+}
     </style>
 </head>
 <body>
