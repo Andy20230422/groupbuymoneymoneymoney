@@ -1430,6 +1430,69 @@ section[id], div[id] {
     letter-spacing: 0.03em;
   }
 }
+/* 手機版：按鈕層級一致，不靠字大小 */
+@media (max-width: 480px) {
+
+  /* 全部按鈕共用基礎樣式 */
+  .product-buttons .btn {
+    font-size: 14px;          
+    font-weight: 600;
+    line-height: 1.45;
+    letter-spacing: 0.03em;
+    min-height: 44px;
+    padding: 10px 8px;
+    border-radius: 10px;
+
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    transition: transform 0.12s ease,
+                box-shadow 0.12s ease,
+                background-color 0.12s ease;
+  }
+
+  /* 🛍️ 主要行動：立即購買 */
+  .product-buttons .btn-primary {
+    background: #d5bdaf;
+    color: #ffffff;
+    font-weight: 700; /* 唯一用字重做強化 */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  }
+
+  .product-buttons .btn-primary:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+
+  /* 🎬 影片介紹：資訊層 */
+  .product-buttons .btn-video {
+    background: #ffffff;
+    color: #8b7355;
+    border: 1.5px solid #e4ded7;
+    box-shadow: none;
+  }
+
+  .product-buttons .btn-video:active {
+    background: #f6f4f1;
+    transform: scale(0.98);
+  }
+
+  /* ☎️ 客服：支援層 */
+  .product-buttons .btn-service {
+    background: #eef3ee;
+    color: #5f6f64;
+    border: none;
+    box-shadow: none;
+  }
+
+  .product-buttons .btn-service:active {
+    background: #e4ece4;
+    transform: scale(0.98);
+  }
+}
+
     </style>
 </head>
 <body>
@@ -1936,7 +1999,7 @@ section[id], div[id] {
                         </div>
 
                         <div class="product-buttons">
-                            <a class="btn btn-primary" href="https://jpcoupon.2acouple.com/" target="_blank" rel="noopener noreferrer">🎫 立即領取 →</a>
+                            <a class="btn btn-primary" href="https://jpcoupon.2acouple.com/" target="_blank" rel="noopener noreferrer">🎫 立即領取</a>
 							
                         </div>
                     </div>
@@ -1969,7 +2032,7 @@ section[id], div[id] {
        
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://reurl.cc/VmerpN" target="_blank">✈️ 前往 KKday →</a>
+            <a class="btn btn-primary" href="https://reurl.cc/VmerpN" target="_blank">✈️ 前往 KKday</a>
         </div>
     </div>
 </div>
@@ -1999,7 +2062,7 @@ section[id], div[id] {
 
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://2acouple.pse.is/7n7mjf" target="_blank">✈️ 前往 Klook →</a>
+            <a class="btn btn-primary" href="https://2acouple.pse.is/7n7mjf" target="_blank">✈️ 前往 Klook</a>
         </div>
     </div>
 </div>
@@ -2020,7 +2083,7 @@ section[id], div[id] {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://agoda.tp.st/VwJBDinr" target="_blank">✈️ 前往 Agoda →</a>
+            <a class="btn btn-primary" href="https://agoda.tp.st/VwJBDinr" target="_blank">✈️ 前往 Agoda</a>
         </div>
     </div>
 </div>
@@ -2039,7 +2102,7 @@ section[id], div[id] {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://holafly.sjv.io/aORJqY" target="_blank">✈️ 前往 Holafly →</a>
+            <a class="btn btn-primary" href="https://holafly.sjv.io/aORJqY" target="_blank">✈️ 前往 Holafly</a>
         </div>
     </div>
 </div>
@@ -2059,7 +2122,7 @@ section[id], div[id] {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://nordvpn.com/2acouple" target="_blank">✈️ 前往 NordVPN →</a>
+            <a class="btn btn-primary" href="https://nordvpn.com/2acouple" target="_blank">✈️ 前往 NordVPN</a>
         </div>
     </div>
 </div>
@@ -2078,7 +2141,7 @@ section[id], div[id] {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://eztravel.tw/7sjpex" target="_blank">✈️ 前往 易遊網 →</a>
+            <a class="btn btn-primary" href="https://eztravel.tw/7sjpex" target="_blank">✈️ 前往 易遊網</a>
         </div>
     </div>
 </div>
@@ -2097,7 +2160,7 @@ section[id], div[id] {
         </div>
 
         <div class="product-buttons">
-            <a class="btn btn-primary" href="https://reurl.cc/pKXzn4" target="_blank">✈️ 前往 LINE旅遊 →</a>
+            <a class="btn btn-primary" href="https://reurl.cc/pKXzn4" target="_blank">✈️ 前往 LINE旅遊</a>
         </div>
     </div>
 </div>
