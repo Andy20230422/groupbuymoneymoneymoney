@@ -38,7 +38,7 @@ html {
 }
 
 section[id], div[id] {
-    scroll-margin-top: 140px;
+    scroll-margin-top: 180px; /* header + filter-tabs */
 }
 
 /* Header */
@@ -49,6 +49,8 @@ section[id], div[id] {
     position: sticky;
     top: 0;
     z-index: 1000;
+	margin-bottom: 0;
+    padding-bottom: 12px;
 }
 
 .header-content {
@@ -218,18 +220,19 @@ section[id], div[id] {
 /* Filter Tabs */
 .filter-tabs {
     max-width: 1400px;
-    margin: 20px auto;
-    padding: 0 20px;
+    margin: 0 auto;
+    padding: 10px 20px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
+
     position: sticky;
-    top: 76px;
+    top: 76px;              /* 對齊 header 底部 */
     z-index: 900;
+
     background: #faf8f5;
-    padding-top: 10px;
-    padding-bottom: 10px;
 }
+
 
 .filter-tab {
     padding: 10px 25px;
@@ -1184,7 +1187,7 @@ section[id], div[id] {
     }
 
     .filter-tabs {
-        margin: 6px auto !important;
+        margin: 0 auto !important;
         padding-top: 4px !important;
         padding-bottom: 4px !important;
     }
@@ -1338,40 +1341,47 @@ section[id], div[id] {
     scroll-margin-top: 220px; /* header + filter-tabs + 安全距離 */
   }
 }
-@media (max-width: 768px) {
-  .filter-tabs {
-    position: fixed;
-    top: 56px; /* 可微調，對齊你 header 底部 */
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    background: #f5f3ef;
-    padding: 8px 0;
-  }
 
-  /* 防止內容被蓋住 */
-  body {
-    padding-top: 60px;
-  }
+@media (max-width: 1024px) {
+    .filter-tabs {
+        flex-wrap: nowrap;
+        gap: 6px;
+        padding: 8px 12px;
+    }
+
+    .filter-tab {
+        font-size: 12px;
+        padding: 6px 8px;
+        flex: 1;
+        text-align: center;
+    }
 }
-@media (max-width: 768px) {
-  .filter-tabs {
+.products-container {
+    margin-top: 20px;
+}
+.filter-tabs {
+    margin-top: 0;
+    box-shadow: 0 4px 0 #faf8f5; /* 防止子像素縫 */
+}
+.sticky-header-wrap {
     position: sticky;
-    top: calc(var(--header-height, 56px));
-    z-index: 999;
-    background: #f5f3ef;
-    padding: 6px 0;
-  }
-
-  /* 解除 sticky 失效來源 */
-  body, html {
-    overflow-x: visible;
-  }
+    top: 0;
+    z-index: 1000;
+    background: #faf8f5; /* 統一背景 */
 }
+.header {
+    position: relative; /* 或 static */
+}
+.filter-tabs {
+    position: relative;
+    top: auto;
+}
+
 
     </style>
 </head>
 <body>
+<div class="sticky-header-wrap">
     <!-- Header -->
     <header class="header">
         <div class="header-content" style="position:relative;">
@@ -1457,7 +1467,7 @@ section[id], div[id] {
 
 
     </div>
-
+</div>
     <!-- Results Info -->
 <div class="results-info" style="margin-bottom: 10px;">
     <button id="toggleEndedBtn" class="filter-tab" data-state="hiding" style="background: #eee; color: #666; border: 1px solid #ddd;">
@@ -2512,7 +2522,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const header = document.querySelector("header");
   if (!header) return;
   document.documentElement.style.setProperty(
-    "--header-height",
+    "--header-h",
     header.offsetHeight + "px"
   );
 });
