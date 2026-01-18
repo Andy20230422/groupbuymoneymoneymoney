@@ -1354,6 +1354,18 @@ section[id], div[id] {
     padding-top: 60px;
   }
 }
+@media (max-width: 768px) {
+  .filter-tabs.is-fixed {
+    position: fixed;
+    top: 56px;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: #f5f3ef;
+    padding: 8px 0;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+}
 
     </style>
 </head>
@@ -2492,6 +2504,24 @@ function scrollToFirstVisibleProduct() {
   const top = first.getBoundingClientRect().top + window.pageYOffset - totalOffset;
   window.scrollTo({ top, behavior: 'smooth' });
 }
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const tabs = document.querySelector(".filter-tabs");
+  if (!tabs) return;
+
+  const originalOffset = tabs.offsetTop;
+
+  window.addEventListener("scroll", () => {
+    if (window.innerWidth <= 768) {
+      if (window.scrollY > originalOffset) {
+        tabs.classList.add("is-fixed");
+      } else {
+        tabs.classList.remove("is-fixed");
+      }
+    }
+  });
+});
 </script>
 
 <footer class="footer">
