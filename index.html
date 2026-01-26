@@ -1610,6 +1610,39 @@ section[id], div[id] {
   }
 }
 
+.banner-item {
+  line-height: 1.4;
+  white-space: nowrap;
+}
+
+.banner-item + .banner-item {
+  margin-top: 2px;
+}
+.banner-item {
+  cursor: pointer;
+  line-height: 1.4;
+}
+
+.banner-item:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+.banner-item + .banner-item {
+  margin-top: 2px;
+}
+
+.banner-more {
+  margin-top: 4px;
+  font-size: 13px;
+  color: #666;
+  cursor: pointer;
+}
+
+.banner-more:hover {
+  text-decoration: underline;
+}
+
     </style>
 </head>
 <body>
@@ -2472,51 +2505,108 @@ section[id], div[id] {
   }
 
   /* ---------- 今日截止 Banner ---------- */
-  function updateBanner() {
-    const bannerName = document.getElementById('bannerName');
-    const bannerTimer = document.getElementById('bannerTimer');
-    if (!bannerName || !bannerTimer) return;
+function updateBanner() {
+  const bannerName = document.getElementById('bannerName');
+  const bannerTimer = document.getElementById('bannerTimer');
+  if (!bannerName || !bannerTimer) return;
 
-    const metas = document.querySelectorAll('.product-meta');
-    const now = new Date();
-    let nearest = null;
+  const metas = document.querySelectorAll('.product-meta');
+  const now = new Date();
 
-    metas.forEach(meta => {
-      const endISO = normalizeToISO(meta.getAttribute('data-end'));
-      if (!endISO) return;
+  let minDiff = null;
+  let nearestItems = [];
 
-      const diff = new Date(endISO + 'T23:59:59') - now;
-      if (diff > 0 && (!nearest || diff < nearest.diff)) {
-        const card = meta.closest('.product-card');
-        const buyBtn = card?.querySelector('.btn-primary');
+  metas.forEach(meta => {
+    const endISO = normalizeToISO(meta.getAttribute('data-end'));
+    if (!endISO) return;
 
-        nearest = {
-          name: card?.querySelector('.product-name')?.textContent || '',
-          diff,
-          buyUrl: buyBtn ? buyBtn.href : null
-        };
+    const diff = new Date(endISO + 'T23:59:59') - now;
+    if (diff <= 0) return;
+
+    const card = meta.closest('.product-card');
+    const buyBtn = card?.querySelector('.btn-primary');
+
+    const item = {
+      name: card?.querySelector('.product-name')?.textContent || '',
+      diff,
+      buyUrl: buyBtn ? buyBtn.href : null
+    };
+
+    if (minDiff === null || diff < minDiff) {
+      minDiff = diff;
+      nearestItems = [item];
+    } else if (diff === minDiff) {
+      nearestItems.push(item);
+    }
+  });
+
+  if (!nearestItems.length) {
+    bannerName.textContent = '目前無即將截止項目';
+    bannerTimer.style.display = 'none';
+    bannerBuyUrl = null;
+    return;
+  }
+
+  /* ---------- 顯示控制 ---------- */
+
+  bannerName.innerHTML = '';
+  const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const maxLines = isMobile ? 2 : nearestItems.length;
+  let expanded = false;
+
+  function renderLines() {
+    bannerName.innerHTML = '';
+
+    nearestItems.forEach((item, index) => {
+      if (!expanded && index >= maxLines) return;
+
+      const line = document.createElement('div');
+      line.textContent = item.name;
+      line.className = 'banner-item clickable';
+
+      if (item.buyUrl) {
+        line.addEventListener('click', e => {
+          e.stopPropagation();
+          window.open(item.buyUrl, '_blank');
+        });
       }
+
+      bannerName.appendChild(line);
     });
 
-    if (!nearest) {
-      bannerName.textContent = '目前無即將截止項目';
-      bannerTimer.style.display = 'none';
-      bannerBuyUrl = null;
-      return;
+    // 手機 + 超過 2 行 → 顯示「更多」
+    if (isMobile && nearestItems.length > maxLines && !expanded) {
+      const more = document.createElement('div');
+      more.textContent = `+${nearestItems.length - maxLines} 更多`;
+      more.className = 'banner-more';
+
+      more.addEventListener('click', e => {
+        e.stopPropagation();
+        expanded = true;
+        renderLines();
+      });
+
+      bannerName.appendChild(more);
     }
-
-    bannerName.textContent = nearest.name;
-    bannerBuyUrl = nearest.buyUrl;
-    bannerTimer.style.display = 'inline-block';
-
-    const s = Math.floor(nearest.diff / 1000);
-    const d = Math.floor(s / 86400);
-    const r = s % 86400;
-    const h = String(Math.floor(r / 3600)).padStart(2, '0');
-    const m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
-    const sec = String(r % 60).padStart(2, '0');
-    bannerTimer.textContent = (d > 0 ? d + '天 ' : '') + `${h}:${m}:${sec}`;
   }
+
+  renderLines();
+
+  bannerBuyUrl = nearestItems[0].buyUrl;
+  bannerTimer.style.display = 'inline-block';
+
+  // 倒數時間（共用最早到期）
+  const s = Math.floor(minDiff / 1000);
+  const d = Math.floor(s / 86400);
+  const r = s % 86400;
+  const h = String(Math.floor(r / 3600)).padStart(2, '0');
+  const m = String(Math.floor((r % 3600) / 60)).padStart(2, '0');
+  const sec = String(r % 60).padStart(2, '0');
+
+  bannerTimer.textContent =
+    (d > 0 ? d + '天 ' : '') + `${h}:${m}:${sec}`;
+}
+
 
   /* ---------- 分類 ---------- */
   function renderCategoryList() {
