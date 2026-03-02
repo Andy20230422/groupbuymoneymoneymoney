@@ -1346,6 +1346,8 @@ section[id], div[id] {
 @media (min-width: 1025px) {
   #limitedSection,
   #regularSection,
+  #japanSection,
+  #esimSection,
   #discountSection {
     scroll-margin-top: 220px; /* header + filter-tabs + 安全距離 */
   }
@@ -1721,12 +1723,17 @@ section[id], div[id] {
 </button>
 
 <button class="filter-tab"
-        onclick="goToSection('discountSection', 'discount')">
+        onclick="goToSection('japanSection')">
     日本優惠券
 </button>
 
 <button class="filter-tab"
-        onclick="goToSection('discountSection', 'discount')">
+        onclick="goToSection('esimSection')">
+    eSIM/SIM卡
+</button>
+
+<button class="filter-tab"
+        onclick="goToSection('discountSection')">
     旅遊折扣碼
 </button>
 
@@ -2408,11 +2415,11 @@ section[id], div[id] {
         </div>
     </div>
 
-    <!-- Discount Section -->
-    <div id="discountSection">
-        <div class="section-header" id="discount-section"><h2 class="section-title">🌍 旅遊折扣碼</h2></div>
+    <!-- Japan Coupons Section -->
+    <div id="japanSection">
+        <div class="section-header"><h2 class="section-title">💳 日本優惠券</h2></div>
         <div class="products-container">
-            <div class="products-grid" id="discountProducts">
+            <div class="products-grid" id="japanProducts">
                 <div class="product-card" data-type="discount">
                     <div class="product-image">
                         <img src="big修改版ppt.jpg" alt="日本藥妝、電器、百貨優惠券">
@@ -2424,16 +2431,48 @@ section[id], div[id] {
                             <span class="product-tag">💳 日本優惠券</span>
 							<span class="product-tag">✈️ 旅遊</span>
                         </div>
-
                         <div class="product-buttons">
                             <a class="btn btn-primary" href="https://jpcoupon.2acouple.com/" target="_blank" rel="noopener noreferrer">🎫 立即領取</a>
-							
                         </div>
                     </div>
-					
-					
                 </div>
-				
+            </div>
+        </div>
+    </div>
+
+    <!-- eSIM / SIM Section -->
+    <div id="esimSection">
+        <div class="section-header"><h2 class="section-title">📶 eSIM/SIM卡</h2></div>
+        <div class="products-container">
+            <div class="products-grid" id="esimProducts">
+
+<!-- Holafly eSIM -->
+<div class="product-card" data-type="esim">
+    <div class="product-image">
+        <img src="holafly.jpg" alt="Holafly 吃到飽 eSIM">
+    </div>
+    <div class="product-content">
+        <h3 class="product-name">Holafly 吃到飽 eSIM</h3>
+        <p class="product-desc">✅前往網址購買立即享95折</p>
+        <div class="product-tags">
+            <span class="product-tag">📶 eSIM</span>
+            <span class="product-tag">✈️ 旅遊</span>
+        </div>
+        <div class="product-buttons">
+            <a class="btn btn-primary" href="https://holafly.sjv.io/aORJqY" target="_blank">✈️ 前往 Holafly</a>
+        </div>
+    </div>
+</div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Discount Section -->
+    <div id="discountSection">
+        <div class="section-header"><h2 class="section-title">🌍 旅遊折扣碼</h2></div>
+        <div class="products-container">
+            <div class="products-grid" id="discountProducts">
 				<!-- KKday -->
 <div class="product-card" data-type="discount">
     <div class="product-image">
@@ -2555,25 +2594,6 @@ section[id], div[id] {
     </div>
 </div>
 
-
-<!-- Holafly eSIM -->
-<div class="product-card" data-type="discount">
-    <div class="product-image">
-        <img src="holafly.jpg" alt="Holafly 吃到飽 eSIM">
-    </div>
-    <div class="product-content">
-        <h3 class="product-name">Holafly 吃到飽 eSIM</h3>
-        <p class="product-desc">✅前往網址購買立即享95折</p>
-        <div class="product-tags">
-            <span class="product-tag">📶 eSIM</span>
-            <span class="product-tag">✈️ 旅遊</span>
-        </div>
-
-        <div class="product-buttons">
-            <a class="btn btn-primary" href="https://holafly.sjv.io/aORJqY" target="_blank">✈️ 前往 Holafly</a>
-        </div>
-    </div>
-</div>
 
 <!-- NordVPN -->
 <!--<div class="product-card" data-type="discount">
@@ -3205,12 +3225,4 @@ document.addEventListener("DOMContentLoaded", () => {
 
         <div class="footer-text">
 			合作信箱：
-			<a href="mailto:2acouple168@gmail.com">2acouple168@gmail.com</a><br>
-			2A夫妻實測｜精選好物、團購好康
-        </div>
-
-    </div>
-</footer>
-
-</body>
-</html>
+			<a href="/cdn-cgi/l/email-protection#487a292b273d38242d797e70082f25292124662b2725"><span class="__cf_email__" data-cfemail="655704060a1015090054535d250208040c094b060a08">[email&#
