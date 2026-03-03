@@ -2420,6 +2420,7 @@ section[id], div[id] {
         <div class="section-header"><h2 class="section-title">💳 日本優惠券</h2></div>
         <div class="products-container">
             <div class="products-grid" id="japanProducts">
+			
                 <div class="product-card" data-type="discount">
                     <div class="product-image">
                         <img src="big修改版ppt.jpg" alt="日本藥妝、電器、百貨優惠券">
@@ -2434,9 +2435,36 @@ section[id], div[id] {
                         <div class="product-buttons">
                             <a class="btn btn-primary" href="https://jpcoupon.2acouple.com/" target="_blank" rel="noopener noreferrer">🎫 立即領取</a>
                         </div>
+                    </div>			
+                </div>
+				<div class="product-card" data-type="discount">
+                    <div class="product-image">
+                        <img src="tocoo.jpg" alt="全日本最大規模自駕租車預約網站">
                     </div>
+                    <div class="product-content">
+                        <h3 class="product-name">TOCOO!租車網</h3>
+                        <p class="product-desc">✅全日本最大租車網 <br>✅滿 20,000 日元立減 3,000 日元 </p>
+                        <div class="product-tags">
+                            <span class="product-tag">💳 日本優惠券</span>
+							<span class="product-tag">✈️ 旅遊</span>
+							<span class="product-tag">🚗 租車</span>
+                        </div>
+                        <div class="product-buttons">
+						<div class="coupon-box">
+    <div class="coupon-label">🎁 2A專屬折扣碼</div>
+
+    <div class="coupon-row">
+        <span class="coupon-code" id="kkdayCode">2WMQ2W</span>
+        <button class="copy-btn" onclick="copyCoupon('kkdayCode', this)">一鍵複製</button>
+    </div>
+</div>
+                            <a class="btn btn-primary" href="https://www2.tocoo.jp/cn/?asp_id=2457&utm_source=2457&utm_medium=affiliate" target="_blank" rel="noopener noreferrer">🚗 預約租車</a>
+							
+                        </div>
+                    </div>			
                 </div>
             </div>
+			
         </div>
     </div>
 
@@ -2862,7 +2890,7 @@ function updateBanner() {
     const allTags = new Set();
     document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
 
-    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦎 覺皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','🔗 優惠連結','💰 回饋'];
+    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦎 覺皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','🔗 優惠連結','💰 回饋','🚗 租車'];
 
     categoryList.innerHTML = '';
 
@@ -2940,7 +2968,7 @@ function updateBanner() {
     const allTags = new Set();
     document.querySelectorAll('.product-tag').forEach(t => allTags.add(t.textContent.trim()));
 
-    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦎 覺皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','🔗 優惠連結','💰 回饋'];
+    const orderedTags = ['💳 日本優惠券','✈️ 旅遊','📱 3C','📺 家電','🏠 居家','🥯 食品','🦎 覺皮好物','🏨 訂房','📶 eSIM','🔐 VPN','🎟️ 折扣碼','🔗 優惠連結','💰 回饋','🚗 租車'];
 
     // 創建下拉容器
     const dropdown = document.createElement('div');
