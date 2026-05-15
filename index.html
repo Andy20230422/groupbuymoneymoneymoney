@@ -394,6 +394,10 @@ section[id], div[id] {
     display: none !important;
 }
 
+.product-card.not-started {
+    display: none !important;
+}
+
 .product-image {
     aspect-ratio: 1 / 1;
     width: 100%;
@@ -3118,9 +3122,23 @@ section[id], div[id] {
   /* ---------- 商品狀態 ---------- */
   function updateElement(el) {
     const endISO = normalizeToISO(el.getAttribute('data-end'));
+    const startISO = normalizeToISO(el.getAttribute('data-start'));
     const outSpan = el.querySelector('.days-left');
     const card = el.closest('.product-card');
     if (!endISO || !outSpan) return;
+
+    const now = new Date();
+
+    // 尚未開始：隱藏整張卡片
+    if (startISO) {
+      const startTime = new Date(startISO + 'T00:00:00');
+      if (startTime > now) {
+        card?.classList.add('not-started');
+        return;
+      }
+    }
+    // 已到開始時間，移除隱藏
+    card?.classList.remove('not-started');
 
     const result = daysLeftTo(endISO);
     if (!result) return;
@@ -3400,6 +3418,13 @@ function updateBanner() {
       const desc = card.querySelector('.product-desc')?.textContent.toLowerCase() || '';
       const tags = (card.dataset.tags || '').split('|');
       const isEnded = card.classList.contains('ended');
+      const isNotStarted = card.classList.contains('not-started');
+
+      // 尚未開始的商品永遠隱藏，不受其他篩選影響
+      if (isNotStarted) {
+        card.style.display = 'none';
+        return;
+      }
 
       const match =
         (!catTag || tags.some(t => t.includes(catTag))) &&
@@ -3424,6 +3449,14 @@ function updateBanner() {
     filterCards();
     updateBanner();
     setInterval(updateBanner, 1000);
+
+    // 每分鐘重新檢查是否有商品到了開始時間，自動顯示
+    setInterval(() => {
+      document.querySelectorAll('.product-card').forEach(card => {
+        card.querySelectorAll('.product-meta').forEach(updateElement);
+      });
+      filterCards();
+    }, 60000);
 
     /* Banner 點擊 */
     document.getElementById('bannerName')?.addEventListener('click', () => {
